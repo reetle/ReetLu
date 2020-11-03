@@ -1,0 +1,45 @@
+/*menüü*/
+.menu {
+	overflow: hidden;
+	background-color: #8b5fbf;
+	width: 15%;
+}
+.menu a {  
+	color: #f2f2f2;
+	text-align: center;
+	text-decoration: none; 
+}
+.menu li {
+	margin-top:20px;	
+}		
+	
+.menu li:hover {
+	background-color: #643a71;
+	color: white;
+	height:20px;
+}
+#search_menu {
+	overflow: hidden;
+	background-color: #8b5fbf;
+	width: 15%;
+	margin-bottom: 10px;
+}
+#search_menu a {  
+	color: #f2f2f2;
+	text-align: center;
+	text-decoration: none; 
+}
+/*back button*/
+#back_button{
+	
+}
+
+/*tabelid*/
+#table1{	
+border-collapse: collapse;
+}
+#table1 th, #table1 td{	
+ border: 1px solid black;
+}
+#table2{
+}
