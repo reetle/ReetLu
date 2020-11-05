@@ -26,16 +26,14 @@ include_once("config.php");
     <option value="klassijuhataja" name="klassjuhataja" >Klassijuhataja</option>
     <option value="klassiruum" name="klassruum" >Klassiruum</option>
 	<option value="markused" name="markused" >Märkused</option> 
-	</select> 
+	</select> <br>
 
 	
-<!--<select id="filter2" name="filter2">
-    <option value="on_tapselt" name="on_tapselt" >On täpselt</option>
-    <option value="sisaldab" name="'al%'" >Sisaldab</option>
-    <option value="algab" name="'re%'">Algab</option>
-    <option value="loppeb" name="'%[a-y]'" >õppeb</option>
-	</select>
--->
+
+    <input type="radio" name="start" value="Algab">Algab <br>
+	<input type="radio" name="end" value="Lõpeb">Lõpeb <br>
+	<input type="radio" name="include" value="Sisaldab">Sisaldab <br>
+
 	<input type="text" name="filtreeri">
 	
 	<input type="submit" name='submit' value="filtreeri">
@@ -65,7 +63,8 @@ include_once("config.php");
 <?php	
 if (isset($_GET['submit'])) { 
 $filtreeri = mysqli_real_escape_string($conn, $_GET['filtreeri']);  /*turvalususe pärast*/
-$column = mysqli_real_escape_string($conn, $_GET['filter1']);		
+$column = mysqli_real_escape_string($conn, $_GET['filter1']);	
+
 	
 $search = ("SELECT * FROM class where $column like '%$filtreeri%'"); 
 
