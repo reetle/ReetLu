@@ -34,11 +34,12 @@ height:75px;
   color: black;
   border: 2px solid purple;
   border-radius: 5px;
-  padding: 5px 5px;
+  padding: 1px 1px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  margin-bottom: 1px;
+  margin-bottom: 5px;
+  font-size: 15px;
 
  }
 .menu a:hover{
@@ -84,7 +85,7 @@ background-color: white;
   width: 10px;
 
 border-collapse: collapse;
-width:80%;
+width:75%;
 }
 #table1 th{
 	background-color: #e9d3ff;

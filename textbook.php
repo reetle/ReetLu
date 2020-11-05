@@ -1,7 +1,22 @@
 <?php
 include_once("config.php");
-$sql= "SELECT id, pealkiri, klass,  autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksõna FROM library_fund where meedia_liik like 'op'";
+$record_per_page = 10;
+$page = '';
+if(isset($_GET["page"]))
+{
+ $page = $_GET["page"];
+}
+else
+{
+ $page = 1;
+}
+
+$start_from = ($page-1)*$record_per_page;
+
+$sql= "SELECT id, pealkiri, klass, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksõna FROM library_fund where meedia_liik like 'tv' LIMIT $start_from, $record_per_page" ;
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
+
+
 ?>
 
 <!DOCTYPE html>
@@ -65,6 +80,34 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
     }
     ?>
     </table>
+<?php
+	/*tabel kuvab 10 esimest kirjet ja jagab ülejäänud tabeli kehekülge*/
+	$page_query = "SELECT id, pealkiri, klass, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksõna FROM library_fund where meedia_liik like 'op'";
+    $page_result = mysqli_query($conn, $page_query);
+    $total_records = mysqli_num_rows($page_result);
+    $total_pages = ceil($total_records/$record_per_page);
+    $start_loop = $page;
+    $difference = $total_pages - $page;
+    if($difference <= 10)
+    {
+     $start_loop = $total_pages - 10;
+    }
+    $end_loop = $start_loop + 9;
+    if($page > 1)
+    {
+     echo "<a href='textbook.php?page=1'>Tagasi</a>";
+     echo "<a href='textbook.php?page=".($page - 1)."'><<</a>";
+    }
+    for($i=$start_loop; $i<=$end_loop; $i++)
+    {     
+     echo "<a href='textbook.php?page=".$i."'>".$i."</a>";
+    }
+    if($page <= $end_loop)
+    {
+     echo "<a href='textbook.php?page=".($page + 1)."'>>></a>";
+     echo "<a href='textbook.php?page=".$total_pages."'>Edasi</a>";
+    }
+  ?>  
 </div>	
 <div class="item4">
 
