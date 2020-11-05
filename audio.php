@@ -1,7 +1,23 @@
 <?php
 include_once("config.php");
-$sql= "SELECT id, pealkiri, klass,  autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksõna FROM library_fund where meedia_liik like 'mk'";
+$record_per_page = 10;
+$page = '';
+if(isset($_GET["page"]))
+{
+ $page = $_GET["page"];
+}
+else
+{
+ $page = 1;
+}
+
+$start_from = ($page-1)*$record_per_page;
+
+$sql= "SELECT id, pealkiri,andmekandja, autor, ilmumisaasta, liik, keel,
+ valjaandja, kogus, riiul, marksõna FROM library_fund where meedia_liik like 'av' LIMIT $start_from, $record_per_page" ;
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
+
+
 ?>
 
 <!DOCTYPE html>
@@ -26,15 +42,16 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 			<li> <a href="textbook.php"> Õpikud </a></li>
 			<li> <a href="periodicals.php">Perioodika</a></li>
 			<li> <a href="audio.php">Audio-Video</a></li>	
-			<li> <a href="workbook.php">Töövihikud</a></li>	
+			<li> <a href="workbook.php">Töövihikud</a></li>
+			<li> <a href="meth_library.php">Metoodiline kirjandus</a></li>			
 		</ul>
 
 	</div> </div>
-  <div class="item3"> 
+  <div class="item3">
     <table id="table1">
     <tr>
 		<th>pealkiri</th> 
-		<th>klass</th> 
+		<th>AV Tüüp</th> 
 		<th>autor</th> 
 		<th>ilmumise aasta</th>
 		<th>liik</th> 
@@ -50,7 +67,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
         echo "<tr>";
         echo "<td>".$row['pealkiri']."</td>";
-        echo "<td>".$row['klass']."</td>";
+        echo "<td>".$row['andmekandja']."</td>";
 		echo "<td>".$row['autor']."</td>";
 		echo "<td>".$row['ilmumisaasta']."</td>";
         echo "<td>".$row['liik']."</td>";
@@ -64,6 +81,35 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
     }
     ?>
     </table>
+	<?php
+	/*tabel kuvab 10 esimest kirjet ja jagab ülejäänud tabeli kehekülge*/
+	$page_query = "SELECT id, pealkiri,andmekandja, autor, ilmumisaasta, liik, keel,
+ valjaandja, kogus, riiul, marksõna FROM library_fund where meedia_liik like 'av'";
+    $page_result = mysqli_query($conn, $page_query);
+    $total_records = mysqli_num_rows($page_result);
+    $total_pages = ceil($total_records/$record_per_page);
+    $start_loop = $page;
+    $difference = $total_pages - $page;
+    if($difference <= 10)
+    {
+     $start_loop = $total_pages - 5;
+    }
+    $end_loop = $start_loop + 9;
+    if($page > 1)
+    {
+     echo "<a href='audio.php?page=1'>Tagasi</a>";
+     echo "<a href='audio.php?page=".($page - 1)."'><<</a>";
+    }
+    for($i=$start_loop; $i<=$end_loop; $i++)
+    {     
+     echo "<a href='audio.php?page=".$i."'>".$i."</a>";
+    }
+    if($page <= $end_loop)
+    {
+     echo "<a href='audio.php?page=".($page + 1)."'>>></a>";
+     echo "<a href='audio.php?page=".$total_pages."'>Edasi</a>";
+    }
+  ?>  
 </div>	
 <div class="item4">
 
@@ -72,6 +118,5 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <a href="library_fund.php">Tagasi eelmisele lehele</a>
 </div>
 </div>
-
 </body>
 </html>
