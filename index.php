@@ -32,10 +32,10 @@ if(isset($_POST['submit'])){
 <title>Page Title</title>
 </head>
 <body>
-<!--<div class="grid-container">
+<div class="grid-container">
   <div class="item2">
   <div class="login">
-	<form action="index.php" method="post">
+<!--	<form action="index.php" method="post">
     <label for="username">kasutajanimi</label>
     <input type="text" placeholder="Kasutajanimi" name="username" required>
 

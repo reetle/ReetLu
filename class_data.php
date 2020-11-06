@@ -27,7 +27,6 @@ include_once("config.php");
     <option value="klassiruum" name="klassruum" >Klassiruum</option>
 	<option value="markused" name="markused" >Märkused</option> 
 	</select> <br>
-
 	
 
     <input type="radio" name="start" value="Algab">Algab <br>
@@ -66,7 +65,7 @@ $filtreeri = mysqli_real_escape_string($conn, $_GET['filtreeri']);  /*turvalusus
 $column = mysqli_real_escape_string($conn, $_GET['filter1']);	
 
 	
-$search = ("SELECT * FROM class where $column like '%$filtreeri%'"); 
+$search = ("SELECT * FROM class where $column like '%$filtreeri%' "); 
 
 	$result = mysqli_query($conn, $search); 
 	if(mysqli_num_rows($result)> 0 ){

@@ -1,6 +1,6 @@
 <?php
 include_once("config.php");
-$sql= "SELECT id, pealkiri, klass,  autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksõna FROM library_fund where meedia_liik like 'mk'";
+$sql= "SELECT id, pealkiri, klass,  autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksona FROM library_fund where meedia_liik like 'mk'";
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 ?>
 
@@ -58,7 +58,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 		echo "<td>".$row['valjaandja']."</td>";
 		echo "<td>".$row['kogus']."</td>";
         echo "<td>".$row['riiul']."</td>";
-        echo "<td>".$row['marksõna']."</td>";		
+        echo "<td>".$row['marksona']."</td>";		
         echo "<td><a href='book_edit.php?id=$row[id]'>Edit</a> | 
 		<a href='book_delete.php?id=$row[id]'>Delete</a></td></tr>";
     }
