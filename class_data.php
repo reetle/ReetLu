@@ -68,7 +68,7 @@ $column = mysqli_real_escape_string($conn, $_GET['filter1']);
 $search = ("SELECT * FROM class where $column like '%$filtreeri%' "); 
 
 	$result = mysqli_query($conn, $search); 
-	if(mysqli_num_rows($result)> 0 ){
+	if(mysqli_num_rows($result)> 0 )){
 		while($row = mysqli_fetch_array($result)) {
         echo "<tr>";
         echo "<td>".$row['klass']."</td>";

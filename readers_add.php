@@ -75,6 +75,6 @@
 	}
 	?>
 <div id="back_button">
-<a href="readers_data.php">Tagasi esilehele</a>
+<a href="readers_data.php">Tagasi</a>
 </body>
 </html>

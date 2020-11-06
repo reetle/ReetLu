@@ -55,6 +55,6 @@
 	}
 	?>
 <div id="back_button">
-<a href="menu.php">Tagasi esilehele</a>
+<a href="class.php">Tagasi</a>
 </body>
 </html>
