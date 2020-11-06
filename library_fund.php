@@ -35,9 +35,11 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 
 
-<form action=" " method="get">
+<form action=" " method="GET">
 <br>
-Pealkiri <input type="text" name="pealkiri"> <br><br>
+Pealkiri <input type="text" name="q"> <br><br>
+<input type="submit" name='submit' value="otsi">
+</form>
 Autor <input type="text" name="autor"> <br><br>
 
 <select id="filter1" name="filter1">
@@ -56,8 +58,7 @@ Autor <input type="text" name="autor"> <br><br>
 	<input type="radio" name="radio" value="Lõpeb">Lõpeb 
 	<input type="radio" name="radio" value="Sisaldab">Sisaldab 
 
-<input type="submit" name='submit' value="submit">
-</form>
+
 
 
 
@@ -89,8 +90,35 @@ Autor <input type="text" name="autor"> <br><br>
 		<th>Marksõna</th> 
 		<th>  </th>		
     </tr>
-    <?php
-    while($row = mysqli_fetch_array($result)) {
+<?php
+if(isset($_GET['submit'])){
+
+$q = mysqli_real_escape_string ($conn, $_GET['q']);
+/*	$autor=$_GET['autor'];*/
+	
+	$query=("SELECT id, pealkiri, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksona FROM library_fundwhere pealkiri like '%$q%' ");
+
+	if(mysqli_num_rows($result > 0)){
+		while($row = mysqli_fetch_array($result)){
+			echo "<tr>";
+        echo "<td>".$row['pealkiri']."</td>";
+        echo "<td>".$row['autor']."</td>";
+		echo "<td>".$row['ilmumisaasta']."</td>";
+        echo "<td>".$row['liik']."</td>";
+        echo "<td>".$row['keel']."</td>";
+		echo "<td>".$row['valjaandja']."</td>";
+		echo "<td>".$row['kogus']."</td>";
+        echo "<td>".$row['riiul']."</td>";
+        echo "<td>".$row['marksona']."</td>";		
+        echo "<td><a href='book_edit.php?id=$row[id]'>Edit</a> | 
+		<a href='book_delete.php?id=$row[id]'>Delete</a></td></tr>";
+		 }
+	}
+	
+}
+else{	
+	
+   while($row = mysqli_fetch_array($result)) {
 
         echo "<tr>";
         echo "<td>".$row['pealkiri']."</td>";
@@ -105,8 +133,8 @@ Autor <input type="text" name="autor"> <br><br>
         echo "<td><a href='book_edit.php?id=$row[id]'>Edit</a> | 
 		<a href='book_delete.php?id=$row[id]'>Delete</a></td></tr>";
     }
+	}
 
-    
     ?>
 	
     </table>

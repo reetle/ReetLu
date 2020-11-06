@@ -99,6 +99,6 @@
 	}
 	?>
 <div id="back_button">
-<a href="bookk.data.php">Tagasi esilehele</a>
+<a href="book_data.php">Tagasi</a>
 </body>
 </html>
