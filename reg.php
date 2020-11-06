@@ -1,4 +1,4 @@
-   <?php include('errors.php'); ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,30 +39,10 @@ include_once("config.php");
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
 		$password_1 = mysqli_real_escape_string($conn, $_POST['password_1']);
 		$password_2 = mysqli_real_escape_string($conn, $_POST['password_2']);
-		
-
-		if ($password_1 != $password_2) {
-			echo" paroolid ei ühti";
-  }
-
-
-		$user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
-		$result = mysqli_query($conn, $user_check_query);
-		$user = mysqli_fetch_assoc($result);
-  
-		if ($user) { // if user exists
-		if ($user['username'] === $username) {
-			echo "kasutaja juba olemas";
-		}
-
-		if ($user['email'] === $email) {
-		echo "email juba kasutuses";
-    }
-  }
-		$password = md5($password_1);//encryptime parooli
+			
 
 		$query = "INSERT INTO users (username, email, password) 
-  			  VALUES('$username', '$email', '$password')";
+  			 VALUES('$username', '$email', '$password_1')";
 			mysqli_query($conn, $query);
 			$_SESSION['username'] = $username;
 			$_SESSION['success'] = "You are now logged in";

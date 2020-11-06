@@ -13,7 +13,7 @@ else
 
 $start_from = ($page-1)*$record_per_page;
 
-$sql= "SELECT id, pealkiri, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksõna FROM library_fund where meedia_liik like 'ra' LIMIT $start_from, $record_per_page" ;
+$sql= "SELECT id, pealkiri, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksona FROM library_fund where meedia_liik like 'ra' LIMIT $start_from, $record_per_page" ;
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 
@@ -73,7 +73,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 		echo "<td>".$row['valjaandja']."</td>";
 		echo "<td>".$row['kogus']."</td>";
         echo "<td>".$row['riiul']."</td>";
-        echo "<td>".$row['marksõna']."</td>";		
+        echo "<td>".$row['marksona']."</td>";		
         echo "<td><a href='book_edit.php?id=$row[id]'>Edit</a> | 
 		<a href='book_delete.php?id=$row[id]'>Delete</a></td></tr>";
     }
@@ -84,7 +84,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
     </table>
 	<?php
 	/*tabel kuvab 10 esimest kirjet ja jagab ülejäänud tabeli kehekülge*/
-	$page_query = "SELECT id, pealkiri, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksõna FROM library_fund where meedia_liik like 'ra'";
+	$page_query = "SELECT id, pealkiri, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksona FROM library_fund where meedia_liik like 'ra'";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);
