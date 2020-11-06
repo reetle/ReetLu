@@ -24,7 +24,8 @@ if(isset($_POST['update']))
 	linn='$linn',
 	maakond='$maakond',
 	postiindeks='$postiindeks',
-	telefon='$telefon' 	
+	telefon='$telefon',
+	markused='$markused'
 	WHERE id=$id");
 
 	// Redirect to homepage to display updated user in list
