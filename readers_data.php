@@ -1,5 +1,4 @@
 <?php
-
 include_once("config.php");
 /*$record_per_page = 12;
 $page = '';
@@ -21,8 +20,6 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 
 ?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +34,9 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   <div class="item1">
 
 <div class="search_menu">
-<a href="readers_add.php">lisa</a><br/><br/>
+<a href="readers_add.php">lisa uus lugeja </a>
+<a href="#">prindi</a>
+<br>
 </div>
 </div>
 <div class="item2">
@@ -49,11 +48,11 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	</div> </div>
   <div class="item3"> 
   <!--  <table id="table1"> -->
-<table class="tablemanager">
+<table class="tablemanager" id="table1">
 <thead>
     <tr>
-		<th class="disableSort" >Klass </th> 
-	
+		<th class="disableSort">Klass</th> 
+		
 		<th >Perekonnanimi</th> 
 		<th >Eesnimi</th>
 		<th >Aadress</th> 
@@ -62,19 +61,13 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 		<th >Postiindeks</th> 
 		<th >Telefon</th>
 		<th >Markused</th> 
-		<th class="disableFilterBy">Controls</th>
-		
-	
-		
+		<th class="disableFilterBy">Controls</th>		
     </tr>
 	<thead>
-	<tbody>
-
-		
+	<tbody>		
     <?php
     while($row = mysqli_fetch_array($result)) {
         echo "<tr>";
-	
         echo "<td>".$row['klass']."</td>";
         echo "<td>".$row['perekonnanimi']."</td>";
 		echo "<td>".$row['eesnimi']."</td>";
@@ -94,18 +87,18 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <script type="text/javascript">
 
 $('.tablemanager').tablemanager({
-			firstSort: [[3,0],[2,0],[1,'asc']],
+			firstSort: [[3,0],[2,0],[0,'asc']],
 			disable: ["last"],
 			appendFilterby: true,
 			debug: true,
 			vocabulary: {
-    voc_filter_by: 'Filtreeri',
-    voc_type_here_filter: 'Filter...',
+    voc_filter_by: 'Filtrer',
+    voc_type_here_filter: 'Filtreeri',
     voc_show_rows: 'Näita ridu'
   },
 			pagination: true,
-			showrows: [10,20,50,100],
-			disableFilterBy: [1]
+			showrows: [20,50,100],
+			disableFilterBy: [0]
 		});
 
 </script>
@@ -146,5 +139,6 @@ $('.tablemanager').tablemanager({
 <a href="readers.php">Tagasi eelmisele lehele</a>
 </div>
 </div>
+
 </body>
 </html>
