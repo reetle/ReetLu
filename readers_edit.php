@@ -15,7 +15,7 @@ if(isset($_POST['update']))
 	$telefon= $_POST['telefon'];
 	$markused = $_POST['markused'];
 
-	// update user data
+	//kasutajate data
 	$result = mysqli_query($conn, "UPDATE readers SET 
 	klass='$klass',
 	perekonnanimi='$perekonnanimi',
@@ -28,16 +28,14 @@ if(isset($_POST['update']))
 	markused='$markused'
 	WHERE id=$id");
 
-	// Redirect to homepage to display updated user in list
+	//pärast muudatust lehele tagasi
 	header("Location: readers_data.php");
 }
 ?>
 <?php
-// Display selected user data based on id
-// Getting id from url
+
 $id = $_GET['id'];
 
-// Fetech user data based on id
 $result = mysqli_query($conn, "SELECT * FROM readers WHERE id=$id");
 
 while($row = mysqli_fetch_array($result))
@@ -101,7 +99,7 @@ while($row = mysqli_fetch_array($result))
 			</tr>
 			<tr>
 				<td><input type="hidden" name="id" value='<?php echo $_GET['id'];?>'></td>
-				<td><input type="submit" name="update" value="Update"></td>
+				<td><input type="submit" name="update" value="Muuda lugeja andmed"></td> 
 			</tr>
 		</table>
 	</form>

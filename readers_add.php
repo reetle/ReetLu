@@ -8,8 +8,6 @@
 </head>
 <body> 
 
-
-
 	<form action="readers_add.php" method="post" name="form1">
 		<table width="25%" border="0">
 			<tr>
@@ -50,7 +48,7 @@
 			</tr>
 			<tr>
 			<td></td>
-				<td><input type="submit" name="Submit" value="Add"></td>
+				<td><input type="submit" name="Submit" value="Lisa uus lugeja"></td>
 			</tr>
 		</table>
 	</form>
@@ -71,10 +69,10 @@
 	include_once("config.php");
 	$result = mysqli_query($conn, "INSERT INTO readers(klass, perekonnanimi, eesnimi, linn, maakond, postiindeks, telefon ,markused) 
 	VALUES('$klass','$perekonnanimi','$eesnimi','$linn','$maakond','$postiindeks', '$telefon','$markused')");
-		echo "Lisatud <a href='readers_data.php'>Tagasi</a>";
+		echo "Uus lugeja lisatud";
 	}
 	?>
 <div id="back_button">
-<a href="readers_data.php">Tagasi</a>
+<br><a href="readers_data.php">Tagasi</a>
 </body>
 </html>
