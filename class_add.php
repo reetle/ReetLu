@@ -34,7 +34,7 @@
 			</tr>
 			<tr>
 			<td></td>
-				<td><input type="submit" name="Submit" value="Add"></td>
+				<td><input type="submit" name="Submit" value="Lisa"></td>
 			</tr>
 		</table>
 	</form>
@@ -51,10 +51,10 @@
 	include_once("config.php");
 	$result = mysqli_query($conn, "INSERT INTO class(klass, taht, klassijuhataja, klassiruum, markused) 
 	VALUES('$klass','$taht','$klassijuhataja','$klassiruum','$markused')");
-		echo "Lisatud <a href='class_data.php'>Tagasi</a>";
+		echo "Lisatud";
 	}
 	?>
 <div id="back_button">
-<a href="class.php">Tagasi</a>
+<a href="class_data.php">Tagasi</a>
 </body>
 </html>
