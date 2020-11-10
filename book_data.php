@@ -38,7 +38,9 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <!--<a href="readers_multible.php">Muuda </a>
 <a href="#">Prindi</a>
 <a href="#">Ekspordi andmed</a>-->
-
+<!--<form method="post" action="export.php" align="center">  
+<input type="submit" name="Ekspordi csv" value="Expordi" class="btn btn-success" />  
+                </form>  -->
 <br> <br>
 <form action=" book_data.php" method="post" >
 Otsi: <select name="column">
@@ -60,7 +62,13 @@ Otsi: <select name="column">
 	<option value="end">Lõpeb</option>
 	</select>
  -->
- <input type="text" name="search">
+ <?php
+
+/*viimane otsing jääb otsing aknasse*/
+$search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : '';
+
+?>
+ <input type="text" name="search" value="<?= $search ?>">
 <input type ="submit" value="otsi">
 <input type="button" value="Tühista" onclick="location.href='book_data.php'"  />
 
@@ -91,7 +99,7 @@ Otsi: <select name="column">
   <table id="table1">
 
     <tr>
-		<th onclick="sortTable(0)">Pealkiri</th>  
+		<th onclick="sortTable(0)">Pealkiri</th>  <!-- diltreerib pealkirja järgi kasvavalt või kahanevalt-->
 		<th onclick="sortTable(1)">Autor</th> 
 		<th onclick="sortTable(2)">Aasta</th>
 		<th onclick="sortTable(3)">Liik</th> 
@@ -113,12 +121,12 @@ if (isset($_POST['search'])){
 if (isset($_POST['column'])){
 		$column=$_POST['column'];
 
-				
+	
 		
 	$sql= "SELECT id, pealkiri, autor, ilmumisaasta, liik, keel, valjaandja, 
 	kogus, riiul, marksona FROM library_fund where meedia_liik like 'ra' AND  $column like '%$search%'";}
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
-}
+} 
     while($row = mysqli_fetch_array($result)) {
 
         echo "<tr>";
@@ -133,7 +141,8 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
         echo "<td>".$row['marksona']."</td>";		
         echo "<td><a href='book_edit.php?id=$row[id]' style='text-decoration: none'>Muuda</a> </td>";
 		echo "<td> <a href='book_delete.php?id=$row[id]'style='text-decoration: none' class='delete' >Kustuta</a></td></tr>";
-}
+
+}	
     ?>
 
     </table>
