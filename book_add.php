@@ -54,7 +54,7 @@
 				<td><input type="text" name="keel"></td>
 			</tr>
 			<tr>
-			<td>valjaanda</td>
+			<td>Väljaanda</td>
 				<td><input type="text" name="valjaandja"></td>
 			</tr>
 			<tr>
@@ -62,7 +62,7 @@
 				<td><input type="text" name="kogus"></td>
 			</tr>
 			<tr>
-				<td>riiul</td>
+				<td>Riiul</td>
 				<td><input type="text" name="riiul"></td>
 			</tr>
 			<tr>
@@ -71,7 +71,7 @@
 			</tr>
 			<tr>
 			<td></td>
-				<td><input type="submit" name="Submit" value="Add"></td>
+				<td><input type="submit" name="Submit" value="Lisa"></td>
 			</tr>
 		</table>
 	</form>
@@ -95,7 +95,7 @@
 	include_once("config.php");
 	$result = mysqli_query($conn, "INSERT INTO library_fund(meedia_liik, pealkiri,klass, andmekandja, autor, ilmumisaasta, liik, keel,valjaandja, kogus, riiul, marksõna) 
 	VALUES('$meedia_liik','$pealkiri','$klass','$andmekandja','$autor','$ilmumisaasta', '$liik','$keel','$valjaandja','$kogus', '$riiul','$marksõna')");
-		echo "Lisatud <a href='book_data.php'>Tagasi</a>";
+		echo "Lisatud </a>";
 	}
 	?>
 <div id="back_button">

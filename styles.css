@@ -87,19 +87,21 @@ background-color: white;
 
 /*tabelid*/
 
-#table1{
 
+#table1{
 	border-collapse: collapse;
-	width:100%;
+	width:90%;
+	margin-top:15px;
+	margin-bottom:15px;
+
 }	
 #table1 th{
 	background-color: #e9d3ff;	
 	
 }
 #table1 th, #table1 td{	
-  text-align: left;
   border: 1px dotted grey;  
-  height:10px;
+
 
 
 }
@@ -113,3 +115,4 @@ background-color: white;
 body{
 
 }
+
