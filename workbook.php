@@ -1,6 +1,7 @@
 <?php
 include_once("config.php");
-$sql= "SELECT id, pealkiri, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksona FROM library_fund where meedia_liik like'tv'" ;
+$sql= "SELECT id, pealkiri, klass, autor, ilmumisaasta, liik, keel, valjaandja,
+ kogus, riiul, marksona FROM library_fund where meedia_liik like'tv'" ;
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 ?>
@@ -15,44 +16,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="js/jquery.min.js"></script>
 <script src="js/tableManager.js"></script>
-<style type="text/css">
-		/*sorteerimine*/
-		.tablemanager th.sorterHeader {
-			cursor: pointer;
-		}
-		.tablemanager th.sorterHeader:after {
-			content: " \f0dc";
-			font-family: "FontAwesome";
-			font-size:10px;
-			
-		}
-		/*Style sort desc*/
-		.tablemanager th.sortingDesc:after {
-			content: " \f0dd";
-			font-family: "FontAwesome";		
-		}
-		/*Style sort asc*/
-		.tablemanager th.sortingAsc:after {
-			content: " \f0de";
-			font-family: "FontAwesome";
-		}
-		/*Style disabled*/
-		.tablemanager th.disableSort {
-		}
-		#for_numrows {
-			padding: 10px;
-			float: left;
-		}
-		#for_filter_by {
-			padding: 10px;
-			float: right;
-		}
-		#pagesControllers {
-			display: block;
-			text-align: left;
-			margin-top:2px;
-		}
-</style>
+
 </head>
 <body> 
 <div class="grid-container">
@@ -70,30 +34,30 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	<div class= "menu">
 		<ul style="list-style-type:none">
 			<li> <a href="book_data.php"> Raamatud</a> </li>  
-		<!--	<li> <a href="textbook.php"> Õpikud </a></li> -->
+			<li> <a href="textbook.php"> Õpikud </a></li> 
 			<li> <a href="periodicals.php">Perioodika</a></li>
 			<li> <a href="audio.php">Audio-Video</a></li>	
-			<li> <a href="workbook.php">Töövihikud</a></li>
+		<!-- <li> <a href="workbook.php">Töövihikud</a></li> -->
 			<li> <a href="meth_library.php">Metoodiline kirjandus</a></li>	<br>
-			<li><a href="menu.php">Esilehele</a> </li>
-			
+			<li><a href="menu.php">Esilehele</a> </li>			
 		</ul>
 	</div> 
 	</div> 
 <div class="item3"> 
-    <table class="tablemanager" id="table1">
+    <table  id="table1">
 	<thead>
     <tr>
-		<th>pealkiri</th> 
-		<th>autor</th> 
-		<th>ilmumise aasta</th>
-		<th>liik</th> 
-		<th>keel</th>
-		<th>väljaandja</th> 
-		<th>kogus</th> 
+		<th>Pealkiri</th> 
+		<th>Klass</th> 
+		<th>Autor</th> 
+		<th>Aasta</th>
+		<th>Liik</th> 
+		<th>Keel</th>
+		<th>Väljaandja</th> 
+		<th>Kogus</th> 
 		<th>riiul</th>
-		<th>Marksõna</th> 
-		<th>  </th>		
+		<th>Märksõna</th> 
+		<th class="disableFilterBy"> </th>			
     </tr>
 	</thead>
 	<tbody>	
@@ -102,6 +66,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
         echo "<tr>";
         echo "<td>".$row['pealkiri']."</td>";
+		echo "<td>".$row['klass']."</td>";
         echo "<td>".$row['autor']."</td>";
 		echo "<td>".$row['ilmumisaasta']."</td>";
         echo "<td>".$row['liik']."</td>";
@@ -113,10 +78,10 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
         echo "<td><a href='book_edit.php?id=$row[id]' style='text-decoration: none' >Muuda</a> | 
 		<a href='book_delete.php?id=$row[id]' style='text-decoration: none' class='delete'>Kustuta</a></td></tr>";
     }
-
     ?>
 	</tbody>
     </table>
+	
 <script>
 $(document).ready(function(){
     $("a.delete").click(function(e){

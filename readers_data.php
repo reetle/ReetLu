@@ -14,44 +14,6 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="js/jquery.min.js"></script>
 <script src="js/tableManager.js"></script>
-<style type="text/css">
-		/*sorteerimine*/
-		.tablemanager th.sorterHeader {
-			cursor: pointer;
-		}
-		.tablemanager th.sorterHeader:after {
-			content: " \f0dc";
-			font-family: "FontAwesome";
-			font-size:10px;
-			
-		}
-		/*Style sort desc*/
-		.tablemanager th.sortingDesc:after {
-			content: " \f0dd";
-			font-family: "FontAwesome";		
-		}
-		/*Style sort asc*/
-		.tablemanager th.sortingAsc:after {
-			content: " \f0de";
-			font-family: "FontAwesome";
-		}
-		/*Style disabled*/
-		.tablemanager th.disableSort {
-		}
-		#for_numrows {
-			padding: 10px;
-			float: left;
-		}
-		#for_filter_by {
-			padding: 10px;
-			float: right;
-		}
-		#pagesControllers {
-			display: block;
-			text-align: left;
-			margin-top:2px;
-		}
-</style>
 </head>
 <body>
 <div class="grid-container">
@@ -86,7 +48,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 		<th >Maakond</th> 
 		<th >Postiindeks</th> 
 		<th >Telefon</th>
-		<th >Markused</th> 
+		<th >Märkused</th> 
 		<th class="disableFilterBy"> </th>		
     </tr>
 	</thead>

@@ -1,5 +1,7 @@
 <?php
 include_once("config.php");
+$sql= "SELECT id, meedia_liik, pealkiri, klass, andmekandja, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksona FROM library_fund " ;
+$result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 if(isset($_POST['update']))
 {
@@ -35,17 +37,14 @@ if(isset($_POST['update']))
 	marksõna='$marksõna' 	
 	WHERE id=$id");
 
-	// Redirect to homepage to display updated user in list
 	header("Location: book_data.php");
 }
 ?>
 <?php
-// Display selected user data based on id
-// Getting id from url
 $id = $_GET['id'];
 
-// Fetech user data based on id
-$result = mysqli_query($conn, "SELECT meedia_liik, pealkiri, klass, andmekandja, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksõna FROM library_fund WHERE id=$id");
+
+$result = mysqli_query($conn, "SELECT id, meedia_liik, pealkiri, klass, andmekandja, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksona FROM library_fund WHERE id=$id");
 
 while($row = mysqli_fetch_array($result))
 {
@@ -60,7 +59,7 @@ while($row = mysqli_fetch_array($result))
 	$valjaandja = $row['valjaandja'];
 	$kogus = $row['kogus'];
 	$riiul = $row['riiul'];
-	$marksõna = $row['marksõna'];
+	$marksona = $row['marksona'];
 }
 ?>
 <html>
@@ -78,58 +77,58 @@ while($row = mysqli_fetch_array($result))
 				<td>meedia_liik</td>
 			<td>		
 			<select id="meedia_liik" name="meedia_liik">
-			<option value="ra">Raamat</option>
+			<option value="ra"> Raamat</option>
 			<option value="op" >Õpik</option>
-			<option value="pe">Perioodika</option>
-			<option value="av">Audio-Video</option>
-			<option value="tv">Töövihik</option> 
-			<option value="mk">Methoodiline kirjandus</option><br>
+			<option value="pe"> Perioodika</option>
+			<option value="av"> Audio-Video</option>
+			<option value="tv"> Töövihik</option> 
+			<option value="mk"> Methoodiline kirjandus</option><br>
 			</select> 
 			</td>
 			</tr>
-			<tr><td>pealkiri</td>
+			<tr><td>Pealkiri</td>
 				<td><input type="text" name="pealkiri" value='<?php echo $pealkiri;?>'></td>
 			</tr>
 			<tr>
-				<td>klass</td>
+				<td>Klass</td>
 				<td><input type="text" name="klass" value='<?php echo $klass;?>'></td>
 			</tr>
 			<tr>
-				<td>andmekandja</td>
+				<td>Andmekandja</td>
 				<td><input type="text" name="aadress" value='<?php echo $andmekandja;?>'></td>
 			</tr>
 			<tr>
-				<td>autor</td>
+				<td>Autor</td>
 				<td><input type="text" name="autor" value='<?php echo $autor;?>'></td>
 			</tr>
 			<tr>
-			<td>ilmumisaasta</td>
+			<td>Ilmumisaasta</td>
 				<td><input type="text" name="ilmumisaasta" value='<?php echo $ilmumisaasta;?>'></td>
 			</tr>
 			<tr>
-				<td>liik</td>
+				<td>Liik</td>
 				<td><input type="text" name="liik" value='<?php echo $liik;?>'></td>
 			</tr>
 			<tr>
-				<td>valjaandja</td>
+				<td>Valjaandja</td>
 				<td><input type="text" name="valjaandja" value='<?php echo $valjaandja;?>'></td>
 			</tr>
 			<tr>
-				<td>kogus</td>
+				<td>Kogus</td>
 				<td><input type="text" name="kogus" value='<?php echo $kogus;?>'></td>
 			</tr>
 			<tr>
-			<td>riiul</td>
+			<td>Riiul</td>
 				<td><input type="text" name="riiul" value='<?php echo $riiul;?>'></td>
 			</tr>
 			<tr>
-				<td>marksõna</td>
-				<td><input type="text" name="marksõna" value='<?php echo $marksõna;?>'></td>
+				<td>Marksõna</td>
+				<td><input type="text" name="marksona" value='<?php echo $marksona;?>'></td>
 			</tr>
 			<tr>
 			
 				<td><input type="hidden" name="id" value=<?php echo $_GET['id'];?>></td>
-				<td><input type="submit" name="update" value="Update"></td>
+				<td><input type="submit" name="update" value="Muuda"></td>
 			</tr>
 		</table>
 		
