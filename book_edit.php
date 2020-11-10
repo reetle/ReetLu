@@ -1,6 +1,7 @@
 <?php
 include_once("config.php");
-$sql= "SELECT id, meedia_liik, pealkiri, klass, andmekandja, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksona FROM library_fund " ;
+$sql= "SELECT id, meedia_liik, pealkiri, klass, andmekandja, autor, ilmumisaasta, liik, keel, valjaandja, 
+kogus, riiul, marksona FROM library_fund " ;
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 if(isset($_POST['update']))
@@ -18,7 +19,7 @@ if(isset($_POST['update']))
 	$valjaandja = $_POST['valjaandja'];
 	$kogus = $_POST['kogus'];
 	$riiul = $_POST['riiul'];
-	$marksõna = $_POST['marksõna'];
+	$marksona = $_POST['marksona'];
 	
 
 	// update user data
@@ -34,7 +35,7 @@ if(isset($_POST['update']))
 	valjaandja='$valjaandja',
 	kogus='$kogus',
 	riiul='$riiul',
-	marksõna='$marksõna' 	
+	marksona='$marksona' 	
 	WHERE id=$id");
 
 	header("Location: book_data.php");
@@ -44,7 +45,8 @@ if(isset($_POST['update']))
 $id = $_GET['id'];
 
 
-$result = mysqli_query($conn, "SELECT id, meedia_liik, pealkiri, klass, andmekandja, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksona FROM library_fund WHERE id=$id");
+$result = mysqli_query($conn, "SELECT id, meedia_liik, pealkiri, klass, 
+andmekandja, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksona FROM library_fund WHERE id=$id");
 
 while($row = mysqli_fetch_array($result))
 {
