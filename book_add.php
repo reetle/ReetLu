@@ -67,7 +67,7 @@
 			</tr>
 			<tr>
 				<td>Märksõna</td>
-				<td><input type="text" name="marksõna"></td>
+				<td><input type="text" name="marksona"></td>
 			</tr>
 			<tr>
 			<td></td>
@@ -89,12 +89,12 @@
 		$valjaandja = $_POST['valjaandja'];
 		$kogus = $_POST['kogus'];
 		$riiul = $_POST['riiul'];
-		$marksõna = $_POST['marksõna'];
+		$marksona = $_POST['marksona'];
 	
 
 	include_once("config.php");
-	$result = mysqli_query($conn, "INSERT INTO library_fund(meedia_liik, pealkiri,klass, andmekandja, autor, ilmumisaasta, liik, keel,valjaandja, kogus, riiul, marksõna) 
-	VALUES('$meedia_liik','$pealkiri','$klass','$andmekandja','$autor','$ilmumisaasta', '$liik','$keel','$valjaandja','$kogus', '$riiul','$marksõna')");
+	$result = mysqli_query($conn, "INSERT INTO library_fund(meedia_liik, pealkiri,klass, andmekandja, autor, ilmumisaasta, liik, keel,valjaandja, kogus, riiul, marksona) 
+	VALUES('$meedia_liik','$pealkiri','$klass','$andmekandja','$autor','$ilmumisaasta', '$liik','$keel','$valjaandja','$kogus', '$riiul','$marksona')");
 		echo "Lisatud </a>";
 	}
 	?>
