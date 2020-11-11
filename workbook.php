@@ -13,8 +13,8 @@ else
 }
 $start_from = ($page-1)*$record_per_page;
 
-$sql= "SELECT id, klass,pealkiri, autor, ilmumisaasta, liik, keel, valjaandja, 
-kogus, riiul, marksona FROM library_fund where meedia_liik like 'tv' order by pealkiri LIMIT $start_from, $record_per_page" ;
+$sql= "SELECT id, klass, pealkiri, autor, aasta, liik, keel, valjaandja, 
+kogus, riiul, marksona, markused FROM workbook order by pealkiri LIMIT $start_from, $record_per_page" ;
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 ?>
 
@@ -33,24 +33,25 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   <div class="item1">
 
 <div class="search_menu">
-<a href="book_add.php">Lisa uus töövihik</a>
+<a href="workbook_add.php">Lisa uus</a>
 <!--<a href="readers_multible.php">Muuda </a>
 <a href="#">Prindi</a>
 <a href="#">Ekspordi andmed</a>-->
 
 <br> <br>
-<form action=" book_data.php" method="post" >
+<form action="workbook.php " method="post" >
 Otsi: <select name="column">
 	<option value="pealkiri">Pealkiri</option>
 	<option value="klass">Klass</option>
 	<option value="autor">Autor</option>
-	<option value="ilmumisaasta">Aasta</option>
+	<option value="aasta">Aasta</option>
 	<option value="liik">Liik</option>
 	<option value="keel">Keel</option>
 	<option value="valjaandja">Väljaandja</option>
 	<option value="kogus">Kogus</option>
 	<option value="riiul">Riiul</option>
 	<option value="marksona">Märksõna</option>
+	<option value="marksona">Markused</option>
 	</select>
 <!--	
 <select name="column1">
@@ -60,7 +61,12 @@ Otsi: <select name="column">
 	<option value="end">Lõpeb</option>
 	</select>
  -->
- <input type="text" name="search">
+ <?php
+/*viimane otsing jääb otsing aknasse*/
+$search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : '';
+
+?>
+ <input type="text" name="search" value="<?= $search ?>">
 <input type ="submit" value="otsi">
 <input type="button" value="Tühista" onclick="location.href='workbook.php'"  />
 
@@ -89,10 +95,9 @@ Otsi: <select name="column">
 	</div>
   <div class="item3">
   <table  id="table1">
-	<thead>
     <tr>
 		<th onclick="sortTable(0)">Pealkiri</th>  
-		<th onclick="sortTable(1)">Klass</th>  
+		<th onclick="sortTable(1)">TV klass</th>  
 		<th onclick="sortTable(2)">Autor</th> 
 		<th onclick="sortTable(3)">Aasta</th>
 		<th onclick="sortTable(4)">Liik</th> 
@@ -101,12 +106,13 @@ Otsi: <select name="column">
 		<th onclick="sortTable(7)">Kogus</th> 
 		<th onclick="sortTable(8)">Riiul</th>
 		<th onclick="sortTable(9)">Märksõna</th> 
+		<th onclick="sortTable(10)">Märkused</th> 
 		
 		<th> </th>	
 		<th> </th>			
     </tr>
 	
-		<tbody>	
+	
     <?php
 if (isset($_POST['search'])){
 	$search=$_POST['search'];
@@ -116,8 +122,8 @@ if (isset($_POST['column'])){
 
 				
 		
-	$sql= "SELECT id, klass, pealkiri, autor, ilmumisaasta, liik, keel, valjaandja, 
-	kogus, riiul, marksona FROM library_fund where meedia_liik like 'tv' AND  $column like '%$search%'" ;}
+	$sql= "SELECT id, klass, pealkiri, autor, aasta, liik, keel, valjaandja, 
+	kogus, riiul, marksona, markused FROM workbook where  $column like '%$search%'" ;}
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 }
     while($row = mysqli_fetch_array($result)) {
@@ -126,18 +132,19 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
         echo "<td>".$row['pealkiri']."</td>";
 		echo "<td>".$row['klass']."</td>";
 		echo "<td>".$row['autor']."</td>";
-		echo "<td>".$row['ilmumisaasta']."</td>";
+		echo "<td>".$row['aasta']."</td>";
         echo "<td>".$row['liik']."</td>";
         echo "<td>".$row['keel']."</td>";
 		echo "<td>".$row['valjaandja']."</td>";
 		echo "<td>".$row['kogus']."</td>";
         echo "<td>".$row['riiul']."</td>";
-        echo "<td>".$row['marksona']."</td>";		
-        echo "<td><a href='book_edit.php?id=$row[id]' style='text-decoration: none'>Muuda</a> </td>";
-		echo "<td> <a href='book_delete.php?id=$row[id]'style='text-decoration: none' class='delete' >Kustuta</a></td></tr>";
+        echo "<td>".$row['marksona']."</td>";	
+		echo "<td>".$row['markused']."</td>";		
+        echo "<td><a href='workbook_edit.php?id=$row[id]' style='text-decoration: none'>Muuda</a> </td>";
+		echo "<td> <a href='workbook_delete.php?id=$row[id]'style='text-decoration: none' class='delete' >Kustuta</a></td></tr>";
 }
     ?>
-	</tbody>
+
     </table>
 	<script>
 $(document).ready(function(){
@@ -205,9 +212,8 @@ function sortTable(n) {
 </style>
 <?php
 	/*tabel kuvab 10 esimest kirjet ja jagab ülejäänud tabeli kehekülge*/
-	$page_query = "SELECT id, klass, pealkiri, autor, ilmumisaasta, liik, 
-	keel, valjaandja, kogus, riiul, marksona FROM library_fund 
-	where meedia_liik like 'tv'";
+	$page_query = "SELECT id, klass, pealkiri, autor, aasta, liik, 
+	keel, valjaandja, kogus, riiul, marksona, markused FROM workbook";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);

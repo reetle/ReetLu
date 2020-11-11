@@ -13,29 +13,8 @@
 	<form action="book_add.php" method="post" name="form1">
 		<table width="25%" border="0">
 			<tr>
-				<td>Meedia liik</td>
-			<td>		
-			<select id="meedia_liik" name="meedia_liik">
-			<option value="ra">Raamat</option>
-			<option value="op" >Õpik</option>
-			<option value="pe">Perioodika</option>
-			<option value="av">Audio-Video</option>
-			<option value="tv">Töövihik</option> 
-			<option value="mk">Methoodiline kirjandus</option><br>
-			</select> 
-			</td>
-			</tr>
-			<tr>
 				<td>Pealkiri</td>
 				<td><input type="text" name="pealkiri"></td>
-			</tr>
-			<tr>
-				<td>Klass</td>
-				<td><input type="text" name="klass"></td>
-			</tr>
-			<tr>
-				<td>Andmekandja</td>
-				<td><input type="text" name="andmekandja"></td>
 			</tr>
 			<tr>
 				<td>Autor</td>
@@ -43,7 +22,7 @@
 			</tr>
 			<tr>
 			<td>Ilmumisaasta</td>
-				<td><input type="text" name="ilmumisaasta"></td>
+				<td><input type="text" name="aasta"></td>
 			</tr>
 			<tr>
 				<td>Liik</td>
@@ -70,6 +49,10 @@
 				<td><input type="text" name="marksona"></td>
 			</tr>
 			<tr>
+			<td>Märkused</td>
+				<td><input type="text" name="markused"></td>
+			</tr>
+			<tr>
 			<td></td>
 				<td><input type="submit" name="Submit" value="Lisa"></td>
 			</tr>
@@ -78,23 +61,21 @@
 
 	<?php
 	if(isset($_POST['Submit'])) {
-		$meedia_liik = $_POST['meedia_liik'];
 		$pealkiri = $_POST['pealkiri'];
-		$klass = $_POST['klass'];
-		$andmekandja = $_POST['andmekandja'];
 		$autor = $_POST['autor'];
-		$ilmumisaasta = $_POST['ilmumisaasta'];
+		$aasta = $_POST['aasta'];
 		$liik = $_POST['liik'];
 		$keel= $_POST['keel'];
 		$valjaandja = $_POST['valjaandja'];
 		$kogus = $_POST['kogus'];
 		$riiul = $_POST['riiul'];
 		$marksona = $_POST['marksona'];
+		$markused = $_POST['markused'];
 	
 
 	include_once("config.php");
-	$result = mysqli_query($conn, "INSERT INTO library_fund(meedia_liik, pealkiri,klass, andmekandja, autor, ilmumisaasta, liik, keel,valjaandja, kogus, riiul, marksona) 
-	VALUES('$meedia_liik','$pealkiri','$klass','$andmekandja','$autor','$ilmumisaasta', '$liik','$keel','$valjaandja','$kogus', '$riiul','$marksona')");
+	$result = mysqli_query($conn, "INSERT INTO book(pealkiri, autor, aasta, liik, keel,valjaandja, kogus, riiul, marksona, markused) 
+	VALUES('$pealkiri','$autor','$aasta', '$liik','$keel','$valjaandja','$kogus', '$riiul','$marksona','$markused')");
 		echo "Lisatud </a>";
 	}
 	?>

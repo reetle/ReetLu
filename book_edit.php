@@ -1,41 +1,37 @@
 <?php
 include_once("config.php");
-$sql= "SELECT id, meedia_liik, pealkiri, klass, andmekandja, autor, ilmumisaasta, liik, keel, valjaandja, 
-kogus, riiul, marksona FROM library_fund " ;
+$sql= "SELECT id, pealkiri, autor, aasta, liik, keel, valjaandja, 
+kogus, riiul, marksona, markused FROM book " ;
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 if(isset($_POST['update']))
 {
 	$id = $_POST['id'];
-
-	$meedia_liik = $_POST['meedia_liik'];
+	
 	$pealkiri = $_POST['pealkiri'];
-	$klass = $_POST['klass'];
-	$andmekandja = $_POST['andmekandja'];
 	$autor = $_POST['autor'];
-	$ilmumisaasta = $_POST['ilmumisaasta'];
+	$aasta = $_POST['aasta'];
 	$liik = $_POST['liik'];
 	$keel= $_POST['keel'];
 	$valjaandja = $_POST['valjaandja'];
 	$kogus = $_POST['kogus'];
 	$riiul = $_POST['riiul'];
 	$marksona = $_POST['marksona'];
+	$markused = $_POST['markused'];
 	
 
 	// update user data
-	$result = mysqli_query($conn, "UPDATE library_fund SET 
-	meedia_liik='$meedia_liik',
+	$result = mysqli_query($conn, "UPDATE book SET 
 	pealkiri='$pealkiri',
-	klass='$klass',
-	andmekandja='$andmekandja',
 	autor='$autor',
-	ilmumisaasta='$ilmumisaasta',
+	aasta='$aasta',
 	liik='$liik',
 	keel='$keel',
 	valjaandja='$valjaandja',
 	kogus='$kogus',
 	riiul='$riiul',
-	marksona='$marksona' 	
+	marksona='$marksona', 
+	markused='$markused'	
 	WHERE id=$id");
 
 	header("Location: book_data.php");
@@ -45,23 +41,21 @@ if(isset($_POST['update']))
 $id = $_GET['id'];
 
 
-$result = mysqli_query($conn, "SELECT id, meedia_liik, pealkiri, klass, 
-andmekandja, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksona FROM library_fund WHERE id=$id");
+$result = mysqli_query($conn, "SELECT id, pealkiri, 
+autor, aasta, liik, keel, valjaandja, kogus, riiul, marksona, markused FROM book WHERE id=$id");
 
 while($row = mysqli_fetch_array($result))
 {
-	$meedia_liik =$row['meedia_liik'];
 	$pealkiri = $row['pealkiri'];
-	$klass = $row['klass'];
-	$andmekandja = $row['andmekandja'];
 	$autor = $row['autor'];
-	$ilmumisaasta = $row['ilmumisaasta'];
+	$aasta = $row['aasta'];
 	$liik = $row['liik'];
 	$keel= $row['keel'];
 	$valjaandja = $row['valjaandja'];
 	$kogus = $row['kogus'];
 	$riiul = $row['riiul'];
 	$marksona = $row['marksona'];
+	$markused = $row['markused'];
 }
 ?>
 <html>
@@ -76,36 +70,16 @@ while($row = mysqli_fetch_array($result))
 	<form name="update_user" method="post" action="book_edit.php">
 		<table id="table2">
 			<tr>
-				<td>meedia_liik</td>
-			<td>		
-			<select id="meedia_liik" name="meedia_liik">
-			<option value="ra"> Raamat</option>
-			<option value="op" >Õpik</option>
-			<option value="pe"> Perioodika</option>
-			<option value="av"> Audio-Video</option>
-			<option value="tv"> Töövihik</option> 
-			<option value="mk"> Methoodiline kirjandus</option><br>
-			</select> 
-			</td>
-			</tr>
+				
 			<tr><td>Pealkiri</td>
 				<td><input type="text" name="pealkiri" value='<?php echo $pealkiri;?>'></td>
 			</tr>
-			<tr>
-				<td>Klass</td>
-				<td><input type="text" name="klass" value='<?php echo $klass;?>'></td>
-			</tr>
-			<tr>
-				<td>Andmekandja</td>
-				<td><input type="text" name="aadress" value='<?php echo $andmekandja;?>'></td>
-			</tr>
-			<tr>
 				<td>Autor</td>
 				<td><input type="text" name="autor" value='<?php echo $autor;?>'></td>
 			</tr>
 			<tr>
 			<td>Ilmumisaasta</td>
-				<td><input type="text" name="ilmumisaasta" value='<?php echo $ilmumisaasta;?>'></td>
+				<td><input type="text" name="aasta" value='<?php echo $aasta;?>'></td>
 			</tr>
 			<tr>
 				<td>Liik</td>
@@ -126,6 +100,10 @@ while($row = mysqli_fetch_array($result))
 			<tr>
 				<td>Marksõna</td>
 				<td><input type="text" name="marksona" value='<?php echo $marksona;?>'></td>
+			</tr>
+			<tr>
+			<td>Markused</td>
+				<td><input type="text" name="markused" value='<?php echo $markused;?>'></td>
 			</tr>
 			<tr>
 			
