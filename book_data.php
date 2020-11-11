@@ -13,8 +13,8 @@ else
 }
 $start_from = ($page-1)*$record_per_page;
 
-$sql= "SELECT id, pealkiri, autor, ilmumisaasta, liik, keel, valjaandja, 
-kogus, riiul, marksona FROM library_fund where meedia_liik like 'ra' order by pealkiri LIMIT $start_from, $record_per_page "; 
+$sql= "SELECT id, pealkiri, autor, aasta, liik, keel, valjaandja, 
+kogus, riiul, marksona, markused FROM book order by pealkiri LIMIT $start_from, $record_per_page "; 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 ?>
 
@@ -46,24 +46,25 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 Otsi: <select name="column">
 	<option value="pealkiri">Pealkiri</option>
 	<option value="autor">Autor</option>
-	<option value="ilmumisaasta">Aasta</option>
+	<option value="aasta">Aasta</option>
 	<option value="liik">Liik</option>
 	<option value="keel">Keel</option>
 	<option value="valjaandja">Väljaandja</option>
 	<option value="kogus">Kogus</option>
 	<option value="riiul">Riiul</option>
 	<option value="marksona">Märksõna</option>
+	<option value="markused">Märkused</option>
 	</select>
-<!--	
+	<!--
 <select name="column1">
-	<option value="includes">Sisaldab</option>
-	<option value="start">Algab</option>
-	<option value="exactly">On täoselt</option>
-	<option value="end">Lõpeb</option>
-	</select>
- -->
- <?php
+<option value="tuhi"> </option>
+	<option value="'%$search%'">Sisaldab</option>
+	<option value="'%$search'">Algab</option>
+	<option value="'%search'">On täoselt</option>
+	<option value="'%search%'">Lõpeb</option>
+	</select> -->
 
+ <?php
 /*viimane otsing jääb otsing aknasse*/
 $search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : '';
 
@@ -108,6 +109,7 @@ $search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : '';
 		<th onclick="sortTable(6)">Kogus</th> 
 		<th onclick="sortTable(7)">Riiul</th>
 		<th onclick="sortTable(8)">Märksõna</th> 
+		<th onclick="sortTable(8)">Märkused</th> 
 		
 		<th> </th>	
 		<th> </th>			
@@ -115,34 +117,30 @@ $search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : '';
 	
 
     <?php
-if (isset($_POST['search'])){
-	$search=$_POST['search'];
-
-if (isset($_POST['column'])){
-		$column=$_POST['column'];
-
-	
+if(count($_POST)>0) {
+$search=$_POST['search'];
+$column=$_POST['column'];
 		
-	$sql= "SELECT id, pealkiri, autor, ilmumisaasta, liik, keel, valjaandja, 
-	kogus, riiul, marksona FROM library_fund where meedia_liik like 'ra' AND  $column like '%$search%'";}
-$result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
-} 
-    while($row = mysqli_fetch_array($result)) {
-
+	$sql= "SELECT id, pealkiri, autor, aasta, liik, keel, valjaandja, 
+	kogus, riiul, marksona, markused FROM book where $column like '%$search%'" ;
+$result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));} 
+ 
+  while($row = mysqli_fetch_array($result)) {
         echo "<tr>";
         echo "<td>".$row['pealkiri']."</td>";
 		echo "<td>".$row['autor']."</td>";
-		echo "<td>".$row['ilmumisaasta']."</td>";
+		echo "<td>".$row['aasta']."</td>";
         echo "<td>".$row['liik']."</td>";
         echo "<td>".$row['keel']."</td>";
 		echo "<td>".$row['valjaandja']."</td>";
 		echo "<td>".$row['kogus']."</td>";
         echo "<td>".$row['riiul']."</td>";
-        echo "<td>".$row['marksona']."</td>";		
+        echo "<td>".$row['marksona']."</td>";
+		echo "<td>".$row['markused']."</td>";		
         echo "<td><a href='book_edit.php?id=$row[id]' style='text-decoration: none'>Muuda</a> </td>";
 		echo "<td> <a href='book_delete.php?id=$row[id]'style='text-decoration: none' class='delete' >Kustuta</a></td></tr>";
+}
 
-}	
     ?>
 
     </table>
@@ -214,8 +212,8 @@ function sortTable(n) {
 </style>
 <?php
 	/*tabel kuvab 10 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
-	$page_query = "SELECT id, pealkiri, autor, ilmumisaasta, liik, keel, valjaandja, kogus, riiul, marksona 
-	FROM library_fund where meedia_liik like 'ra' ORDER BY 'pealkiri'";
+	$page_query = "SELECT id, pealkiri, autor, aasta, liik, keel, valjaandja, kogus, riiul, marksona, markused
+	FROM book ORDER BY 'pealkiri'";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);
