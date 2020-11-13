@@ -1,22 +1,32 @@
 <?php
 include_once("config.php");
-//plagination
-$record_per_page = 25;
+$record_per_page = 25; //näitab 25 kirjet ühel lehel
 $page = '';
-if(isset($_GET["page"]))
-{
- $page = $_GET["page"];
-}
-else
-{
- $page = 1;
-}
+if(isset($_GET["page"])){
+ $page = $_GET["page"];}
+else{
+ $page = 1;}
 $start_from = ($page-1)*$record_per_page;
+//kustutamine multible
+if(isset($_POST['but_delete'])){
 
-$sql= "SELECT id, pealkiri, autor, aasta, liik, keel, valjaandja, 
-kogus, riiul, marksona, markused FROM book order by pealkiri LIMIT $start_from, $record_per_page "; 
+  if(isset($_POST['delete'])){
+    foreach($_POST['delete'] as $deleteid){
+
+      $deleteUser = "DELETE from book WHERE id=".$deleteid;
+      mysqli_query($conn,$deleteUser);
+    }
+  }
+ 
+}
+
+$sql= "SELECT * FROM book order by pealkiri LIMIT $start_from, $record_per_page "; 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
+
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html>
@@ -30,20 +40,23 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 </head>
 <body>
+
+
 <div class="grid-container">
   <div class="item1">
 
 <div class="search_menu">
 <a href="book_add.php">Lisa uus raamat</a>
-<!--<a href="readers_multible.php">Muuda </a>
+<!--
 <a href="#">Prindi</a>
 <a href="#">Ekspordi andmed</a>-->
 <!--<form method="post" action="export.php" align="center">  
 <input type="submit" name="Ekspordi csv" value="Expordi" class="btn btn-success" />  
                 </form>  -->
 <br> <br>
-<form action=" book_data.php" method="post" >
-Otsi: <select name="column">
+
+<form action=" book_data.php" method="POST" >
+	<select name="column">
 	<option value="pealkiri">Pealkiri</option>
 	<option value="autor">Autor</option>
 	<option value="aasta">Aasta</option>
@@ -54,34 +67,25 @@ Otsi: <select name="column">
 	<option value="riiul">Riiul</option>
 	<option value="marksona">Märksõna</option>
 	<option value="markused">Märkused</option>
-	</select>
-	<!--
-<select name="column1">
-<option value="tuhi"> </option>
-	<option value="'%$search%'">Sisaldab</option>
-	<option value="'%$search'">Algab</option>
-	<option value="'%search'">On täoselt</option>
-	<option value="'%search%'">Lõpeb</option>
-	</select> -->
+	</select> 
 
+	<select name="column1">
+	<option value="include">Sisaldab</option>
+	<option value="starts">Algab</option>
+	<option value="ends">Lõpeb</option>
+	<option value="exactrly">Täpselt</option> <!-- ei toimi-->
+</select>
  <?php
 /*viimane otsing jääb otsing aknasse*/
-$search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : '';
-
-?>
- <input type="text" name="search" value="<?= $search ?>">
-<input type ="submit" value="otsi">
-<input type="button" value="Tühista" onclick="location.href='book_data.php'"  />
-
+$search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : ''; ?>
+ <input type="text" name="search" value="<?= $search ?>" required>
+<input type ="submit" value="Filtreeri"> 
 </form>
-
-
 
 </div>
 </div>
 <div class="item2">
-<div class= "menu">
-	
+<div class= "menu">	
 		<ul style="list-style-type:none">
 			<li> <a href="book_data.php"> Raamatud</a> </li> 
 			<li> <a href="textbook.php"> Õpikud </a></li>
@@ -93,40 +97,59 @@ $search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : '';
 			<li> <a href="menu.php">Esilehele</a></li>
 			<li> <a href="library_fund.php">Tagasi</a></li>		
 		</ul>
+	</div>
+	</div>
 
-	</div>
-	</div>
   <div class="item3">
-  <table id="table1">
 
-    <tr>
-		<th onclick="sortTable(0)">Pealkiri</th>  <!-- diltreerib pealkirja järgi kasvavalt või kahanevalt-->
-		<th onclick="sortTable(1)">Autor</th> 
-		<th onclick="sortTable(2)">Aasta</th>
-		<th onclick="sortTable(3)">Liik</th> 
-		<th onclick="sortTable(4)">Keel</th>
-		<th onclick="sortTable(5)">Väljaandja</th> 
-		<th onclick="sortTable(6)">Kogus</th> 
-		<th onclick="sortTable(7)">Riiul</th>
-		<th onclick="sortTable(8)">Märksõna</th> 
-		<th onclick="sortTable(8)">Märkused</th> 
+ <form method="post" action="" >
+ <br>  <input type='submit' value='Kustuta multible ' name='but_delete' class='delete' >
+   <input type='submit' value='Muuda multible ' name='but_edit' class='edit' >
+<table id="table1">
+<thead>
+<tr> 		
+		<th><input type="checkbox" id="select_all" /></th>
+		<th onclick="sortTable(1)">Pealkiri</th>  <!-- diltreerib pealkirja järgi kasvavalt või kahanevalt-->
+		<th onclick="sortTable(2)">Autor</th> 
+		<th onclick="sortTable(3)">Aasta</th>
+		<th onclick="sortTable(4)">Liik</th> 
+		<th onclick="sortTable(5)">Keel</th>
+		<th onclick="sortTable(6)">Väljaandja</th> 
+		<th onclick="sortTable(7)">Kogus</th> 
+		<th onclick="sortTable(8)">Riiul</th>
+		<th onclick="sortTable(9)">Märksõna</th> 
+		<th onclick="sortTable(10)">Märkused</th> 
 		
 		<th> </th>	
 		<th> </th>			
     </tr>
-	
-
+	</thead>
+<tbody>
     <?php
-if(count($_POST)>0) {
-$search=$_POST['search'];
-$column=$_POST['column'];
-		
-	$sql= "SELECT id, pealkiri, autor, aasta, liik, keel, valjaandja, 
-	kogus, riiul, marksona, markused FROM book where $column like '%$search%'" ;
-$result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));} 
- 
+if ((isset($_POST['search'])) and (isset($_POST['column'])) and (isset($_POST['column1'])) ){
+	$search=$_POST['search'];
+	$column=$_POST['column'];
+	$column1=$_POST['column1'];
+if($column1 == 'include'){
+$sql= "SELECT * FROM book where $column like '%$search%' " ;}
+	
+elseif($column1 == 'starts'){
+$sql= "SELECT * FROM book where $column like ' " . $search . "%' " ;} // esitähe järgi 
+	
+elseif($column1 == 'ends'){
+$sql= "SELECT * FROM book where $column like '%" . $search . "' " ;} //viimase tähe järgi
+
+elseif($column1 == 'starts'){
+$sql= "SELECT * FROM book where $column like ' " . $search . " ' " ;} //täpselt  ei toimi 
+}
+
+$result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
+
   while($row = mysqli_fetch_array($result)) {
-        echo "<tr>";
+  
+ 
+		echo "<tr>";	
+		echo "<td><input type='checkbox' name='delete[]' value='$row[id]' ></td>";		
         echo "<td>".$row['pealkiri']."</td>";
 		echo "<td>".$row['autor']."</td>";
 		echo "<td>".$row['aasta']."</td>";
@@ -138,16 +161,35 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));}
         echo "<td>".$row['marksona']."</td>";
 		echo "<td>".$row['markused']."</td>";		
         echo "<td><a href='book_edit.php?id=$row[id]' style='text-decoration: none'>Muuda</a> </td>";
-		echo "<td> <a href='book_delete.php?id=$row[id]'style='text-decoration: none' class='delete' >Kustuta</a></td></tr>";
+		echo "<td> <a href='book_delete.php?id=$row[id]'style='text-decoration: none' class='delete' >Kustuta</a></td>
+	</tr>";
 }
 
     ?>
+</tbody>
+    </table>	
+</form>
 
-    </table>
-	<script>
+<script>//checkime kõik boxid ära 
+$("#select_all").click(function () {
+$('input:checkbox').not(this).prop('checked', this.checked);
+});
+</script>
+<script> //küsib üle kustutamise kohta üks haaval kustutades
 $(document).ready(function(){
     $("a.delete").click(function(e){
-        if(!confirm('Oled sa kindel et soovid lugeja kustutada')){
+        if(!confirm('Oled sa kindel et soovid kustutada')){
+            e.preventDefault();
+            return false;
+        }
+        return true;
+    });
+});
+</script>
+<script> //küsib üle kustutamise kohta multible kustutades
+$(document).ready(function(){
+    $("input.delete").click(function(e){
+        if(!confirm('Oled sa kindel et soovid kustutada')){
             e.preventDefault();
             return false;
         }
@@ -212,7 +254,7 @@ function sortTable(n) {
 </style>
 <?php
 	/*tabel kuvab 10 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
-	$page_query = "SELECT id, pealkiri, autor, aasta, liik, keel, valjaandja, kogus, riiul, marksona, markused
+	$page_query = "SELECT *
 	FROM book ORDER BY 'pealkiri'";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
