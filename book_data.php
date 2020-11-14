@@ -1,6 +1,6 @@
 <?php
 include_once("config.php");
-$record_per_page = 25; //näitab 25 kirjet ühel lehel
+$record_per_page = 20; //näitab 25 kirjet ühel lehel
 $page = '';
 if(isset($_GET["page"])){
  $page = $_GET["page"];}
@@ -10,15 +10,21 @@ $start_from = ($page-1)*$record_per_page;
 //kustutamine multible
 if(isset($_POST['but_delete'])){
 
-  if(isset($_POST['delete'])){
-    foreach($_POST['delete'] as $deleteid){
+  if(isset($_POST['box'])){
+    foreach($_POST['box'] as $deleteid){
 
       $deleteUser = "DELETE from book WHERE id=".$deleteid;
       mysqli_query($conn,$deleteUser);
     }
   }
- 
 }
+/*muudame multible
+if(isset($_POST['but_edit'])){
+ if(isset($_POST['box'])){
+	foreach($_POST['box'] as $updateid){
+    header("Location: edit.php");
+}}
+}*/
 
 $sql= "SELECT * FROM book order by pealkiri LIMIT $start_from, $record_per_page "; 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
@@ -73,7 +79,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	<option value="include">Sisaldab</option>
 	<option value="starts">Algab</option>
 	<option value="ends">Lõpeb</option>
-	<option value="exactrly">Täpselt</option> <!-- ei toimi-->
+	<option value="exactly">Täpselt</option> <!-- ei toimi-->
 </select>
  <?php
 /*viimane otsing jääb otsing aknasse*/
@@ -104,12 +110,12 @@ $search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : ''; ?>
 
  <form method="post" action="" >
  <br>  <input type='submit' value='Kustuta multible ' name='but_delete' class='delete' >
-   <input type='submit' value='Muuda multible ' name='but_edit' class='edit' >
+  <!-- <input type='submit' value='Muuda multible ' name='but_edit' class='edit' >-->
 <table id="table1">
 <thead>
 <tr> 		
 		<th><input type="checkbox" id="select_all" /></th>
-		<th onclick="sortTable(1)">Pealkiri</th>  <!-- diltreerib pealkirja järgi kasvavalt või kahanevalt-->
+		<th onclick="sortTable(1)">Pealkiri</th>  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt-->
 		<th onclick="sortTable(2)">Autor</th> 
 		<th onclick="sortTable(3)">Aasta</th>
 		<th onclick="sortTable(4)">Liik</th> 
@@ -139,17 +145,15 @@ $sql= "SELECT * FROM book where $column like ' " . $search . "%' " ;} // esitäh
 elseif($column1 == 'ends'){
 $sql= "SELECT * FROM book where $column like '%" . $search . "' " ;} //viimase tähe järgi
 
-elseif($column1 == 'starts'){
-$sql= "SELECT * FROM book where $column like ' " . $search . " ' " ;} //täpselt  ei toimi 
+elseif($column1 == 'exactly'){
+$sql= "SELECT * FROM book where $column like '" . $search . "' " ;} //täpselt  ei toimi 
 }
 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
-  while($row = mysqli_fetch_array($result)) {
-  
- 
+  while($row = mysqli_fetch_array($result)) { 
 		echo "<tr>";	
-		echo "<td><input type='checkbox' name='delete[]' value='$row[id]' ></td>";		
+		echo "<td><input type='checkbox' name='box[]' value='$row[id]' ></td>";		
         echo "<td>".$row['pealkiri']."</td>";
 		echo "<td>".$row['autor']."</td>";
 		echo "<td>".$row['aasta']."</td>";
@@ -160,8 +164,10 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
         echo "<td>".$row['riiul']."</td>";
         echo "<td>".$row['marksona']."</td>";
 		echo "<td>".$row['markused']."</td>";		
-        echo "<td><a href='book_edit.php?id=$row[id]' style='text-decoration: none'>Muuda</a> </td>";
-		echo "<td> <a href='book_delete.php?id=$row[id]'style='text-decoration: none' class='delete' >Kustuta</a></td>
+        //echo "<td><a href='book_edit.php?id=$row[id]'> <img src='src/edit-icon-2375785_640.png' width='25' /></a> </td>";
+		echo "<td><a href='book_edit.php?id=$row[id]' style='text-decoration: none'>Muuda</a> </td>";
+		//echo "<td> <a href='book_delete.php?id=$row[id]'style='text-decoration: none' class='delete' > <img src='src/delete-1727486_1280.png' width='30' /></a></td>
+		echo "<td> <a href='book_delete.php?id=$row[id]'style='text-decoration: none' class='delete' >Kustuta </a></td>
 	</tr>";
 }
 
@@ -238,17 +244,17 @@ function sortTable(n) {
 }
 </script>
 
-<!-- plagination -->	
-<div id="plagination">
+<!-- pagination -->	
+<div id="pagination">
 <style>
-#plagination a {
+#pagination a {
    padding:4px 8px;
    border:1px solid #ccc;
    color:#333;
 	text-decoration: none;   
 	margin-top:25px;
   }
-#plagination a:hover {
+#pagination a:hover {
 	background-color: #ccc;
 }
 </style>
