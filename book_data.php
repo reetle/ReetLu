@@ -49,10 +49,11 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 
 <div class="grid-container">
-  <div class="item1">
+  <div class="item1" ">
 
 <div class="search_menu">
-<a href="book_add.php">Lisa uus raamat</a>
+<button onclick="window.location.href='book_add.php';">Lisa uus raamat</button>
+<button type="submit" form="form1"  name="but_delete" class="delete" >Kustuta</button>
 <!--
 <a href="#">Prindi</a>
 <a href="#">Ekspordi andmed</a>-->
@@ -90,27 +91,16 @@ $search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : ''; ?>
 
 </div>
 </div>
-<div class="item2">
-<div class= "menu">	
-		<ul style="list-style-type:none">
-			<li> <a href="book_data.php"> Raamatud</a> </li> 
-			<li> <a href="textbook.php"> Õpikud </a></li>
-			<li> <a href="periodicals.php">Perioodika</a></li>
-			<li> <a href="audio.php">Audio-Video</a></li>	
-			<li> <a href="workbook.php">Töövihikud</a></li>
-			<li> <a href="meth_library.php">Metoodiline kirjandus</a></li> 
-			<br>
-			<li> <a href="menu.php">Esilehele</a></li>
-			<li> <a href="library_fund.php">Tagasi</a></li>		
-		</ul>
-	</div>
-	</div>
+<div class="item2"> 
+<?php
+include_once("library_menu.php");
+?>
+</div>
 
   <div class="item3">
-
- <form method="post" action="" >
- <br>  <input type='submit' value='Kustuta multible ' name='but_delete' class='delete' >
-  <!-- <input type='submit' value='Muuda multible ' name='but_edit' class='edit' >-->
+ <form method="post" action="" id="form1" >
+ <br> <!-- <input type='submit' value='Kustuta multible' name='but_delete' class='delete' id='test' style="border: none; text-decoration: none; color: black;"> -->
+ <!-- <input type='submit' value='Muuda multible ' name='but_edit' class='edit' >-->
 <table id="table1">
 <thead>
 <tr> 		
@@ -127,7 +117,7 @@ $search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : ''; ?>
 		<th onclick="sortTable(10)">Märkused</th> 
 		
 		<th> </th>	
-		<th> </th>			
+		<th></th>			
     </tr>
 	</thead>
 <tbody>
@@ -194,7 +184,7 @@ $(document).ready(function(){
 </script>
 <script> //küsib üle kustutamise kohta multible kustutades
 $(document).ready(function(){
-    $("input.delete").click(function(e){
+    $("button.delete").click(function(e){
         if(!confirm('Oled sa kindel et soovid kustutada')){
             e.preventDefault();
             return false;
