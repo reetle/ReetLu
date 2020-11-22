@@ -15,8 +15,8 @@
 <div class= "menu">
 	
 		<ul style="list-style-type:none">
-			<li> <a href="#"> Autorid</a> </li>  
-			<li> <a href="#"> Väljaandjad </a></li>
+			<li> <a href="#">Autorid</a> </li>  
+			<li> <a href="#">Väljaandjad </a></li>
 			<li> <a href="#">Liigid</a></li>
 			<li> <a href="#">Saatedokumendid</a></li>	
 			<li> <a href="#">Audio-Video tüübid</a></li>	

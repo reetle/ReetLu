@@ -1,3 +1,6 @@
+<?php
+include_once("config.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,19 +64,19 @@
 
 	<?php
 	if(isset($_POST['Submit'])) {
-		$pealkiri = $_POST['pealkiri'];
-		$autor = $_POST['autor'];
-		$aasta = $_POST['aasta'];
-		$liik = $_POST['liik'];
-		$keel= $_POST['keel'];
-		$valjaandja = $_POST['valjaandja'];
-		$kogus = $_POST['kogus'];
-		$riiul = $_POST['riiul'];
-		$marksona = $_POST['marksona'];
-		$markused = $_POST['markused'];
+		$pealkiri = mysqli_real_escape_string($conn, $_POST['pealkiri']);
+		$autor = mysqli_real_escape_string($conn, $_POST['autor']);
+		$aasta = mysqli_real_escape_string($conn, $_POST['aasta']);
+		$liik = mysqli_real_escape_string($conn, $_POST['liik']);
+		$keel= mysqli_real_escape_string($conn, $_POST['keel']);
+		$valjaandja = mysqli_real_escape_string($conn, $_POST['valjaandja']);
+		$kogus = mysqli_real_escape_string($conn, $_POST['kogus']);
+		$riiul = mysqli_real_escape_string($conn, $_POST['riiul']);
+		$marksona = mysqli_real_escape_string($conn, $_POST['marksona']);
+		$markused = mysqli_real_escape_string($conn, $_POST['markused']);
 	
 
-	include_once("config.php");
+	
 	$result = mysqli_query($conn, "INSERT INTO book(pealkiri, autor, aasta, liik, keel,valjaandja, kogus, riiul, marksona, markused) 
 	VALUES('$pealkiri','$autor','$aasta', '$liik','$keel','$valjaandja','$kogus', '$riiul','$marksona','$markused')");
 		echo "Lisatud </a>";
