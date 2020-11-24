@@ -9,7 +9,7 @@ else{
  $page = 1;}
 $start_from = ($page-1)*$record_per_page;
 
-$sql= "SELECT * FROM readers LIMIT $start_from, $record_per_page "; 
+$sql= "SELECT * FROM publisher LIMIT $start_from, $record_per_page "; 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 ?>
@@ -17,7 +17,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <!DOCTYPE html>
 <html>
 <head>
-<title>Lugejad</title>
+<title>Väljaandjad</title>
 <link rel="stylesheet" href="styles.css" type="text/css"/>
 <meta charset="UTF-8" />
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" /> <!-- avab lehe seadme suurusega-->
@@ -33,19 +33,17 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <!--otsimise ja filtreerimise menüü-->
 <div class="item1">
 	<div class="search_menu">
-		<button onclick="window.location.href='readers_add.php';">Lisa uus lugeja</button>
+		<button onclick="window.location.href='publisher_add.php';">Lisa uus lugeja</button>
 		<button onclick="#">Prindi</button>
 		<button type="submit" form="form2" name="export" class="export" >Ekspordi CSV</button>
 <br><br>
 <!--andmete eksport-->
- <form method="post" action="readers_export.php" id="form2"> </form>  
+ <form method="post" action="publisher_export.php" id="form2"> </form>  
 
 	<!--filtreerimine tabeli pealkirjade järgi-->
-	<form action="readers_data.php" method="POST" >
-		<select name="column">
-			<option value="klass">Klass</option>
-			<option value="perekonnanimi">Perekonnanimi</option>
-			<option value="eesnimi">Eesnimi</option>
+	<form action=" " method="POST" >
+		<select name="column">	
+			<option value="nimi">Nimi</option>
 			<option value="aadress">Aadress</option>
 			<option value="linn">Linn</option>
 			<option value="maakond">Maakond</option>
@@ -67,12 +65,12 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 			<input type ="submit" value="Filtreeri"> 	
 		</form>
  <!--filtreeringu tühistamiseks laeb lehe uuesti-->		
-		<button onclick="window.location.href='readers_data.php';">Tühista filtreering</button>
+		<button onclick="window.location.href='publisher_data.php';">Tühista filtreering</button>
 </div> </div>
 <div class="item2">
  <!--raamatute menüü-->
 <?php
-include_once("readers.php");
+include_once("additional_data.php");
 ?>
 </div>
  <!-- Tabel-->
@@ -83,15 +81,13 @@ include_once("readers.php");
 <thead>
     <tr>
 		<th onclick="sortTable(0)" style="visibility:hidden;">ID</th>  
-		<th onclick="sortTable(1)"> Klass</th> 		
-		<th onclick="sortTable(2)">Perekonnanimi</th> 
-		<th onclick="sortTable(3)" >Eesnimi</th>
-		<th onclick="sortTable(4)">Aadress</th> 
-		<th onclick="sortTable(5)">Linn</th>
-		<th onclick="sortTable(6)">Maakond</th> 
-		<th onclick="sortTable(7)">Postiindeks</th> 
-		<th onclick="sortTable(8)">Telefon</th>
-		<th onclick="sortTable(9)">Märkused</th> 
+		<th onclick="sortTable(1)" >Nimi</th>
+		<th onclick="sortTable(2)">Aadress</th> 
+		<th onclick="sortTable(3)">Linn</th>
+		<th onclick="sortTable(4)">Maakond</th> 
+		<th onclick="sortTable(5)">Postiindeks</th> 
+		<th onclick="sortTable(6)">Telefon</th>
+		<th onclick="sortTable(7)">Märkused</th> 
 		<th class="disableFilterBy"> </th>		
     </tr>
 	</thead>
@@ -102,16 +98,16 @@ if ((isset($_POST['search'])) and (isset($_POST['column'])) and (isset($_POST['c
 	$column=$_POST['column'];
 	$column1=$_POST['column1'];
 if($column1 == 'include'){
-$sql= "SELECT * FROM readers where $column like '%$search%' " ;}
+$sql= "SELECT * FROM publisher where $column like '%$search%' " ;}
 	
 elseif($column1 == 'starts'){
-$sql= "SELECT * FROM readers where $column like ' " . $search . "%' " ;} // esitähe järgi 
+$sql= "SELECT * FROM publisher where $column like ' " . $search . "%' " ;} // esitähe järgi 
 	
 elseif($column1 == 'ends'){
-$sql= "SELECT * FROM readers where $column like '%" . $search . "' " ;} //viimase tähe järgi
+$sql= "SELECT * FROM publisher where $column like '%" . $search . "' " ;} //viimase tähe järgi
 
 elseif($column1 == 'exactly'){
-$sql= "SELECT * FROM readers where $column like ' " . $search . " ' " ;} //täpselt  ei toimi 
+$sql= "SELECT * FROM publisher where $column like ' " . $search . " ' " ;} //täpselt  ei toimi 
 }
 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
@@ -120,9 +116,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   echo '
   <tr>
 	<td style="visibility:hidden;">'.$row["id"].'</td> 
-	<td>'.$row["klass"].'</td> 
-	<td>'.$row["perekonnanimi"].'</td>
-	<td>'.$row["eesnimi"].'</td>
+	<td>'.$row["nimi"].'</td>
 	<td>'.$row["aadress"].'</td>
 	<td>'.$row["linn"].'</td>
 	<td>'.$row["maakond"].'</td>
@@ -140,7 +134,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
 	$page_query = "SELECT *
-	FROM readers";
+	FROM publisher";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);
@@ -153,17 +147,17 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
     $end_loop = $start_loop + 4;
     if($page > 1)
     {
-     echo "<a href='readers_data.php?page=1'> Algusesse </a>";
-     echo "<a href='readers_data.php?page=".($page - 1)."'> << </a>";
+     echo "<a href='publisher_data.php?page=1'> Algusesse </a>";
+     echo "<a href='publisher_data.php?page=".($page - 1)."'> << </a>";
     }
     for($i=$start_loop; $i<=$end_loop; $i++)
     {     
-     echo "<a href='readers_data.php?page=".$i."'>" .$i. "</a>";
+     echo "<a href='publisher_data.php?page=".$i."'>" .$i. "</a>";
     }
     if($page <= $end_loop)
     {
-     echo "<a href='readers_data.php?page=".($page + 1)."'> >> </a>";
-     echo "<a href='readers_data.php?page=".$total_pages."'> Lõppu </a>";
+     echo "<a href='publisher_data.php?page=".($page + 1)."'> >> </a>";
+     echo "<a href='publisher_data.php?page=".$total_pages."'> Lõppu </a>";
     }
   ?>  
  </div>
@@ -175,16 +169,14 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <script>  //tabelis lives muutmine
 $(document).ready(function(){  
      $('#editable_table').Tabledit({
-      url:'readers_action.php',
+      url:'publisher_action.php',
 
 	
 		columns:{
        identifier:[0, "id"],
-       editable:[[1, 'klass'],  [2, 'perekonnanimi'], [3, 'eesnimi'],
-	   [4, 'aadress'], [5, 'linn'], [6, 'maakond'], [7, 'postiindeks'],
-	   [8, 'telefon'], [9, 'markused'] 
-	   
-	   
+       editable:[[1, 'nimi'], [2, 'aadress'], [3, 'linn'], [4, 'maakond'], [5, 'postiindeks'],
+	   [6, 'telefon'], [7, 'markused'] 
+	   	   
 	   ]
       },
    restoreButton:false,
@@ -238,3 +230,4 @@ function sortTable(n) {
   }
 }
 </script>
+

@@ -1,3 +1,6 @@
+<?php
+include_once("config.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +34,7 @@
 				<td><input type="text" name="linn"></td>
 			</tr>
 			<tr>
-			<td>maakond</td>
+			<td>Maakond</td>
 				<td><input type="text" name="maakond"></td>
 			</tr>
 			<tr>
@@ -55,20 +58,20 @@
 
 	<?php
 	if(isset($_POST['Submit'])) {
-		$klass = $_POST['klass'];
-		$perekonnanimi = $_POST['perekonnanimi'];
-		$eesnimi = $_POST['eesnimi'];
-		$aadress = $_POST['aadress'];
-		$linn = $_POST['linn'];
-		$maakond = $_POST['maakond'];
-		$postiindeks = $_POST['postiindeks'];
-		$telefon = $_POST['telefon'];
-		$markused = $_POST['markused'];
+		$klass = mysqli_real_escape_string($conn, $_POST['klass']);
+		$perekonnanimi = mysqli_real_escape_string($conn, $_POST['perekonnanimi']);
+		$eesnimi = mysqli_real_escape_string($conn, $_POST['eesnimi']);
+		$aadress = mysqli_real_escape_string($conn, $_POST['aadress']);
+		$linn = mysqli_real_escape_string($conn, $_POST['linn']);
+		$maakond = mysqli_real_escape_string($conn, $_POST['maakond']);
+		$postiindeks = mysqli_real_escape_string($conn, $_POST['postiindeks']);
+		$telefon = mysqli_real_escape_string($conn, $_POST['telefon']);
+		$markused = mysqli_real_escape_string($conn, $_POST['markused']);
 	
 
-	include_once("config.php");
-	$result = mysqli_query($conn, "INSERT INTO readers(klass, perekonnanimi, eesnimi, linn, maakond, postiindeks, telefon ,markused) 
-	VALUES('$klass','$perekonnanimi','$eesnimi','$linn','$maakond','$postiindeks', '$telefon','$markused')");
+	
+	$result = mysqli_query($conn, "INSERT INTO readers(klass, perekonnanimi, eesnimi, aadress, linn, maakond, ,postiindeks, telefon ,markused) 
+	VALUES('$klass','$perekonnanimi','$eesnimi','$aadress','$linn','$maakond','$postiindeks', '$telefon','$markused')");
 		echo "Uus lugeja lisatud";
 	}
 	?>
