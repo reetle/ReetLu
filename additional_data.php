@@ -15,22 +15,19 @@
 <div class= "menu">
 	
 		<ul style="list-style-type:none">
-			<li> <a href="#">Autorid</a> </li>  
-			<li> <a href="#">Väljaandjad </a></li>
-			<li> <a href="#">Liigid</a></li>
+			<li> <a href="author_data.php">Autorid</a> </li>  
+			<li> <a href="publisher_data.php">Väljaandjad </a></li>
+			<li> <a href="format_data.php">Liigid</a></li>
 			<li> <a href="#">Saatedokumendid</a></li>	
-			<li> <a href="#">Audio-Video tüübid</a></li>	
-			<li> <a href="#">Meth kirjanduse tüübid</a></li>	
-			<li> <a href="#">Keeled</a></li>	
-			<li> <a href="#">Märksõnad</a></li>	
+			<li> <a href="audio_video_type.php">Audio-Video tüübid</a></li>	
+			<li> <a href="met_library_type_data.php">Meth kirjanduse tüübid</a></li>	
+			<li> <a href="languages_data.php">Keeled</a></li>	
+			<li> <a href="keywords_data.php">Märksõnad</a></li>	
 		</ul>
 
 	</div> </div>
-  <div class="item3"> 
-    <table id="table1">
-    
-    </table>
-</div>	
+ 
+   
 <div class="item4">
 
 <div id="back_button">

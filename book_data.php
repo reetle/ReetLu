@@ -17,51 +17,31 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="styles.css">
 <title>Raamatud</title>
+<link rel="stylesheet" href="styles.css" type="text/css"/>
 <meta charset="UTF-8" />
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" /> <!-- avab lehe seadme suurusega-->
-<link rel="stylesheet" href="styles.css">
- <!-- kustutamise teate jaoks-->
-<script src="js/jquery.min.js"></script>
-<!-- editable tabeli jaoks-->
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />       
 <script src="js/jquery.tabledit.min.js"></script>
-<script src="js/pagination.min.js"></script>
+
 
 </head>
 <body>
-<style>
-#editable_table{
-	border-collapse: collapse;
-	font-size:12px;
 
-}	
-#editable_table th{
-	background-color: #e9d3ff;		
-}
-#editable_table th, #editable_table td{	
-  border: 1px solid grey;  
-
-}
-#editable_table tr:nth-child(even){background-color: #f2f2f2}
-#editable_table tr:hover{
-	background-color: #e9d3ff;
-}
-</style>
 <div class="grid-container">
 <!--otsimise ja filtreerimise menüü-->
 <div class="item1">
 	<div class="search_menu">
 		<button onclick="window.location.href='book_add.php';">Lisa uus raamat</button>
 		<button onclick="#">Prindi</button>
-		<button onclick="#">Ekspordi</button>
-		<button type="submit" form="form2"  >Ekspordi CSV</button>
-		<br> <br>
-
+		<button type="submit" form="form2" name="export" class="export" >Ekspordi CSV</button>
+		<button onclick="window.location.href='book_data.php';">Tühista filtreering</button>
+<br><br>
+<!--andmete eksport-->
  <form method="post" action="book_export.php" id="form2">  
- <input type="submit" name="export" value="CSV Export" class="btn btn-success" />  
+
                 </form>  
 
 	<!--filtreerimine tabeli pealkirjade järgi-->
@@ -92,16 +72,17 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 			<input type ="submit" value="Filtreeri"> 	
 		</form>
  <!--filtreeringu tühistamiseks laeb lehe uuesti-->		
-		<button onclick="window.location.href='book_data.php';">Tühista filtreering</button>
+		
 </div> </div>
 <div class="item2">
  <!--raamatute menüü-->
 <?php
-include_once("library_menu.php");
+include_once("library_fund.php");
 ?>
 </div>
  <!-- Tabel-->
  <div class="item3"> 
+  <div class="tabel">  
     <table id="editable_table" >
     <thead>
 		<tr>	
@@ -158,6 +139,10 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
  ?>
 	</tbody>
 	</table>
+<div id="pagination">
+<style>
+
+</style>
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
 	$page_query = "SELECT *
@@ -187,7 +172,9 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
      echo "<a href='book_data.php?page=".$total_pages."'> Lõppu </a>";
     }
   ?>  
-</div>	  
+ </div>
+</div>	
+</div>  
 </body>
 </html>
 
@@ -257,18 +244,5 @@ function sortTable(n) {
     }
   }
 }
-</script>
-<script>
-$('#editable_table').pagination({
-    dataSource: [1, 2, 3, 4, 5, 6, 7, ... , 40],
-    pageSize: 5,
-    showGoInput: true,
-    showGoButton: true,
-    callback: function(data, pagination) {
-        // template method of yourself
-        var html = template(data);
-        dataContainer.html(html);
-    }
-})
 </script>
 

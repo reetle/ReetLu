@@ -1,3 +1,6 @@
+<?php
+include_once("config.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,14 +44,14 @@
 
 	<?php
 	if(isset($_POST['Submit'])) {
-		$klass = $_POST['klass'];
-		$taht = $_POST['taht'];
-		$klassijuhataja = $_POST['klassijuhataja'];
-		$klassiruum = $_POST['klassiruum'];
-		$markused = $_POST['markused'];
+		$klass = mysqli_real_escape_string($conn, $_POST['klass']);
+		$taht = mysqli_real_escape_string($conn, $_POST['taht']);
+		$klassijuhataja = mysqli_real_escape_string($conn, $_POST['klassijuhataja']);
+		$klassiruum = mysqli_real_escape_string($conn, $_POST['klassiruum']);
+		$markused = mysqli_real_escape_string($conn,  $_POST['markused']);
 	
 
-	include_once("config.php");
+
 	$result = mysqli_query($conn, "INSERT INTO class(klass, taht, klassijuhataja, klassiruum, markused) 
 	VALUES('$klass','$taht','$klassijuhataja','$klassiruum','$markused')");
 		echo "Lisatud";
