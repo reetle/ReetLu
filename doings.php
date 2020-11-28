@@ -16,7 +16,7 @@
 		<ul style="list-style-type:none">
 			<li> <a href="#">Laenutamine</a> </li>  
 			<li> <a href="#">Tellimine </a></li>
-			<li> <a href="#">Mahakandmine</a></li>
+			<li> <a href="write_off.php">Mahakandmine</a></li>
 			<li> <a href="#">Inventuur</a></li>	
 			<li> <a href="#">Ekspordi internetti</a></li>	<br>
 			<li><a href="menu.php">Esilehele</a> </li>

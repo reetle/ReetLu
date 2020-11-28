@@ -97,7 +97,8 @@ include_once("library_fund.php");
 		<th onclick="sortTable(7)">Kogus &#8693;</th> 
 		<th onclick="sortTable(8)">Riiul &#8693;</th>
 		<th onclick="sortTable(9)">Märksõna &#8693;</th> 
-		<th onclick="sortTable(10)">Märkused &#8693;</th>				
+		<th onclick="sortTable(10)">Märkused &#8693;</th>	
+		<th onclick="sortTable(11)">Laenuta</th>			
 		</tr>
 	<thead>
 	<tbody>
@@ -135,6 +136,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	<td>'.$row["riiul"].'</td>
 	<td>'.$row["marksona"].'</td>
 	<td>'.$row["markused"].'</td>	
+	<td><a href="borrow_book.php?id=<?php echo $row["id"]; ?">Laenuta</a></td>
   </tr> '; }
  ?>
 	</tbody>
