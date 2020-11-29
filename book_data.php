@@ -23,7 +23,9 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" /> <!-- avab lehe seadme suurusega-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />       
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
 <script src="js/jquery.tabledit.min.js"></script>
 
 
@@ -98,7 +100,10 @@ include_once("library_fund.php");
 		<th onclick="sortTable(8)">Riiul &#8693;</th>
 		<th onclick="sortTable(9)">Märksõna &#8693;</th> 
 		<th onclick="sortTable(10)">Märkused &#8693;</th>	
-		<th onclick="sortTable(11)">Laenuta</th>			
+		<th>Laenuta</th>
+		<th>Kanna maha</th>	
+		<th>Muuda</th>
+				
 		</tr>
 	<thead>
 	<tbody>
@@ -136,7 +141,8 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	<td>'.$row["riiul"].'</td>
 	<td>'.$row["marksona"].'</td>
 	<td>'.$row["markused"].'</td>	
-	<td><a href="borrow_book.php?id=<?php echo $row["id"]; ?">Laenuta</a></td>
+	<td><a href="borrow_book.php?id='.$row["id"].'">Laenuta</a></td>
+	<td><a href="write_off_book.php?id='.$row["id"].'">Kanna maha</a></td>
   </tr> '; }
  ?>
 	</tbody>
@@ -184,7 +190,12 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 $(document).ready(function(){  
      $('#editable_table').Tabledit({
       url:'book_action.php',
-
+		buttons: {
+        edit: {
+            html: ' <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">  <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg>',
+            action: 'edit'
+        }
+    },
 	
 		columns:{
        identifier:[0, "id"],
@@ -196,14 +207,15 @@ $(document).ready(function(){
 	   
 	   ]
       },
-   restoreButton:false,
-      onSuccess:function(data, textStatus, jqXHR)
-      {
-       if(data.action == 'delete')
-       {
-        $('#'+data.id).remove();
-       }
-      }
+ restoreButton:false,
+ deleteButton: false, //peidab delete nupu ära
+   onSuccess:function(data, textStatus, jqXHR)
+    {
+    if(data.action == 'delete')
+    {
+     $('#'+data.id).remove();
+ }
+   }
      });
  
 });  
