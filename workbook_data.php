@@ -25,7 +25,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />       
 <script src="js/jquery.tabledit.min.js"></script>
-<script src="js/pagination.min.js"></script>
+
 
 </head>
 <body>
@@ -99,7 +99,8 @@ include_once("library_fund.php");
 		<th onclick="sortTable(8)">Kogus &#8693;</th> 
 		<th onclick="sortTable(9)">Riiul &#8693;</th>
 		<th onclick="sortTable(10)">Märksõna &#8693;</th> 
-		<th onclick="sortTable(11)">Märkused &#8693;</th>				
+		<th onclick="sortTable(11)">Märkused &#8693;</th>		
+		<th>Laenuta</th>		
 		</tr>
 	<thead>
 	<tbody>
@@ -138,6 +139,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	<td>'.$row["riiul"].'</td>
 	<td>'.$row["marksona"].'</td>
 	<td>'.$row["markused"].'</td>	
+	<td><a href="borrow_workbook.php?id='.$row["id"].'">Laenuta</a></td>
   </tr> '; }
  ?>
 	</tbody>
@@ -248,17 +250,3 @@ function sortTable(n) {
   }
 }
 </script>
-<script>
-$('#editable_table').pagination({
-    dataSource: [1, 2, 3, 4, 5, 6, 7, ... , 40],
-    pageSize: 5,
-    showGoInput: true,
-    showGoButton: true,
-    callback: function(data, pagination) {
-        // template method of yourself
-        var html = template(data);
-        dataContainer.html(html);
-    }
-})
-</script>
-

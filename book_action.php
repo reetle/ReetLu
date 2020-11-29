@@ -34,7 +34,7 @@ markused = '".$markused."'
  mysqli_query($conn, $query);
 
 }
-
+/*
 if($input["action"] === 'delete')
 {
  $query = "
@@ -43,7 +43,7 @@ if($input["action"] === 'delete')
  ";
  mysqli_query($conn, $query);
 
-}
+}*/
 
 echo json_encode($input);
 
