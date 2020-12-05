@@ -1,7 +1,7 @@
 <?php
 include_once("config.php");
 //lehek[le nummerdus
-$record_per_page = 20; //näitab 25 kirjet ühel lehel
+$record_per_page = 25; //näitab 25 kirjet ühel lehel
 $page = '';
 if(isset($_GET["page"])){
  $page = $_GET["page"];}
@@ -28,7 +28,6 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 <script src="js/jquery.tabledit.min.js"></script>
 
-
 </head>
 <body>
 
@@ -37,9 +36,9 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <div class="item1">
 	<div class="search_menu">
 		<button onclick="window.location.href='book_add.php';">Lisa uus raamat</button>
-		<button onclick="#">Prindi</button>
 		<button type="submit" form="form2" name="export" class="export" >Ekspordi CSV</button>
 		<button onclick="window.location.href='book_data.php';">Tühista filtreering</button>
+
 <br><br>
 <!--andmete eksport-->
  <form method="post" action="book_export.php" id="form2">  
@@ -47,7 +46,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
                 </form>  
 
 	<!--filtreerimine tabeli pealkirjade järgi-->
-	<form action=" book_data.php" method="POST" >
+	<form action=" book_data.php" method="POST" class="vorm" >
 		<select name="column">
 			<option value="pealkiri">Pealkiri</option>
 			<option value="autor">Autor</option>
@@ -73,8 +72,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 			<input type="text" name="search" value="<?= $search ?>" required>
 			<input type ="submit" value="Filtreeri"> 	
 		</form>
- <!--filtreeringu tühistamiseks laeb lehe uuesti-->		
-		
+ 		
 </div> </div>
 <div class="item2">
  <!--raamatute menüü-->
@@ -84,8 +82,8 @@ include_once("library_fund.php");
 </div>
  <!-- Tabel-->
  <div class="item3"> 
-  <div class="tabel">  
-    <table id="editable_table" >
+ <div class="table-responsive">  
+    <table id="editable_table" class="table table-sm table-hover ">
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	
@@ -102,7 +100,7 @@ include_once("library_fund.php");
 		<th onclick="sortTable(10)">Märkused &#8693;</th>	
 		<th>Laenuta</th>
 		<th>Kanna maha</th>	
-		<th>Muuda</th>
+	
 				
 		</tr>
 	<thead>
@@ -142,7 +140,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	<td>'.$row["marksona"].'</td>
 	<td>'.$row["markused"].'</td>	
 	<td><a href="borrow_book.php?id='.$row["id"].'">Laenuta</a></td>
-	<td><a href="write_off_book.php?id='.$row["id"].'">Kanna maha</a></td>
+	<td><a href="write_off_book.php?id='.$row["id"].' ">Kanna maha</a></td>
   </tr> '; }
  ?>
 	</tbody>
@@ -181,7 +179,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
     }
   ?>  
  </div>
-</div>	
+ </div>	
 </div>  
 </body>
 </html>
@@ -207,6 +205,7 @@ $(document).ready(function(){
 	   
 	   ]
       },
+
  restoreButton:false,
  deleteButton: false, //peidab delete nupu ära
    onSuccess:function(data, textStatus, jqXHR)
