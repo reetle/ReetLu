@@ -10,17 +10,18 @@ include_once("config.php");
 <title>Mahakandmine</title>
 </head>
 <body> 
+
 <div class="grid-container">
   <div class="item1">  
 <form action=" " form="form2" method="POST">
-  <p>Millist meediat soovid laenutada</p>  
+  <p>Vali meedia liik</p>  
 	<input type="radio" name="select" value="book"> 		<label for="book">Raamat</label> <br>
 	<input type="radio" name="select" value="textbook" > 	<label for="textbook">Õpik</label> <br>
 	<input type="radio" name="select" value="periodicals">	<label for="periodicals">Perioodika</label> <br>
 	<input type="radio" name="select" value="audio-video"> <label for="audio-video">Audio-video</label> <br>
 	<input type="radio" name="select" value="workbook"> 	<label for="workbook">Töövihik</label> <br>
 	<input type="radio" name="select"  value="meth-library"><label for="meth-library">Metoodiline kirjandus</label> <br>
-  <input type="submit" name="submit" value="Vali">
+<input type="submit" name="submit" value="Vali">  
 </form>
 
 

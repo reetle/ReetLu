@@ -7,11 +7,13 @@ include_once("config.php");
 
 <title>Lisa raamat</title>
 <meta charset="utf-8">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css" type="text/css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 </head>
 <body> 
 
-
+<div class="add_data">
 
 	<form action="book_add.php" method="post" name="form1">
 		<table width="25%" border="0">
@@ -79,10 +81,11 @@ include_once("config.php");
 	
 	$result = mysqli_query($conn, "INSERT INTO book(pealkiri, autor, aasta, liik, keel,valjaandja, kogus, riiul, marksona, markused) 
 	VALUES('$pealkiri','$autor','$aasta', '$liik','$keel','$valjaandja','$kogus', '$riiul','$marksona','$markused')");
-		echo "Lisatud </a>";
+		echo " <p>Lisatud </p>";
 	}
 	?>
-<div id="back_button">
-<a href="book_data.php">Tagasi</a>
+<button onclick="window.location.href='book_data.php';" >Tagasi</button>
+</div>
+
 </body>
 </html>

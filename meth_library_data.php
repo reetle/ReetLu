@@ -36,9 +36,9 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <!--otsimise ja filtreerimise menüü-->
 <div class="item1">
 	<div class="search_menu">
-		<button onclick="window.location.href='meth_library_add.php';">Lisa uus raamat</button>
-		<button onclick="#">Prindi</button>
+		<button onclick="window.location.href='meth_library_add.php';">Lisa uus metoodiline kirjandus</button>
 		<button type="submit" form="form2" name="export" class="export" >Ekspordi CSV</button>
+		<button onclick="window.location.href='meth_library_data.php';">Tühista filtreering</button>
 <br><br>
 <!--andmete eksport-->
  <form method="post" action="meth_library_export.php" id="form2">  
@@ -46,7 +46,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
                 </form>  
 
 	<!--filtreerimine tabeli pealkirjade järgi-->
-	<form action="meth_library_data.php" method="POST" >
+	<form action="meth_library_data.php" method="POST" class="vorm" >
 		<select name="column">
 			<option value="pealkiri">Pealkiri</option>
 			<option value="klass">MK klass</option>
@@ -74,8 +74,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 			<input type="text" name="search" value="<?= $search ?>" required>
 			<input type ="submit" value="Filtreeri"> 	
 		</form>
- <!--filtreeringu tühistamiseks laeb lehe uuesti-->		
-		<button onclick="window.location.href='meth_library_data.php';">Tühista filtreering</button>
+
 </div> </div>
 <div class="item2">
  <!--raamatute menüü-->
@@ -85,16 +84,16 @@ include_once("library_fund.php");
 </div>
  <!-- Tabel-->
  <div class="item3"> 
-  <div class="tabel">  
-    <table id="editable_table" >
+ <div class="table-responsive">  
+    <table id="editable_table" class="table table-sm table-hover ">
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	
 		<th onclick="sortTable(0)" style="visibility:hidden;">ID</th>  
 		
 		<th onclick="sortTable(1)">Pealkiri &#8693;</th> 
-		<th onclick="sortTable(2)">MK klass &#8693;</th> 
-		<th onclick="sortTable(3)">MK Tüüp &#8693;</th> 
+		<th onclick="sortTable(2)">Klass &#8693;</th> 
+		<th onclick="sortTable(3)">Tüüp &#8693;</th> 
 		<th onclick="sortTable(4)">Autor &#8693;</th> 
 		<th onclick="sortTable(5)">Aasta &#8693;</th>
 		<th onclick="sortTable(6)">Liik &#8693;</th> 
@@ -104,7 +103,8 @@ include_once("library_fund.php");
 		<th onclick="sortTable(10)">Riiul &#8693;</th>
 		<th onclick="sortTable(11)">Märksõna &#8693;</th> 
 		<th onclick="sortTable(12)">Märkused &#8693;</th>	
-		<th>Laenuta</th>		
+		<th>Laenuta</th>
+		<th>Kanna maha</th>		
 		</tr>
 	<thead>
 	<tbody>
@@ -145,6 +145,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	<td>'.$row["marksona"].'</td>
 	<td>'.$row["markused"].'</td>	
 	<td><a href="borrow_meth_library.php?id='.$row["id"].'">Laenuta</a></td>
+	<td><a href="write_off_meth_library.php?id='.$row["id"].'">Kanna maha</a></td>
   </tr> '; }
  ?>
 	</tbody>
@@ -192,7 +193,12 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 $(document).ready(function(){  
      $('#editable_table').Tabledit({
       url:'meth_library_action.php',
-
+	buttons: {
+        edit: {
+            html: ' <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">  <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg>',
+            action: 'edit'
+        }
+    },
 	
 		columns:{
        identifier:[0, "id"],
@@ -204,7 +210,9 @@ $(document).ready(function(){
 	   
 	   ]
       },
-   restoreButton:false,
+
+		deleteButton: false,
+		restoreButton:false,
       onSuccess:function(data, textStatus, jqXHR)
       {
        if(data.action == 'delete')

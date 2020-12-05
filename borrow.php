@@ -1,15 +1,22 @@
 <?php
 include_once("config.php");
+$record_per_page = 10; //näitab 25 kirjet ühel lehel
+$page = '';
+if(isset($_GET["page"])){
+ $page = $_GET["page"];}
+else{
+ $page = 1;}
+$start_from = ($page-1)*$record_per_page;
 
-$sql= "SELECT * FROM borrow_book "; 
+$sql= "SELECT * FROM borrow_book LIMIT $start_from, $record_per_page "; 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
-
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="styles.css" type="text/css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <title>Laenutamine</title>
@@ -17,71 +24,62 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <body> 
 <div class="grid-container">
   <div class="item1"> 
-<button onclick="window.location.href='select_media.php';">Laenuta</button> 
-   <form action=" " method="POST" >
-		 Meedia tüüp: 
+  <div class="search_menu">
+<button onclick="window.location.href='select_media.php';">Laenuta</button> <br> <br>
+<div class="row">
+	
+   <form action=" " method="POST" class="vorm1" >
 		 <select name="column">
-			<option value="all">Kõik</option>
-			<option value="book">Raamatud</option>
-			<option value="textbook">Õpikud</option>
-			<option value="periodicals">Perioodika</option>
-			<option value="audio_video">Audio-video</option>
-			<option value="workbook">Töövihikud</option>
-			<option value="met.library">Metoodiline kirjandus</option> 
-		</select> <br> <br>
-			Pealkiri: <input type="text" name="submit"><br> <br>
-			Inventari nr: <input type="text" name="submit"> <br> <br>
-			
-	 Lugeja klass: 		
-	<select name="column1">
-			<option value="all">Kõik</option>
-			<option value="one">1</option>
-			<option value="two">2</option>
-			<option value="three">3</option>
-			<option value="four">4</option>
-			<option value="five">5</option>
-			<option value="six">6</option> 
-			<option value="seven">7</option>
-			<option value="eight">8</option>
-			<option value="nine">9</option>
-			<option value="ten">10</option>
-			<option value="eleven">11</option> 
-			<option value="twelve">12</option> 
-		</select> <br> <br>
-			Lugeja nimi: <input type="text" name="submit"> <br><br>
-			<input type="radio" id="deptors"> 
-			<label for="deptors">Ainult võlglased: </label><br>
-			<input type ="submit" value="Filtreeri"> 	 <br><br>			
+		 <option value="lugeja">Lugejad</option>
+		 <option value="meedia_liik">Meedia liik</option>			
+			<option value="pealkiri">Pealkiri</option>
+			<option value="autor">Autor</option>
+		</select>			
+		
+			<input type="text" name="search" required>
+			<input type ="submit" value="Filtreeri"> 
+		
 		</form>
- 
-</div> 
+<form action=" " form="form2" method="POST" class="vorm1" >
+<input type="radio" name="select">
+<input type="submit" name="submit" value="Näita ainult võlglasi">  
+</form>
+		
 
+</div> </div>
+</div> 
 <div class="item2"> 
 <?php
 include_once("doings.php");
 ?>
 </div>
  <div class="item3"> 
-  <div class="tabel">  
-    <table id="editable_table" >
+ <div class="table-responsive">  
+    <table id="editable_table" class="table table-sm table-hover ">
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	
 		<th onclick="sortTable(0)" style="visibility:hidden;">ID</th>  
-		<th onclick="sortTable(1)">Lugeja&#8693;</th> 
-		<th onclick="sortTable(2)">Meedia_liik &#8693;</th> 
-		<th onclick="sortTable(3)">Pealkiri &#8693;</th>
-		<th onclick="sortTable(4)">Autor &#8693;</th> 
-		<th onclick="sortTable(5)">Kogus &#8693;</th>
+		<th onclick="sortTable(1)">	Lugeja&#8693;</th> 
+		<th onclick="sortTable(2)">	Meedia_liik &#8693;</th> 
+		<th onclick="sortTable(3)">	Pealkiri &#8693;</th>
+		<th onclick="sortTable(4)">	Autor &#8693;</th> 
+		<th onclick="sortTable(5)">	Kogus &#8693;</th>
 		<th onclick="sortTable(6)"> Laenutatud &#8693;</th> 
-		<th onclick="sortTable(6)"> Tagastatud &#8693;</th> 
+		<th onclick="sortTable(7)"> Tagastatud &#8693;</th> 
 			<th> </th>
 
 		</tr>
 	<thead>
 	<tbody>
 <?php
+if ((isset($_POST['search'])) and (isset($_POST['column']))){
+	$search=$_POST['search'];
+	$column=$_POST['column'];
 
+$sql= "SELECT * FROM borrow_book where $column like '%$search%' " ;}	
+
+$result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   while($row = mysqli_fetch_array($result)) { 	
   echo '
   <tr>
@@ -95,15 +93,96 @@ include_once("doings.php");
 	<td>'.$row["tagastus_kp"].'</td>
 	<td><a href="borrow_book_return.php?id='.$row["id"].'">Tagasta</a></td>
 	
-  </tr> '; }
+  </tr> '; 
+}
  ?>
+
 	</tbody>
 	</table>
+<div id="pagination">
+<style>
+.column {
+  float: left;
+  width: 25%;
+  margin-left:125px;
+  font-size:12px;
+}
 
+</style>
+<?php
+	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
+	$page_query = "SELECT *
+	FROM borrow_book";
+    $page_result = mysqli_query($conn, $page_query);
+    $total_records = mysqli_num_rows($page_result);
+    $total_pages = ceil($total_records/$record_per_page);
+    $start_loop = $page;
+    $difference = $total_pages - $page;
+    if($difference <= 1) /*mitu lehekülge näitab korraga*/
+    {
+     $start_loop = $total_pages - 1;
+    }
+    $end_loop = $start_loop + 1;
+    if($page > 1)
+    {
+     echo "<a href='borrow.php?page=1'> Algusesse </a>";
+     echo "<a href='borrow_book.php?page=".($page - 1)."'> << </a>";
+    }
+    for($i=$start_loop; $i<=$end_loop; $i++)
+    {     
+     echo "<a href='borrow.php?page=".$i."'>" .$i. "</a>";
+    }
+    if($page <= $end_loop)
+    {
+     echo "<a href='borrow.php?page=".($page + 1)."'> >> </a>";
+     echo "<a href='borrow.php?page=".$total_pages."'> Lõppu </a>";
+    }
+  ?>  
+ </div>
+ </div>	
+</div>  
+</body>
+</html>
 
- </div> 
-
-<div class="item4"> </div>
+ <!-- tabelite headerite sorteerimiseks https://www.w3schools.com/howto/howto_js_sort_table.asp-->
+<script>
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("editable_table");
+  switching = true;
+  dir = "asc";
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n]; 
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchcount ++;
+    } else {
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
 
 </div>
 </body>
