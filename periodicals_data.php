@@ -1,7 +1,7 @@
 <?php
 include_once("config.php");
 //lehek[le nummerdus
-$record_per_page = 25; //näitab 25 kirjet ühel lehel
+$record_per_page = 15; //näitab 25 kirjet ühel lehel
 $page = '';
 if(isset($_GET["page"])){
  $page = $_GET["page"];}
@@ -95,8 +95,8 @@ include_once("library_fund.php");
 		<th onclick="sortTable(7)">Riiul &#8693;</th>
 		<th onclick="sortTable(8)">Märksõna &#8693;</th> 
 		<th onclick="sortTable(9)">Märkused &#8693;</th>	
-		<th>Laenuta</th>	
-		<th>Kanna maha</th>		
+		<th></th>	
+		<th></th>		
 		</tr>
 	<thead>
 	<tbody>
@@ -146,7 +146,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
 	$page_query = "SELECT *
-	FROM periodicals'";
+	FROM periodicals";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);
@@ -175,6 +175,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
  </div>
 </div>	
 </div>  
+    </div> 
 </body>
 </html>
 

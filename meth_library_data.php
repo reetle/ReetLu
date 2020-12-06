@@ -103,8 +103,8 @@ include_once("library_fund.php");
 		<th onclick="sortTable(10)">Riiul &#8693;</th>
 		<th onclick="sortTable(11)">Märksõna &#8693;</th> 
 		<th onclick="sortTable(12)">Märkused &#8693;</th>	
-		<th>Laenuta</th>
-		<th>Kanna maha</th>		
+		<th></th>
+		<th></th>		
 		</tr>
 	<thead>
 	<tbody>
@@ -186,6 +186,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
  </div>
 </div>	
 </div>  
+    </div> 
 </body>
 </html>
 

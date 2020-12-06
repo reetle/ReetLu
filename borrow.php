@@ -1,6 +1,6 @@
 <?php
 include_once("config.php");
-$record_per_page = 10; //näitab 25 kirjet ühel lehel
+$record_per_page = 15; //näitab 25 kirjet ühel lehel
 $page = '';
 if(isset($_GET["page"])){
  $page = $_GET["page"];}
@@ -26,6 +26,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   <div class="item1"> 
   <div class="search_menu">
 <button onclick="window.location.href='select_media.php';">Laenuta</button> <br> <br>
+      <button onclick="window.location.href='borrow_book_return_nr.php';">Tagasta inventari nr alusel</button> <br> <br>
 <div class="row">
 	
    <form action=" " method="POST" class="vorm1" >
@@ -34,16 +35,10 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 		 <option value="meedia_liik">Meedia liik</option>			
 			<option value="pealkiri">Pealkiri</option>
 			<option value="autor">Autor</option>
-		</select>			
-		
-			<input type="text" name="search" required>
-			<input type ="submit" value="Filtreeri"> 
-		
-		</form>
-<form action=" " form="form2" method="POST" class="vorm1" >
-<input type="radio" name="select">
-<input type="submit" name="submit" value="Näita ainult võlglasi">  
-</form>
+		</select>	
+       <input type="text" name="search" required>
+		<input type ="submit" value="Filtreeri"> 
+       </form>	
 		
 
 </div> </div>
