@@ -31,7 +31,7 @@ if (isset($_POST['signup'])) {
 	}
 	if (!$error) {
 		if(mysqli_query($conn, "INSERT INTO users(user, email, pass) VALUES('" . $name . "', '" . $email . "', '" . md5($password) . "')")) {
-			$success_message = "Uus kasutaja loodud <a href='login.php'>Sisene</a>";
+			$success_message = "Uus kasutaja loodud <a href='index.php'>Sisene</a>";
 		} else {
 			$error_message = "Ups, midagi läks valesti proovi hiljem uuesti.";
 		}
@@ -95,7 +95,7 @@ if (isset($_POST['signup'])) {
 	</div>
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4 text-center">	
-		Oled juba kasutaja? <a href="login.php">Sisene</a>
+		Oled juba kasutaja? <a href="index.php">Sisene</a>
 		</div>
 	</div>	
 

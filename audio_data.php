@@ -1,7 +1,7 @@
 <?php
 include_once("config.php");
 //lehek[le nummerdus
-$record_per_page = 20; //näitab 25 kirjet ühel lehel
+$record_per_page = 15; //näitab 25 kirjet ühel lehel
 $page = '';
 if(isset($_GET["page"])){
  $page = $_GET["page"];}
@@ -101,8 +101,8 @@ include_once("library_fund.php");
 		<th onclick="sortTable(9)">Riiul &#8693;</th>
 		<th onclick="sortTable(10)">Märksõna &#8693;</th> 
 		<th onclick="sortTable(11)">Märkused &#8693;</th>	
-		<th>Laenuta</th>	
-		<th>Kanna maha</th>		
+		<th></th>	
+		<th></th>		
 		</tr>
 	<thead>
 	<tbody>
@@ -151,21 +151,21 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <style>
 
 </style>
-<!--
+
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
 	$page_query = "SELECT *
-	FROM audio_video'";
+	FROM audio_video";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);
     $start_loop = $page;
     $difference = $total_pages - $page;
-    if($difference <= 5) /*mitu lehekülge näitab korraga*/
+    if($difference <= 1) /*mitu lehekülge näitab korraga*/
     {
-     $start_loop = $total_pages - 5;
+     $start_loop = $total_pages - 1;
     }
-    $end_loop = $start_loop + 4;
+    $end_loop = $start_loop + 1;
     if($page > 1)
     {
      echo "<a href='audio_data.php?page=1'> Algusesse </a>";
@@ -180,8 +180,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
      echo "<a href='audio_data.php?page=".($page + 1)."'> >> </a>";
      echo "<a href='audio_data.php?page=".$total_pages."'> Lõppu </a>";
     }
-  ?>  -->
-
+  ?> 
  </div>
 </div>	
 </div> 
