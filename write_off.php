@@ -1,15 +1,14 @@
 <?php
 include_once("config.php");
-//$record_per_page = 20; //näitab 25 kirjet ühel lehel
-//$page = '';
-//if(isset($_GET["page"])){
-// $page = $_GET["page"];}
-//else{
-// $page = 1;}
-//$start_from = ($page-1)*$record_per_page;
+$record_per_page = 20; //näitab 25 kirjet ühel lehel
+$page = '';
+if(isset($_GET["page"])){
+ $page = $_GET["page"];}
+else{
+ $page = 1;}
+$start_from = ($page-1)*$record_per_page;
 
-//$sql= "SELECT * FROM write_off LIMIT $start_from, $record_per_page "; 
-$sql= "SELECT * FROM write_off "; 
+$sql= "SELECT * FROM write_off LIMIT $start_from, $record_per_page "; 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 ?>
@@ -25,9 +24,12 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <body> 
 <div class="grid-container">
   <div class="item1">  
-
+<div class="search_menu">
+	<button onclick="window.location.href='select_media.php';">Uus mahakandmine</button>
+	 <!--<button onclick="window.location.href='#';">Vaata mahakandmise akti</button> <br> <br> -->
+</div>
   
-  <form action=" " method="POST" >
+  <form action=" " method="POST" class="vorm">
 		<select name="column">
 			<option value="all">Kõik</option>
 			<option value="book">Raamatud</option>
@@ -48,8 +50,8 @@ include_once("doings.php");
 ?>
 </div>
  <div class="item3">
-<div class="tabel">  
-    <table id="editable_table" >
+<div class="table-responsive">  
+    <table id="editable_table" class="table table-sm table-hover ">
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	
@@ -88,9 +90,7 @@ $sql= "SELECT * FROM write_off where meedia_liik like 'tv' and pohjus like '%$su
 elseif($column == 'meth_library'){
 $sql= "SELECT * FROM write_off where meedia_liik like 'mk' and pohjus like '%$submit%' " ;
 }  
-else{
-	$sql= "SELECT * FROM write_off" ;
-	}
+}
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
   while($row = mysqli_fetch_array($result)) { 	
@@ -103,26 +103,26 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	<td>'.$row["autor"].'</td>
 	<td>'.$row["pohjus"].'</td>
   </tr> '; 
- } }
+} 
  ?>
 	</tbody>
 	</table>
-	<div id="pagination">
-	 <!--
+	<div id="pagination"> 
+
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
 	$page_query = "SELECT *
-	FROM write_off ORDER BY 'pealkiri'";
+	FROM write_off ";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);
     $start_loop = $page;
     $difference = $total_pages - $page;
-    if($difference <= 5) /*mitu lehekülge näitab korraga*/
+    if($difference <= 1) /*mitu lehekülge näitab korraga*/
     {
-     $start_loop = $total_pages - 5;
+     $start_loop = $total_pages - 1;
     }
-    $end_loop = $start_loop + 4;
+    $end_loop = $start_loop + 1;
     if($page > 1)
     {
      echo "<a href='write_off.php?page=1'> Algusesse </a>";
@@ -130,21 +130,15 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
     }
     for($i=$start_loop; $i<=$end_loop; $i++)
     {     
-     echo "<a href='write_offa.php?page=".$i."'>" .$i. "</a>";
+     echo "<a href='write_off.php?page=".$i."'>" .$i. "</a>";
     }
     if($page <= $end_loop)
     {
      echo "<a href='write_off.php?page=".($page + 1)."'> >> </a>";
      echo "<a href='write_off.php?page=".$total_pages."'> Lõppu </a>";
     }
-  ?>  -->	
+  ?>  
  </div>	</div> 
-
-<div class="item4">
-	<button onclick="window.location.href='select_media.php';">Uus mahakandmine</button> <br> <br>
-	<button onclick="window.location.href='#';">Vaata mahakandmise akti</button> <br> <br>
-</div>
-
 
 </body>
 </html>
