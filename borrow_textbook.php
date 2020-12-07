@@ -14,10 +14,11 @@
   <?php
 include_once("config.php");
 $id = $_GET['id'];
-$result = mysqli_query($conn, "SELECT * FROM book WHERE id=$id") or die("error:".mysqli_error($conn));;
+$result = mysqli_query($conn, "SELECT * FROM textbook WHERE id=$id") or die("error:".mysqli_error($conn));;
  echo  "<table class='table table-bordered table-sm' style='width:75%;'>
    <tr>
 	<th>Nr</th> 
+    <th>Klass</th>
 	<th>Pealkiri</th>
 	<th>Autor</th>
 	<th>Aasta</th>
@@ -45,6 +46,7 @@ while($row = mysqli_fetch_row($result)){
 	<td>'.$row["8"].'</td>
 	<td>'.$row["9"].'</td>
 	<td>'.$row["10"].'</td>	
+    <td>'.$row["10"].'</td>
   </tr> '; 
    echo "</table>";
 	//var_dump($row);

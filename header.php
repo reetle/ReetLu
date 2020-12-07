@@ -6,30 +6,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 </head>
 <body> 
-<style>
-.head{
-whith:100%;
-
-}
-
-
-.head li, .head a{
-	color:black;
-	text-decoration: none;	
-
-}
-.head a{
-
-
-	
-}
+<style>       
+    .navbar{   height:30px;
+       
+        }  
+        .navbar a{
+            font-size:14px;
+            color:black;
+        }  
 </style>
-<div class="head">
-	<nav class="navbar navbar-expand-sm navbar-light bg-light">
-	<ul >
-	<li><a href="logout.php">Välju</a></li>
-	<ul>
-	<nav>
-	</div>
+<nav class="navbar navbar-expand-sm fixed-top justify-content-end">
+    <a class="nav-link py-0" href="logout.php">Logi välja</a>
+</nav>
+	
 </body>
 </html>

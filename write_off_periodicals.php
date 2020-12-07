@@ -11,21 +11,20 @@
 <body> 
   <div class="borrow">  
   <br>
-  <p> Kas sa soovid antud raamatud maha kanda: </p>
+ <p> Kas sa soovid antud perioodikat maha kanda: </p>
  <?php
 include_once("config.php");
 $id = $_GET['id'];
-$result = mysqli_query($conn, "SELECT * FROM book WHERE id=$id") or die("error:".mysqli_error($conn));;
+$result = mysqli_query($conn, "SELECT * FROM periodicals WHERE id=$id") or die("error:".mysqli_error($conn));;
  echo "<table class='table table-bordered table-sm' style='width:75%;'>
    <tr>
 	<th>Nr</th> 
 	<th>Pealkiri</th>
-	<th>Autor</th>
 	<th>Aasta</th>
 	<th>Liik</th>
 	<th>Keel</th>
 	<th>Valjaandja</th>
-	<th>Kogus</th>
+	<th>Nr</th>
 	<th>Riiul</th>
 	<th>Märksõna</th>
 	<th>Märkused</th>
@@ -44,7 +43,6 @@ while($row = mysqli_fetch_row($result)){
 	<td>'.$row["7"].'</td>
 	<td>'.$row["8"].'</td>
 	<td>'.$row["9"].'</td>
-	<td>'.$row["10"].'</td>	
   </tr> '; 
    echo "</table>";
 	//var_dump($row);
@@ -52,7 +50,7 @@ while($row = mysqli_fetch_row($result)){
 
 ?>
 <br>
-<p>Mahakandmiseks täida väljad:</p> 
+<p>Mahakandmiseks täida väljad:</p>
   <form action=" " method="post" name="form1">
 		<table width="25%" border="0">
 		<tr>
@@ -82,16 +80,16 @@ while($row = mysqli_fetch_row($result)){
 		$kuupaev = mysqli_real_escape_string($conn, $_POST['kuupaev']);
 	
 
-$result = mysqli_query($conn, "INSERT INTO write_off (akt_nr,kuupaev, meedia_liik, meedia_id, pealkiri, autor, pohjus)
-SELECT '$akt_nr', '$kuupaev' , 'RA', book.id, book.pealkiri, book.autor, '$pohjus'
-FROM book WHERE book.id=$id");
+$result = mysqli_query($conn, "INSERT INTO write_off (akt_nr, kuupaev, meedia_liik, meedia_id, pealkiri, pohjus)
+SELECT '$akt_nr', '$kuupaev' , 'PE', periodicals.id, periodicals.pealkiri, '$pohjus'
+FROM periodicals WHERE periodicals.id=$id");
 
-$result = mysqli_query($conn, "DELETE FROM book WHERE id=$id");
-	header("Location: book_data.php");
+$result = mysqli_query($conn, "DELETE FROM periodicals WHERE id=$id");
+	header("Location: periodicals_data.php");
 }
 ?> 
 <div class="back_but">
-<button onclick="window.location.href='book_data.php';">Tühista</button>
+<button onclick="window.location.href='periodicals_data.php';">Tühista</button>
 </div> 
 </div>
 </body>

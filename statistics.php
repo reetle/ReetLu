@@ -12,15 +12,14 @@ include_once("config.php");
 <body>
 <div class="grid-container">
   <div class="item1">
-  <form action=" " method="POST" >
+  <form action=" " method="POST" class="vorm">
 		<select name="column">
 			<option value="fond">Raamatukogu fond</option>
 			<option value="readers">Lugejad</option>
 			<option value="data">Lisaandmed</option>
-			<option value="readers1">Laenutus - lugejad</option>
+		<!--	<option value="readers1">Laenutus - lugejad</option>
 			<option value="format">Laenutus - Liik</option>
-			<option value="languges">Laenutus - Keel</option>
-			
+			<option value="languges">Laenutus - Keel</option>			-->
 		</select> 
 			<input type="submit" value="Näita">  
 		</form>
@@ -33,11 +32,7 @@ include_once("menu.php");
 ?>
 </div> 
 <div class="item3">
-<style>
-table, th, td {
-    border: 1px solid black;
-}
-</style>
+
 
  <!--  <tr>
    <th>Klass</th>
@@ -55,12 +50,14 @@ if ($_POST['column'] == 'fond') {
 			UNION
 			SELECT 'Audio-video', COUNT(*) as C, SUM(kogus) as S  FROM audio_video
 			UNION
-			SELECT 'Töövihikud', COUNT(*) as C, SUM(kogus) as S  FROM textbook
+			SELECT 'Töövihikud', COUNT(*) as C, SUM(kogus) as S  FROM workbook
 			UNION
 			SELECT 'Metoodiline kirjandus', COUNT(*) as C, SUM(kogus) as S  FROM met_library;" ;
 	$result = mysqli_query($conn, $sql);
+	
+	
 	if (mysqli_num_rows($result) > 0) {
-		 echo "<table><tr><th>Liik</th><th>Erinevad</th><th>Kokku</th><th>Summa</th></tr>";
+		 echo "<table class='table table-sm table-hover' style='width:75%;'><tr><th>Liik</th><th>Erinevad</th><th>Kokku</th><th>Summa</th></tr>";
 		while($row = mysqli_fetch_assoc($result)) {
 		 echo '
   <tr>
@@ -78,7 +75,7 @@ elseif ($_POST['column']== 'readers' ) {
 	$sql= "SELECT klass as Klass, COUNT(*) as Lugejad FROM readers GROUP BY klass;" ;
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
-		 echo "<table><tr><th>Klass</th><th>Lugejad</th></tr>";
+		 echo "<table class='table table-sm table-hover' style='width:75%;'><tr><th>Klass</th><th>Lugejad</th></tr>";
 		while($row = mysqli_fetch_assoc($result)) {
 		 echo '
   <tr>
@@ -105,7 +102,7 @@ elseif ($_POST['column'] == 'data' ) {
 		SELECT 'Märksõnad',  COUNT(*) as C FROM keyword;" ;
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
-		 echo "<table><tr><th>Lisaandmed</th><th>Kokku</th></tr>";
+		 echo "<table class='table table-sm table-hover' style='width:75%;'><tr><th>Lisaandmed</th><th>Kokku</th></tr>";
 		while($row = mysqli_fetch_assoc($result)) {
 		 echo '
   <tr>
@@ -115,6 +112,8 @@ elseif ($_POST['column'] == 'data' ) {
    echo "</table>";
 	}
 }
+}
+/*
 //laenutus lugejad
 elseif ($_POST['column'] == 'readers1' ) {	
 	echo 'Laenutus- Lugejad';
@@ -128,7 +127,11 @@ elseif ($_POST['column'] == 'languages' ) {
 	echo 'Laenutus- Keel';
 }
 
-}
+
+	
+
+
+}*/
 
  ?>
 

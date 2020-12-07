@@ -11,15 +11,16 @@
 <body> 
   <div class="borrow">  
   <br>
-  <p> Kas sa soovid antud raamatud maha kanda: </p>
+  <p> Kas sa soovid antud audio/videot maha kanda: </p>
  <?php
 include_once("config.php");
 $id = $_GET['id'];
-$result = mysqli_query($conn, "SELECT * FROM book WHERE id=$id") or die("error:".mysqli_error($conn));;
+$result = mysqli_query($conn, "SELECT * FROM audio_video WHERE id=$id") or die("error:".mysqli_error($conn));;
  echo "<table class='table table-bordered table-sm' style='width:75%;'>
    <tr>
 	<th>Nr</th> 
 	<th>Pealkiri</th>
+	<th>AV tüüp</th>
 	<th>Autor</th>
 	<th>Aasta</th>
 	<th>Liik</th>
@@ -45,14 +46,17 @@ while($row = mysqli_fetch_row($result)){
 	<td>'.$row["8"].'</td>
 	<td>'.$row["9"].'</td>
 	<td>'.$row["10"].'</td>	
+	<td>'.$row["11"].'</td>
   </tr> '; 
    echo "</table>";
 	//var_dump($row);
 }	
 
-?>
-<br>
-<p>Mahakandmiseks täida väljad:</p> 
+?> 
+  
+  
+  <br
+<p>Mahakandmiseks täida väljad:</p>
   <form action=" " method="post" name="form1">
 		<table width="25%" border="0">
 		<tr>
@@ -83,15 +87,15 @@ while($row = mysqli_fetch_row($result)){
 	
 
 $result = mysqli_query($conn, "INSERT INTO write_off (akt_nr,kuupaev, meedia_liik, meedia_id, pealkiri, autor, pohjus)
-SELECT '$akt_nr', '$kuupaev' , 'RA', book.id, book.pealkiri, book.autor, '$pohjus'
-FROM book WHERE book.id=$id");
+SELECT '$akt_nr', '$kuupaev' , 'AV', audio_video.id, audio_video.pealkiri, audio_video.autor, '$pohjus'
+FROM audio_video WHERE audio_video.id=$id");
 
-$result = mysqli_query($conn, "DELETE FROM book WHERE id=$id");
-	header("Location: book_data.php");
+$result = mysqli_query($conn, "DELETE FROM audio_video WHERE id=$id");
+	header("Location: audio_data.php");
 }
 ?> 
 <div class="back_but">
-<button onclick="window.location.href='book_data.php';">Tühista</button>
+<button onclick="window.location.href='audio_data.php';">Tühista</button>
 </div> 
 </div>
 </body>

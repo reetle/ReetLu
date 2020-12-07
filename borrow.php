@@ -1,6 +1,6 @@
 <?php
 include_once("config.php");
-$record_per_page = 15; //näitab 25 kirjet ühel lehel
+$record_per_page = 50; //näitab 25 kirjet ühel lehel
 $page = '';
 if(isset($_GET["page"])){
  $page = $_GET["page"];}

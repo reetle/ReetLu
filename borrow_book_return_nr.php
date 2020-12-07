@@ -61,18 +61,21 @@ $tagastus_kp = mysqli_real_escape_string($conn, $_POST['tagastus_kp']);
 //töövihik
 	elseif ($column == 'workbook' ) {
         $result = mysqli_query($conn, "UPDATE borrow_book SET tagastus_kp='$tagastus_kp' WHERE meedia_id=$select and meedia_liik like 'tv'" );
+        
     }
         
 //metoodiline kirjandus
 	elseif ($column == 'meth-library' ) {
 	 $result = mysqli_query($conn, "UPDATE borrow_book SET tagastus_kp='$tagastus_kp' WHERE meedia_id=$select and meedia_liik like 'mk'" );
     }
-     
+    
  }
  ?>
 
 </div>	
-<div class="item4"> </div>
+<div class="back_but">
+<button onclick="window.location.href='borrow.php';" >Tagasi</button>
+</div> 
 </div>
 </body>
 </html>

@@ -17,7 +17,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <!DOCTYPE html>
 <html>
 <head>
-<title>Õpik</title>
+<title>MK</title>
 <link rel="stylesheet" href="styles.css" type="text/css"/>
 <meta charset="UTF-8" />
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" /> <!-- avab lehe seadme suurusega-->
@@ -264,4 +264,3 @@ function sortTable(n) {
   }
 }
 </script>
-

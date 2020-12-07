@@ -13,18 +13,16 @@
  }
 .item1 { 
 
-	margin-top:15px;
+
 }
 .item1 button{
-	border-radius: 4px;
-	background-color: white;
-	font-size: 13px; 
-	border: 1px solid purple;
+	
  }
 
 
 .item2 {
 	margin-top:20px;
+
 
 }
 .item3 {
@@ -43,10 +41,9 @@
 .menu{
 
 }
-.menu a{
-	
+.menu a{	
 	color: black;
-	border: 2px solid purple;
+
 	border-radius: 4px;
 	padding: 1px 1px;
 	text-align: left;
@@ -54,49 +51,159 @@
 	display: inline-block;	
 	font-size: 13px;  
 	margin-bottom:5px;	
+	margin-left:-20px;
 	
  }
-.menu a:hover{
-	background-color: purple;
+.menu a:link{
+  background-color: white;
+  color: black;
+  border: 1px solid gray;
+  padding: 4px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.menu a:hover, .menu a:active {
+  background-color: gray;
+  color: white;
+}
+
+.search_menu{
+	margin-left:50px;
+	
+}
+.search_menu button{
+	margin-left:5px;
+	font-size:14px;
+	border-radius: 4px;
+	background-color:white;
+	border: 1px solid gray;
+
+}
+.search_menu button:hover{
+	background-color:gray;
 	color: white;
-	text-decoration: none;
- }
-
-
+}
 
 
 
 /*tabelid*/
 #editable_table{
-	border-collapse: collapse;
 	font-size:12px;
-
-}	
-#editable_table th{
-	background-color: #e9d3ff;		
+	margin-top:10px;
+	margin-left:-50px;
+	table-layout: fixed;
+	 width: 100%;
 }
-#editable_table th, #editable_table td{	
-  border: 1px solid grey;  
 
+#editable_table th, #editable_table td {
+  padding: 2px;
 }
-#editable_table tr:nth-child(even){background-color: #f2f2f2}
-#editable_table tr:hover{
-	background-color: #e9d3ff;
+
+/*lehekülgede nummeratsioon*/
+#pagination a:hover {
+	background-color: #ccc;
+	
+}
+#pagination {
+	margin-left:35px;
+	margin-top:-10px;
+	
 }
 #pagination a {
-   padding:4px 8px;
-   border:1px solid #ccc;
-   color:#333;
-	text-decoration: none;   
-	margin-top:50px;
+	padding:2px 4px;
+	border:1px solid #ccc;
+	color:#333;
+	text-decoration: none;  
+	font-size:12px;	
   }
-	#pagination a:hover {
-	background-color: #ccc;
+/*form/*/
+.vorm{
+
+}	
+.vorm input[type=submit] {
+
+	padding: 4px 8px;
+	border: none;
+	border-radius: 4px;
+	background-color:white;
+	border: 1px solid gray;
+	margin-bottom:-50px;
+	font-size: 13px;  
+}
+.vorm input[type=text], .vorm select {
+
+  padding:4px 8px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 12px;  
 }
 
+.vorm{
+	font-size:12px;
+}	
+.vorm1 input[type=submit] {
 
+	padding: 4px 8px;
+	border: none;
+	border-radius: 4px;
+	background-color:white;
+	border: 1px solid gray;
+	margin-bottom:-50px;
+	font-size: 13px;  
+}
+.vorm1 input[type=text], .vorm1 select {
 
-body{
+  padding:4px 8px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 12px;  
+}
+/*andmete lisamine*/
+.add_data{
+	margin-left:50px;
+	
+}
+.add_data table{
+	margin-left:70px;
+	margin-top:50px;
 
 }
+.add_data input[type=text]{
+	width:100%;
+	padding:4px 8px;
+	border: 1px solid gray;
+	border-radius: 4px;
+	box-sizing: border-box;
+	font-size: 12px;  
+}
+.add_data button{
+	font-size:14px;
+	border-radius: 4px;
+	background-color:white;
+	border: 1px solid gray;
+}
+.add_data button:hover{
+	background-color:gray;
+	color: white;
+}	
+/*laenutamine ja mahakandmine */
+.borrow{
+	margin-left:50px;
+}	
+/*back button */
+.back_but button{
+	font-size:14px;
+	border-radius: 4px;
+	background-color:white;
+	border: 1px solid gray;
+}
 
+ 
+
+    .container-fluid{
+        margin-top: 20px;
+      

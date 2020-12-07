@@ -14,7 +14,7 @@
   <?php
 include_once("config.php");
 $id = $_GET['id'];
-$result = mysqli_query($conn, "SELECT * FROM book WHERE id=$id") or die("error:".mysqli_error($conn));;
+$result = mysqli_query($conn, "SELECT * FROM met_library WHERE id=$id") or die("error:".mysqli_error($conn));;
  echo  "<table class='table table-bordered table-sm' style='width:75%;'>
    <tr>
 	<th>Nr</th> 

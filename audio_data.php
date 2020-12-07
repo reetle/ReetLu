@@ -184,7 +184,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
  </div>
 </div>	
 </div> 
-
+ </div>
 </body>
 </html>
 
@@ -262,4 +262,3 @@ function sortTable(n) {
   }
 }
 </script>
-

@@ -84,6 +84,7 @@ include_once("config.php");
 		echo " <p>Lisatud </p>";
 	}
 	?>
+<div class="back_but">
 <button onclick="window.location.href='book_data.php';" >Tagasi</button>
 </div>
 
