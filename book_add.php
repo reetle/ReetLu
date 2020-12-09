@@ -17,8 +17,7 @@ include_once("config.php");
 
 	<form action="book_add.php" method="post" name="form1">
 		<table width="25%" border="0">
-			<tr>
-				<td>Pealkiri</td>
+			<tr><td>Pealkiri</td>
 				<td><input type="text" name="pealkiri"></td>
 			</tr>
 			<tr>
@@ -53,17 +52,14 @@ include_once("config.php");
 				<td>Märksõna</td>
 				<td><input type="text" name="marksona"></td>
 			</tr>
-			<tr>
-			<td>Märkused</td>
-				<td><input type="text" name="markused"></td>
-			</tr>
+			<tr><td>Märkused</td>
+				<td><input type="text" name="markused"></td></tr>
 			<tr>
 			<td></td>
 				<td><input type="submit" name="Submit" value="Lisa"></td>
 			</tr>
 		</table>
 	</form>
-
 	<?php
 	if(isset($_POST['Submit'])) {
 		$pealkiri = mysqli_real_escape_string($conn, $_POST['pealkiri']);
@@ -77,16 +73,16 @@ include_once("config.php");
 		$marksona = mysqli_real_escape_string($conn, $_POST['marksona']);
 		$markused = mysqli_real_escape_string($conn, $_POST['markused']);
 	
-
-	
-	$result = mysqli_query($conn, "INSERT INTO book(pealkiri, autor, aasta, liik, keel,valjaandja, kogus, riiul, marksona, markused) 
-	VALUES('$pealkiri','$autor','$aasta', '$liik','$keel','$valjaandja','$kogus', '$riiul','$marksona','$markused')");
+	$result = mysqli_query($conn, "INSERT INTO book(pealkiri, autor, aasta,
+    liik, keel,valjaandja, kogus, riiul, marksona, markused) 
+	VALUES('$pealkiri','$autor','$aasta', '$liik','$keel','$valjaandja',
+    '$kogus', '$riiul','$marksona','$markused')");
 		echo " <p>Lisatud </p>";
 	}
 	?>
 <div class="back_but">
 <button onclick="window.location.href='book_data.php';" >Tagasi</button>
 </div>
-
+</div>
 </body>
 </html>

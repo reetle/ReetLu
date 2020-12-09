@@ -4,7 +4,6 @@ include_once("config.php");
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>Lisa klass</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="styles.css" type="text/css"/>
@@ -52,12 +51,9 @@ include_once("config.php");
 		$klassiruum = mysqli_real_escape_string($conn, $_POST['klassiruum']);
 		$markused = mysqli_real_escape_string($conn,  $_POST['markused']);
 	
-
-
 	$result = mysqli_query($conn, "INSERT INTO class(klass, taht, klassijuhataja, klassiruum, markused) 
 	VALUES('$klass','$taht','$klassijuhataja','$klassiruum','$markused')");
-		echo "Lisatud";
-	}
+		echo "Lisatud";	}
 	?>
 <div id="back_but">
 <button onclick="window.location.href='class_data.php';" >Tagasi</button>

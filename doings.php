@@ -7,6 +7,9 @@
 <title>Toimingud</title>
 </head>
 <body> 
+    <?php
+include_once("header.php");
+?>   
 <div class="grid-container">
   <div class="item1">
   
