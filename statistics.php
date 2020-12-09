@@ -17,9 +17,9 @@ include_once("config.php");
 			<option value="fond">Raamatukogu fond</option>
 			<option value="readers">Lugejad</option>
 			<option value="data">Lisaandmed</option>
-		<!--	<option value="readers1">Laenutus - lugejad</option>
+			<option value="readers1">Laenutus - lugejad</option>
 			<option value="format">Laenutus - Liik</option>
-			<option value="languges">Laenutus - Keel</option>			-->
+			<option value="languges">Laenutus - Keel</option>		
 		</select> 
 			<input type="submit" value="Näita">  
 		</form>
@@ -139,6 +139,8 @@ elseif ($_POST['column'] == 'languages' ) {
 </div>	
 <div class="item4">
 </div>
+    </div>
+    
 </div>
 </div>
 </body>

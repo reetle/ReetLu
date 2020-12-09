@@ -10,8 +10,12 @@
 
 </head>
 <body> 
+      <?php
+include_once("header.php");
+?>   
 <div class="grid-container">
-  <div class="item1">
+  <div class="item0">
+
 </div> 
 
 <div class="item2">
@@ -22,7 +26,7 @@
 			<li> <a href="periodicals_data.php">Perioodika</a></li>
 			<li> <a href="audio_data.php">Audio-Video</a></li>	
 			<li> <a href="workbook_data.php">Töövihikud</a></li>
-			<li> <a href="meth_library_data.php">Metoodiline<br> kirjandus</a></li>	<br>
+			<li> <a href="meth_library_data.php">Metoodiline kirjandus</a></li>	<br>
 			<li><a href="menu.php">Esilehele</a> </li>
 			
 		</ul>

@@ -81,7 +81,8 @@ while($row = mysqli_fetch_row($result)){
 		$algus_kp = mysqli_real_escape_string($conn, $_POST['algus_kp']);
 	
 
-$result = mysqli_query($conn, "INSERT INTO borrow_book (lugeja, meedia_id, meedia_liik, pealkiri, autor, kogus, algus_kp)
+$result = mysqli_query($conn, "INSERT INTO borrow_book (lugeja, meedia_id, meedia_liik,
+pealkiri, autor, kogus, algus_kp)
 SELECT '$lugeja', book.id, 'RA', book.pealkiri, book.autor, '$kogus', '$algus_kp'
 FROM book WHERE book.id=$id");
 	header("Location: book_data.php");
