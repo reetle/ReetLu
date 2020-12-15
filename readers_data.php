@@ -30,10 +30,25 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 </head>
 <body>
+   <div class="container-fluid">         
+<div class="row" id="head">
+<div class="col-lg" id="head">
+ <?php
+include_once("header.php");
+?>      
+    </div>    </div>
 
-<div class="grid-container">
-<!--otsimise ja filtreerimise menüü-->
-<div class="item1">
+       
+<div class="row justify-content-end">
+    <div class="col-lg-2" >
+    <div class= "menu">
+		<?php
+include_once("readers.php");
+?>
+	</div>     
+    </div>
+       
+ <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
 	<div class="search_menu">
 		<button onclick="window.location.href='readers_add.php';">Lisa uus lugeja</button>
 		<button type="submit" form="form2" name="export" class="export" >Ekspordi CSV</button>
@@ -70,17 +85,12 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 		</form>
 
 </div> </div>
-<div class="item2">
- <!--lugejate menüü-->
-<?php
-include_once("readers.php");
-?>
-</div>
- <!-- Tabel-->
-  <div class="item3"> 
+
+ <div class="col-lg-10 " style="margin-top:-33rem" id="tabel">
   
- <div class="table-responsive">  
-    <table id="editable_table" class="table table-sm table-hover ">
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+    <table id="editable_table" class="table table-sm table-hover">
 <thead>
     <tr>
 		<th onclick="sortTable(0)" style="visibility:hidden;">ID</th>  
@@ -134,6 +144,9 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
  ?>
 	</tbody>
 	</table>
+</div>  </div>  </div>  
+<div class="row justify-content-end" id="jalus">    
+ <div class="col-lg-10" >
 <div id="pagination">
 <style>
 
@@ -169,7 +182,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   ?>  
  </div>
 </div>	
-</div>  
+</div>  </div> 
 </body>
 </html>
 

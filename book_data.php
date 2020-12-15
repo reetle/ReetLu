@@ -1,7 +1,7 @@
 <?php
 include_once("config.php");
 //lehek[le nummerdus
-$record_per_page = 20; //näitab 25 kirjet ühel lehel
+$record_per_page = 50; //näitab 50 kirjet ühel lehel
 $page = '';
 if(isset($_GET["page"])){
  $page = $_GET["page"];}
@@ -18,38 +18,63 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <html>
 <head>
 <title>Raamatud</title>
-<link rel="stylesheet" href="styles.css" type="text/css"/>
-   <!--laenutamise ja kustutamise ikoon-->
-<script src='https://kit.fontawesome.com/a076d05399.js'></script>
-<script src='https://kit.fontawesome.com/a076d05399.js'></script>
-<meta charset="UTF-8" />
+<link rel="stylesheet" href="style.css" type="text/css"/>
+ <meta charset="UTF-8" />
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" /> <!-- avab lehe seadme suurusega-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
 <script src="js/jquery.tabledit.min.js"></script>
+<style>
+   #tabel
 
+    
+</style>   
+    
+<!-- Script to print the content of a div -->
+    <script> 
+        function printDiv() { 
+            var divContents = document.getElementById("tabel").innerHTML; 
+            var a = window.open(); 
+            a.document.write('<html>'); 
+            a.document.write('<body >'); 
+            a.document.write(divContents); 
+            a.document.write('</body></html>'); 
+            a.document.close(); 
+            a.print(); 
+        } 
+    </script> 
+    
 </head>
 <body>
-
-<div class="grid-container">
-    <div class="head">
-  <?php
+ <div class="container-fluid">         
+<div class="row" id="head">
+<div class="col-lg"  id="head">
+ <?php
 include_once("header.php");
-?>   
-</div> 
+?>      
+    </div>    
+ </div> 
+<div class="row justify-content-end" id="menyy">
+    <div class="col-lg-2" >
+    <div class= "menu">
+        <?php
+include_once("library_fund.php");
+        ?>       
+        
+        </div></div>     
 <!--otsimise ja filtreerimise menüü-->
-<div class="item1" style="margin-top:25px;">
+  <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
 	<div class="search_menu">
 		<button onclick="window.location.href='book_add.php';">Lisa uus raamat</button>
+         <button type="submit" value="click" onclick="printDiv()">Prindi </button>
 		<button type="submit" form="form2" name="export" class="export" >Ekspordi CSV</button>
 		<button onclick="window.location.href='book_data.php';">Tühista filtreering</button>
 
 <br><br>
 <!--andmete eksport-->
  <form method="post" action="book_export.php" id="form2">  
-
                 </form>  
 
 	<!--filtreerimine tabeli pealkirjade järgi-->
@@ -81,16 +106,12 @@ include_once("header.php");
 		</form>
  		
 </div> </div>
-<div class="item2">
- <!--raamatute menüü-->
-<?php
-include_once("library_fund.php");
-?>
-</div>
+
  <!-- Tabel-->
- <div class="item3"> 
- <div class="table-responsive">  
-    <table id="editable_table" class="table table-sm table-hover ">
+<div class="col-lg-10 " style="margin-top:-33rem" id="tabel">
+
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+    <table id="editable_table" class="table table-sm table-hover table-bordered ">
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	
@@ -106,7 +127,8 @@ include_once("library_fund.php");
 		<th onclick="sortTable(9)">Märksõna &#8693;</th> 
 		<th onclick="sortTable(10)">Märkused &#8693;</th>	
 		<th></th>
-		<th></th>	
+		<th></th>
+	         
 	
 				
 		</tr>
@@ -145,21 +167,23 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	<td>'.$row["kogus"].'</td>
 	<td>'.$row["riiul"].'</td>
 	<td>'.$row["marksona"].'</td>
-	<td>'.$row["markused"].'</td>	
-	<td><a href="borrow_book.php?id='.$row["id"].'">Laenuta</a></td>
-	<td><a href="write_off_book.php?id='.$row["id"].' ">Kanna Maha</i></a></td>
+	<td>'.$row["markused"].'</td>
+	<td><a href="borrow_book.php?id='.$row["id"].'" class="btn  btn-sm">Laenuta</a></td>
+	<td><a href="write_off_book.php?id='.$row["id"].' "class="btn btn-sm">Kanna Maha</i></a></td>
   </tr> '; }
  ?>
 	</tbody>
 	</table>
      
-<div id="pagination">
-<style>
-    i{
-     font-size:16px; 
-        
-    }
-</style>
+    </div>   
+
+ </div>	
+ 
+    </div> 
+    <div class="row justify-content-end" id="jalus">    
+ <div class="col-lg-10" >
+ <div id="pagination">
+
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
 	$page_query = "SELECT *
@@ -188,11 +212,12 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
      echo "<a href='book_data.php?page=".($page + 1)."'> >> </a>";
      echo "<a href='book_data.php?page=".$total_pages."'> Lõppu </a>";
     }
-  ?>  
- </div>
- </div>	
-</div>  
-    </div>  
+  ?> 
+ </div>       
+        
+        
+        </div>
+</div> </div> 
 </body>
 </html>
 

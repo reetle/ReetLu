@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Andmed</title>
-<link rel="stylesheet" href="styles.css" type="text/css"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
 <meta charset="UTF-8" />
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" /> <!-- avab lehe seadme suurusega-->
 
@@ -13,7 +13,6 @@
 <?php include_once("header.php"); ?>
 </head>
 <body>
-<div class="item2">
 <div class= "menu">
 		<ul style="list-style-type:none">
 			<li> <a href="library_fund.php"> Raamatukogu fond </a> </li>  
@@ -21,12 +20,7 @@
 			<li> <a href="additional_data.php">Lisaandmed</a> </li>	<br>	
 			<li> <a href="menu.php">Tagasi esilehele</a> </li>		
 		</ul>
-</div>	
-</div>	
-<div class="item4">
-
-</div>
-   
+</div>	  
 
 </body>
 </html>

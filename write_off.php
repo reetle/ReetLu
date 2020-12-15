@@ -1,6 +1,6 @@
 <?php
 include_once("config.php");
-$record_per_page = 20; //näitab 25 kirjet ühel lehel
+$record_per_page =25; //näitab 25 kirjet ühel lehel
 $page = '';
 if(isset($_GET["page"])){
  $page = $_GET["page"];}
@@ -15,19 +15,36 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="styles.css" type="text/css"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <title>Mahakandmine</title>
 </head>
-<body> 
-<div class="grid-container">
-  <div class="item1">  
+<body>
+ <div class="container-fluid">         
+<div class="row" id="head">
+<div class="col-lg" id="head">
+ <?php
+include_once("header.php");
+?>      
+    </div>    </div>
+
+       
+<div class="row justify-content-end">
+    <div class="col-lg-2" >
+    <div class= "menu">
+<?php
+include_once("doings.php");
+?>
+	</div>     
+    </div>
+       
+ <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
 <div class="search_menu">
 	<button onclick="window.location.href='select_media.php';">Uus mahakandmine</button>
 	 <!--<button onclick="window.location.href='#';">Vaata mahakandmise akti</button> <br> <br> -->
-</div>
+
   
   <form action=" " method="POST" class="vorm">
 		<select name="column">
@@ -42,15 +59,12 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 			Põhjus <input type="text" name="submit">
 			<input type ="submit" value="Otsi"> 	
 		</form>
-</div> 
+</div> </div>
 
-<div class="item2">
-<?php
-include_once("doings.php");
-?>
-</div>
- <div class="item3">
-<div class="table-responsive">  
+ <div class="col-lg-10 " style="margin-top:-33rem" id="tabel">
+  
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+    
     <table id="editable_table" class="table table-sm table-hover ">
     <thead>
 		<tr>	
@@ -107,7 +121,10 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
  ?>
 	</tbody>
 	</table>
-	<div id="pagination"> 
+</div>  </div>  </div>  
+<div class="row justify-content-end" id="jalus">    
+ <div class="col-lg-10" >
+<div id="pagination">
 
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
@@ -139,7 +156,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
     }
   ?>  
  </div>	</div> 
-
+</div>	</div>	
 </body>
 </html>
 

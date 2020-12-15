@@ -22,12 +22,29 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <title>Laenutamine</title>
 </head>
 <body> 
-<div class="grid-container">
-  <div class="item1"> 
+<div class="container-fluid">         
+<div class="row" id="head">
+<div class="col-lg" id="head">
+ <?php
+include_once("header.php");
+?>      
+    </div>    </div>
+
+       
+<div class="row justify-content-end">
+    <div class="col-lg-2" >
+    <div class= "menu">
+<?php
+include_once("doings.php");
+?>
+	</div>     
+    </div>
+       
+ <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
   <div class="search_menu">
 <button onclick="window.location.href='select_media.php';">Laenuta</button> <br> <br>
       <button onclick="window.location.href='borrow_book_return_nr.php';">Tagasta inventari nr alusel</button> <br> <br>
-<div class="row">
+
 	
    <form action=" " method="POST" class="vorm1" >
 		 <select name="column">
@@ -42,14 +59,10 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 		
 
 </div> </div>
-</div> 
-<div class="item2"> 
-<?php
-include_once("doings.php");
-?>
-</div>
- <div class="item3"> 
- <div class="table-responsive">  
+
+ <div class="col-lg-10 " style="margin-top:-33rem" id="tabel">
+  
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
     <table id="editable_table" class="table table-sm table-hover ">
     <thead>
 		<tr>	
@@ -94,6 +107,9 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 	</tbody>
 	</table>
+</div>  </div>  </div>  
+<div class="row justify-content-end" id="jalus">    
+ <div class="col-lg-10" >
 <div id="pagination">
 <style>
 .column {
@@ -136,6 +152,8 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
  </div>
  </div>	
 </div>  
+
+    </div>  
 </body>
 </html>
 
@@ -179,6 +197,3 @@ function sortTable(n) {
 }
 </script>
 
-</div>
-</body>
-</html>

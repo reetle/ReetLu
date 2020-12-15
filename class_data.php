@@ -30,9 +30,25 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 </head>
 <body>
-<div class="grid-container">
-  <div class="item1">
+   <div class="container-fluid">         
+<div class="row" id="head">
+<div class="col-lg" id="head">
+ <?php
+include_once("header.php");
+?>      
+    </div>    </div>
 
+       
+<div class="row justify-content-end">
+    <div class="col-lg-2" >
+    <div class= "menu">
+		<?php
+include_once("readers.php");
+?>
+	</div>     
+    </div>
+       
+ <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
 <div class="search_menu">
 	<button onclick="window.location.href='class_add.php';">Lisa uus</button>
 		<button type="submit" form="form2" name="export" class="export" >Ekspordi CSV</button>
@@ -66,15 +82,10 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	
 
 </div> </div>
-<div class="item2">
- <!--raamatute menüü-->
-<?php
-include_once("readers.php");
-?>
-</div>
- <!-- Tabel-->
- <div class="item3"> 
- <div class="table-responsive">  
+<div class="col-lg-10 " style="margin-top:-33rem" id="tabel">
+  
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+
     <table id="editable_table" class="table table-sm table-hover ">
     <thead>
 		<tr>	
@@ -121,6 +132,9 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
  ?>
 	</tbody>
 	</table>
+ </div>  </div>  </div>  
+<div class="row justify-content-end" id="jalus">    
+ <div class="col-lg-10" >
 <div id="pagination">
 <style>
 
@@ -156,7 +170,8 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   ?>  
  </div>
 </div>	
-</div>  
+</div>
+       </div>  
 </body>
 </html>
 
