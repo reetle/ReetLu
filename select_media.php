@@ -4,15 +4,23 @@ include_once("config.php");
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="styles.css" type="text/css"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <title>Mahakandmine</title>
 </head>
+    <style>
+        .select{
+            margin-top: 25px;
+            margin-left: 50px;
+          
+        }
+        
+    </style>
 <body> 
 
 <div class="grid-container">
-  <div class="item1">  
+  <div class="select">  
 <form action=" " form="form2" method="POST">
   <p>Vali meedia liik</p>  
 	<input type="radio" name="select" value="book"> 		<label for="book">Raamat</label> <br>
@@ -26,8 +34,8 @@ include_once("config.php");
 
 
 </div> 
-<div class="item2"> </div>
- <div class="item3"> 
+
+ <div > 
 
  <?php
  if (isset($_POST['select'])){
@@ -63,7 +71,7 @@ $select=$_POST['select'];
  ?>
 
 </div>	
-<div class="item4"> </div>
+
 </div>
 </body>
 </html>

@@ -4,36 +4,43 @@ include_once("config.php");
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="styles.css" type="text/css"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <title>Mahakandmine</title>
 </head>
 <body> 
 
-<div class="grid-container">
-  <div class="item1">  
-<form action=" " method="POST" class="vorm1" >
-
-		<select name="column">
-			<option value="book">Raamat</option>
+<div class="container">
+<div class="row" id="borrow" style="margin-top:50px; "  >
+    <div class="col-4" style="margin-left:50px; "  >   
+        <form action=" " method="POST"  >
+    <div class="form-group">
+        <select name="column" class="form-control">
+			<option value="book" >Raamat</option>
 			<option value="audio-video">Audio-Video</option>
 			<option value="textbook">Töövihik</option>
 			<option value="workbook">Õpik</option>
 			<option value="met_library">Met.kirjandus</option>
 			<option value="periodicals">perioodika</option>
-		</select> 
-
-
-			<input type="text" name="select" required>
-            <input type="date" name="tagastus_kp" >
-			<input type ="submit" value="Tagasta"> 	
+		</select> <br>
+   </div>
+        <div class="form-group">
+              <label for="select">Sisesta invenatri nr: </label>
+			<input type="text" name="select" required class="form-control">
+            </div>
+        <div class="form-group">
+              <label for="tagastus_kp">Sisesta gagastamis kuupäev </label>
+            <input type="date" name="tagastus_kp" class="form-control" >
+              </div>
+         <div class="form-group">
+			<input type ="submit" value="Tagasta" class="btn btn-secondary btn-sm"> 
+       </div> 
 		</form>
 
 
 </div> 
-<div class="item2"> </div>
- <div class="item3"> 
+
 
  <?php
  if ((isset($_POST['select'])) and(isset($_POST['column']))) {

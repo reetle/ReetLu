@@ -1,10 +1,9 @@
 <?php 
-ob_start();
 
 include_once("config.php");
 //https://webdamn.com/login-and-registration-script-with-php-mysql/
 session_start();
-if(isset($_SESSION['user_id'])) {
+if(isset($_SESSION['userid'])) {
 	header("Location: index.php");
 }
 $error = false;
@@ -21,9 +20,9 @@ if (isset($_POST['signup'])) {
 		$error = true;
 		$email_error = "Vale email";
 	}
-	if(strlen($password) < 6) {
+	if(strlen($password) < 8) {
 		$error = true;
-		$password_error = "Salasõna peab olema vähemalt 6 tähemärki pikk";
+		$password_error = "Salasõna peab olema vähemalt 8 tähemärki pikk";
 	}
 	if($password != $cpassword) {
 		$error = true;
@@ -42,7 +41,7 @@ if (isset($_POST['signup'])) {
 <html>
 <head>
 <title>Registreeri</title>
-<link rel="stylesheet" href="styles.css" type="text/css"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
 <meta charset="UTF-8" />
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" /> <!-- avab lehe seadme suurusega-->
 
@@ -52,17 +51,18 @@ if (isset($_POST['signup'])) {
 
 
 </head>
+  
 <body>
 <div class="container">
-	<div class="row">
-		<div class="col-md-4 col-md-offset-4 well">
+	<div class="row" style="margin-top:25px;" >
+		<div class="col-md-4" id="login" >
 			<form role="form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="signupform">
 				<fieldset>
-					<legend>Loo kasutaja</legend>
+					<legend>Registreeri</legend><br>
 
 					<div class="form-group">
 						<label for="name">Nimi</label>
-						<input type="text" name="name" placeholder="Nimi" required value="<?php if($error) echo $name; ?>" class="form-control" />
+						<input type="text" name="name" placeholder="Ees- ja perekonnanimi" required value="<?php if($error) echo $name; ?>" class="form-control" />
 						<span class="text-danger"><?php if (isset($uname_error)) echo $uname_error; ?></span>
 					</div>
 					
@@ -85,7 +85,7 @@ if (isset($_POST['signup'])) {
 					</div>
 
 					<div class="form-group">
-						<input type="submit" name="signup" value="Loo kasutaja" class="btn btn-primary" />
+						<input type="submit" name="signup" value="Loo kasutaja" class="btn btn-secondary btn-sm" />
 					</div>
 				</fieldset>
 			</form>
@@ -94,9 +94,11 @@ if (isset($_POST['signup'])) {
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4 text-center">	
+		<div class="col-md-4" id="login">	
 		Oled juba kasutaja? <a href="index.php">Sisene</a>
 		</div>
 	</div>	
 
 </div>
+    </body>
+</html>
