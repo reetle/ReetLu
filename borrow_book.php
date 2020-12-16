@@ -37,7 +37,7 @@ $result = mysqli_query($conn, "SELECT * FROM book WHERE id=$id") ;
   <form action=" " method="post">      
         <div class="form-group">
             <label for="lugeja">Nimi </label>
-              <input type="text" name="nimi" class="form-control">
+              <input type="text" name="lugeja" class="form-control">
       </div>
          <div class="form-group">
             <label for="kogus">Kogus </label>
@@ -52,7 +52,7 @@ $result = mysqli_query($conn, "SELECT * FROM book WHERE id=$id") ;
 					</div>
 	</form>
             <div class="back_but">
-<button onclick="window.location.href='book_data.php';">Tühista</button>
+<button onclick="window.location.href='borrow.php';">Tühista</button>
 </div> 
 
    
@@ -67,7 +67,7 @@ $result = mysqli_query($conn, "INSERT INTO borrow_book (lugeja, meedia_id, meedi
 pealkiri, autor, kogus, algus_kp)
 SELECT '$lugeja', book.id, 'RA', book.pealkiri, book.autor, '$kogus', '$algus_kp'
 FROM book WHERE book.id=$id");
-	header("Location: book_data.php");
+	header("Location: borrow.php");
 
 }
 ?> 

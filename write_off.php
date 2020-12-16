@@ -42,7 +42,7 @@ include_once("doings.php");
        
  <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
 <div class="search_menu">
-	<button onclick="window.location.href='select_media.php';">Uus mahakandmine</button>
+	<button onclick="window.location.href='select_media_write_off.php';">Uus mahakandmine</button>
 	 <!--<button onclick="window.location.href='#';">Vaata mahakandmise akti</button> <br> <br> -->
 
   

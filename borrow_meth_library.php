@@ -37,7 +37,7 @@ $result = mysqli_query($conn, "SELECT * FROM met_library WHERE id=$id") ;
   <form action=" " method="post">      
         <div class="form-group">
             <label for="lugeja">Nimi </label>
-              <input type="text" name="nimi" class="form-control">
+              <input type="text" name="lugeja" class="form-control">
       </div>
          <div class="form-group">
             <label for="kogus">Kogus </label>
@@ -52,7 +52,7 @@ $result = mysqli_query($conn, "SELECT * FROM met_library WHERE id=$id") ;
 					</div>
 	</form>
             <div class="back_but">
-<button onclick="window.location.href='book_data.php';">Tühista</button>
+<button onclick="window.location.href='borrow.php';">Tühista</button>
 </div> 
 
    
@@ -67,7 +67,7 @@ $result = mysqli_query($conn, "INSERT INTO met_library (lugeja, meedia_id, meedi
 pealkiri, autor, kogus, algus_kp)
 SELECT '$lugeja', met_library.id, 'MK', met_library.pealkiri, met_library.autor, '$kogus', '$algus_kp'
 FROM met_library WHERE met_library.id=$id");
-	header("Location: met_library_data.php");
+	header("Location: borrow.php");
 
 }
 ?> 

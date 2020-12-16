@@ -10,12 +10,11 @@
     <?php
 include_once("header.php");
 ?>   
-<div class="grid-container">
-  <div class="item1">
-  
-</div> 
 
-<div class="item2">
+  
+
+
+
 	<div class= "menu">
 		<ul style="list-style-type:none">
 			<li> <a href="borrow.php">Laenutamine</a> </li>  
@@ -30,7 +29,7 @@ include_once("header.php");
 	
 <div class="item4">
 </div>
-</div>
-</div>
+
+
 </body>
 </html>

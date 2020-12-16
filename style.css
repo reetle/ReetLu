@@ -123,7 +123,7 @@ background-color: #C0C0C0;
 /*tabelid*/
  .my-custom-scrollbar {
 position: relative;
-height: 500px;
+height: 600px;
 overflow: auto;
 }
 .table-wrapper-scroll-y {
@@ -247,8 +247,16 @@ background-color: #C0C0C0;
 }
 #login{ 
     background-color: #C0C0C0; 
-    margin: auto;
-         
+    margin: auto; 
          
 }
-     
+/*printimine */  
+@media print{
+
+ #jalus, #filter, .menu{
+	visibility: hidden;
+    }
+     #tabel a{
+	visibility: hidden;
+    }
+}

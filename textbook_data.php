@@ -91,11 +91,11 @@ include_once("library_fund.php");
  <!-- Tabel-->
 <div class="col-lg-10 " style="margin-top:-33rem" id="tabel">
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
-    <table id="editable_table" class="table table-sm table-hover table-bordered ">
+    <table id="editable_table" class="table table-sm table-hover  ">
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	
-		<th onclick="sortTable(0)" style="visibility:hidden;">ID</th>  
+		<th onclick="sortTable(0)">#</th>  
 		<th onclick="sortTable(1)">Pealkiri &#8693;</th> 
         <th onclick="sortTable(2)">Klass &#8693;</th>             
 		<th onclick="sortTable(3)">Autor &#8693;</th> 
@@ -138,7 +138,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   while($row = mysqli_fetch_array($result)) { 	
   echo '
   <tr>
-	<td style="visibility:hidden;">'.$row["id"].'</td> 
+	<td >'.$row["id"].'</td> 
 	<td>'.$row["pealkiri"].'</td> 
     <td>'.$row["klass"].'</td>     
 	<td>'.$row["autor"].'</td>

@@ -26,31 +26,33 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
 <script src="js/jquery.tabledit.min.js"></script>
-<style>
-   #tabel
-
-    
-</style>   
+  
     
 <!-- Script to print the content of a div -->
     <script> 
         function printDiv() { 
             var divContents = document.getElementById("tabel").innerHTML; 
             var a = window.open(); 
-            a.document.write('<html>'); 
-            a.document.write('<body >'); 
-            a.document.write(divContents); 
-            a.document.write('</body></html>'); 
-            a.document.close(); 
+            
+        
+          a.document.write('<html>'); 
+           a.document.write('<body>'); 
+          a.document.write(divContents); 
+          a.document.write('<td/></body></html>'); 
+           a.document.close(); 
             a.print(); 
-        } 
-    </script> 
-    
+           
+        }
+    </script>  
+    <style>       
+
+        </style> 
+     
 </head>
 <body>
  <div class="container-fluid">         
 <div class="row" id="head">
-<div class="col-lg"  id="head">
+<div class="col-lg"  >
  <?php
 include_once("header.php");
 ?>      
@@ -68,7 +70,8 @@ include_once("library_fund.php");
   <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
 	<div class="search_menu">
 		<button onclick="window.location.href='book_add.php';">Lisa uus raamat</button>
-         <button type="submit" value="click" onclick="printDiv()">Prindi </button>
+        <button onclick="window.location.href='borrow.php';">Laenuta</button>
+        <button type="submit" value="click" onclick="printDiv()">Prindi </button>
 		<button type="submit" form="form2" name="export" class="export" >Ekspordi CSV</button>
 		<button onclick="window.location.href='book_data.php';">Tühista filtreering</button>
 
@@ -111,11 +114,12 @@ include_once("library_fund.php");
 <div class="col-lg-10 " style="margin-top:-33rem" id="tabel">
 
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
-    <table id="editable_table" class="table table-sm table-hover table-bordered ">
+    <table id="editable_table" class="table table-sm table-hover ">
+     
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	
-		<th onclick="sortTable(0)" style="visibility:hidden;">ID</th>  
+		<th onclick="sortTable(0)">#</th>  
 		<th onclick="sortTable(1)">Pealkiri &#8693;</th> 
 		<th onclick="sortTable(2)">Autor &#8693;</th> 
 		<th onclick="sortTable(3)">Aasta &#8693;</th>
@@ -126,9 +130,7 @@ include_once("library_fund.php");
 		<th onclick="sortTable(8)">Riiul &#8693;</th>
 		<th onclick="sortTable(9)">Märksõna &#8693;</th> 
 		<th onclick="sortTable(10)">Märkused &#8693;</th>	
-		<th></th>
-		<th></th>
-	         
+		<th>Muuda</th>	         
 	
 				
 		</tr>
@@ -157,7 +159,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   while($row = mysqli_fetch_array($result)) { 	
   echo '
   <tr>
-	<td style="visibility:hidden;">'.$row["id"].'</td> 
+	<td >'.$row["id"].'</td> 
 	<td>'.$row["pealkiri"].'</td> 
 	<td>'.$row["autor"].'</td>
 	<td>'.$row["aasta"].'</td>
@@ -167,9 +169,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	<td>'.$row["kogus"].'</td>
 	<td>'.$row["riiul"].'</td>
 	<td>'.$row["marksona"].'</td>
-	<td>'.$row["markused"].'</td>
-	<td><a href="borrow_book.php?id='.$row["id"].'" class="btn  btn-sm">Laenuta</a></td>
-	<td><a href="write_off_book.php?id='.$row["id"].' "class="btn btn-sm">Kanna Maha</i></a></td>
+	<td>'.$row["markused"].'</td> 
   </tr> '; }
  ?>
 	</tbody>
@@ -257,41 +257,4 @@ $(document).ready(function(){
 });  
  </script>
  <!-- tabelite headerite sorteerimiseks https://www.w3schools.com/howto/howto_js_sort_table.asp-->
-<script>
-function sortTable(n) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById("editable_table");
-  switching = true;
-  dir = "asc";
-  while (switching) {
-    switching = false;
-    rows = table.rows;
-    for (i = 1; i < (rows.length - 1); i++) {
-      shouldSwitch = false;
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n]; 
-      if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          shouldSwitch = true;
-          break;
-        }
-      } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          shouldSwitch = true;
-          break;
-        }
-      }
-    }
-    if (shouldSwitch) {
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      switchcount ++;
-    } else {
-      if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
-        switching = true;
-      }
-    }
-  }
-}
-</script>
+<script src="js/sort.js"></script>
