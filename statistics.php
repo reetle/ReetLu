@@ -138,6 +138,7 @@ elseif ($_POST['column'] == 'format' ) {
 elseif ($_POST['column'] == 'languages' ) {
 	echo 'Laenutus- Keel';
 }
+    
 }	
 
  ?>

@@ -91,7 +91,7 @@ include_once("library_fund.php");
  <!-- Tabel-->
 <div class="col-lg-10 " style="margin-top:-33rem" id="tabel">
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
-    <table id="editable_table" class="table table-sm table-hover table-bordered ">
+    <table id="editable_table" class="table table-sm table-hover  ">
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	

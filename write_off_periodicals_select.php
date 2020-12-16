@@ -25,8 +25,6 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-<script src="js/jquery.tabledit.min.js"></script>
-
 </head>
 <body>
  <div class="container-fluid">         
@@ -37,29 +35,15 @@ include_once("header.php");
 ?>      
     </div>    
  </div> 
-<div class="row justify-content-end" id="menyy">
-    <div class="col-lg-2" >
-    <div class= "menu">
-        <?php
-include_once("library_fund.php");
-        ?>       
-        
-        </div></div>     
-<!--otsimise ja filtreerimise menüü-->
-  <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
-	<div class="search_menu">
-		<button onclick="window.location.href='periodicals_add.php';">Lisa uus raamat</button>
-		<button type="submit" form="form2" name="export" class="export" >Ekspordi CSV</button>
-		<button onclick="window.location.href='periodicals_data.php';">Tühista filtreering</button>
+<div class="row " id="menyy">
+    <div class="col-lg" >
 
-<br><br>
-<!--andmete eksport-->
- <form method="post" action="periodicals_export.php" id="form2">  
-                </form>  
+
 
 	<!--filtreerimine tabeli pealkirjade järgi-->
-	<form action=" periodicals_data.php" method="POST" class="vorm" >
+	<form action=" " method="POST" class="vorm" >
 		<select name="column">
+            <option value="id">Inventari nr</option>
 			<option value="pealkiri">Pealkiri</option>
 			<option value="autor">Autor</option>
 			<option value="liik">Liik</option>
@@ -72,6 +56,7 @@ include_once("library_fund.php");
 		</select> 
 <!--filtreerimine esimese tähe, jne järgi-->
 		<select name="column1">
+            <option value="include"></option>
 			<option value="include">Sisaldab</option>
 			<option value="starts">Algab</option>
 			<option value="ends">Lõpeb</option>
@@ -87,13 +72,13 @@ include_once("library_fund.php");
 </div> </div>
 
  <!-- Tabel-->
-<div class="col-lg-10 " style="margin-top:-33rem" id="tabel">
+<div class="col-lg-10 "  id="tabel">
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
     <table id="editable_table" class="table table-sm table-hover ">
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	
-		<th onclick="sortTable(0)" style="visibility:hidden;">ID</th>  
+		<th onclick="sortTable(0)">#</th>  
 		<th onclick="sortTable(1)">Pealkiri &#8693;</th> 
 		<th onclick="sortTable(2)">Aasta &#8693;</th>
 		<th onclick="sortTable(3)">Liik &#8693;</th> 
@@ -103,8 +88,7 @@ include_once("library_fund.php");
 		<th onclick="sortTable(7)">Riiul &#8693;</th>
 		<th onclick="sortTable(8)">Märksõna &#8693;</th> 
 		<th onclick="sortTable(9)">Märkused &#8693;</th>	
-		<th></th>
-		<th></th>
+	
 	         
 	
 				
@@ -134,7 +118,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   while($row = mysqli_fetch_array($result)) { 	
   echo '
   <tr>
-	<td style="visibility:hidden;">'.$row["id"].'</td> 
+	<td ">'.$row["id"].'</td> 
 	<td>'.$row["pealkiri"].'</td> 
 	<td>'.$row["aasta"].'</td>
 	<td>'.$row["liik"].'</td>
@@ -144,8 +128,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	<td>'.$row["riiul"].'</td>
 	<td>'.$row["marksona"].'</td>
 	<td>'.$row["markused"].'</td>	
-	<td><a href="borrow_periodicals.php?id='.$row["id"].'" class="btn  btn-sm">Laenuta</a></td>
-	<td><a href="write_off_periodicals.php?id='.$row["id"].' "class="btn btn-sm">Kanna Maha</i></a></td>
+<td><a href="write_off_periodicals.php?id='.$row["id"].' "class="btn btn-sm">Kanna Maha</i></a>
   </tr> '; }
  ?>
 	</tbody>

@@ -1,6 +1,6 @@
 <?php
 include_once("config.php");
-$record_per_page = 50; //näitab 25 kirjet ühel lehel
+$record_per_page = 25; //näitab 25 kirjet ühel lehel
 $page = '';
 if(isset($_GET["page"])){
  $page = $_GET["page"];}
@@ -15,7 +15,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="styles.css" type="text/css"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
@@ -42,20 +42,26 @@ include_once("doings.php");
        
  <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
   <div class="search_menu">
-<button onclick="window.location.href='select_media.php';">Laenuta</button> <br> <br>
+      <button onclick="window.location.href='select_media_borrow.php';">Laenuta</button> 
+      <button onclick="window.location.href='borrow.php';">Tühista filtreerimine</button> 
       <button onclick="window.location.href='borrow_book_return_nr.php';">Tagasta inventari nr alusel</button> <br> <br>
 
 	
-   <form action=" " method="POST" class="vorm1" >
+   <form action="borrow.php" method="POST" class="vorm1" >
 		 <select name="column">
 		 <option value="lugeja">Lugejad</option>
 		 <option value="meedia_liik">Meedia liik</option>			
 			<option value="pealkiri">Pealkiri</option>
 			<option value="autor">Autor</option>
 		</select>	
-       <input type="text" name="search" required>
-		<input type ="submit" value="Filtreeri"> 
-       </form>	
+
+       <input type="text" name="search">	 
+
+        <input type="radio" name="select" value="all" checked="checked"> <label for="all">Näita kõik</label> 
+        <input type="radio" name="select" value="debt"> <label for="debt">Näita ainult võlglaseid</label>
+     
+       <input type ="submit" value="Näita"> 
+      </form>
 		
 
 </div> </div>
@@ -80,12 +86,27 @@ include_once("doings.php");
 		</tr>
 	<thead>
 	<tbody>
+
 <?php
-if ((isset($_POST['search'])) and (isset($_POST['column']))){
+
+        
+if ((isset($_POST['search'])) and (isset($_POST['column'])) and (isset($_POST['select']))){
 	$search=$_POST['search'];
 	$column=$_POST['column'];
+    $select=$_POST['select'];
 
-$sql= "SELECT * FROM borrow_book where $column like '%$search%' " ;}	
+
+    
+    if ($select == 'all') {    
+        $sql= "SELECT * FROM borrow_book where $column like '%$search%' " ;	
+    }
+
+    elseif ($select == 'debt') {    
+        $sql= "SELECT * FROM borrow_book where tagastus_kp IS NULL and  $column like '%$search%' " ; }}
+    
+   else{
+       $sql= "SELECT * FROM borrow_book";
+   } 
 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   while($row = mysqli_fetch_array($result)) { 	
@@ -104,7 +125,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   </tr> '; 
 }
  ?>
-
+ 
 	</tbody>
 	</table>
 </div>  </div>  </div>  
