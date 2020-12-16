@@ -26,6 +26,8 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
 <script src="js/jquery.tabledit.min.js"></script>
+    <!-- Script to print the content of a div -->
+   <script src="js/print.js"></script>
 
 </head>
 <body>
@@ -48,9 +50,11 @@ include_once("library_fund.php");
 <!--otsimise ja filtreerimise menüü-->
   <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
 	<div class="search_menu">
-		<button onclick="window.location.href='periodicals_add.php';">Lisa uus raamat</button>
+		<button onclick="window.location.href='periodicals_add.php';">Lisa uus</button>
+        <button onclick="window.location.href='borrow.php';">Laenuta</button>
+        <button type="submit" value="click" onclick="printDiv()">Prindi </button>
 		<button type="submit" form="form2" name="export" class="export" >Ekspordi CSV</button>
-		<button onclick="window.location.href='periodicals_data.php';">Tühista filtreering</button>
+		<button onclick="window.location.href='periodicals_data.php';">Tühista filtreerimine</button>
 
 <br><br>
 <!--andmete eksport-->
@@ -60,6 +64,7 @@ include_once("library_fund.php");
 	<!--filtreerimine tabeli pealkirjade järgi-->
 	<form action=" periodicals_data.php" method="POST" class="vorm" >
 		<select name="column">
+             <option value="id">Inventari nr</option>
 			<option value="pealkiri">Pealkiri</option>
 			<option value="autor">Autor</option>
 			<option value="liik">Liik</option>
@@ -72,6 +77,7 @@ include_once("library_fund.php");
 		</select> 
 <!--filtreerimine esimese tähe, jne järgi-->
 		<select name="column1">
+            <option value="include"> </option>
 			<option value="include">Sisaldab</option>
 			<option value="starts">Algab</option>
 			<option value="ends">Lõpeb</option>
@@ -93,7 +99,7 @@ include_once("library_fund.php");
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	
-		<th onclick="sortTable(0)" style="visibility:hidden;">ID</th>  
+		<th onclick="sortTable(0)">#</th>  
 		<th onclick="sortTable(1)">Pealkiri &#8693;</th> 
 		<th onclick="sortTable(2)">Aasta &#8693;</th>
 		<th onclick="sortTable(3)">Liik &#8693;</th> 
@@ -103,11 +109,7 @@ include_once("library_fund.php");
 		<th onclick="sortTable(7)">Riiul &#8693;</th>
 		<th onclick="sortTable(8)">Märksõna &#8693;</th> 
 		<th onclick="sortTable(9)">Märkused &#8693;</th>	
-		<th></th>
-		<th></th>
-	         
-	
-				
+		<th>Muuda</th>
 		</tr>
 	<thead>
 	<tbody>
@@ -144,8 +146,6 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 	<td>'.$row["riiul"].'</td>
 	<td>'.$row["marksona"].'</td>
 	<td>'.$row["markused"].'</td>	
-	<td><a href="borrow_periodicals.php?id='.$row["id"].'" class="btn  btn-sm">Laenuta</a></td>
-	<td><a href="write_off_periodicals.php?id='.$row["id"].' "class="btn btn-sm">Kanna Maha</i></a></td>
   </tr> '; }
  ?>
 	</tbody>
@@ -235,41 +235,4 @@ $(document).ready(function(){
 });  
  </script>
  <!-- tabelite headerite sorteerimiseks https://www.w3schools.com/howto/howto_js_sort_table.asp-->
-<script>
-function sortTable(n) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById("editable_table");
-  switching = true;
-  dir = "asc";
-  while (switching) {
-    switching = false;
-    rows = table.rows;
-    for (i = 1; i < (rows.length - 1); i++) {
-      shouldSwitch = false;
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n]; 
-      if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          shouldSwitch = true;
-          break;
-        }
-      } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          shouldSwitch = true;
-          break;
-        }
-      }
-    }
-    if (shouldSwitch) {
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      switchcount ++;
-    } else {
-      if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
-        switching = true;
-      }
-    }
-  }
-}
-</script>
+<script src="js/sort.js"></script>

@@ -24,26 +24,12 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-
+<!--tabeli lives muutmiseks-->
 <script src="js/jquery.tabledit.min.js"></script>
   
     
 <!-- Script to print the content of a div -->
-    <script> 
-        function printDiv() { 
-            var divContents = document.getElementById("tabel").innerHTML; 
-            var a = window.open(); 
-            
-        
-          a.document.write('<html>'); 
-           a.document.write('<body>'); 
-          a.document.write(divContents); 
-          a.document.write('<td/></body></html>'); 
-           a.document.close(); 
-            a.print(); 
-           
-        }
-    </script>  
+   <script src="js/print.js"></script>
     <style>       
 
         </style> 
@@ -69,11 +55,11 @@ include_once("library_fund.php");
 <!--otsimise ja filtreerimise menüü-->
   <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
 	<div class="search_menu">
-		<button onclick="window.location.href='book_add.php';">Lisa uus raamat</button>
+		<button onclick="window.location.href='book_add.php';">Lisa uus</button>
         <button onclick="window.location.href='borrow.php';">Laenuta</button>
         <button type="submit" value="click" onclick="printDiv()">Prindi </button>
 		<button type="submit" form="form2" name="export" class="export" >Ekspordi CSV</button>
-		<button onclick="window.location.href='book_data.php';">Tühista filtreering</button>
+		<button onclick="window.location.href='book_data.php';">Tühista filtreerimine</button>
 
 <br><br>
 <!--andmete eksport-->
@@ -83,6 +69,7 @@ include_once("library_fund.php");
 	<!--filtreerimine tabeli pealkirjade järgi-->
 	<form action=" book_data.php" method="POST" class="vorm" >
 		<select name="column">
+            <option value="id">Inventari nr</option>
 			<option value="pealkiri">Pealkiri</option>
 			<option value="autor">Autor</option>
 			<option value="aasta">Aasta</option>
@@ -96,6 +83,7 @@ include_once("library_fund.php");
 		</select> 
 <!--filtreerimine esimese tähe, jne järgi-->
 		<select name="column1">
+            <option value="include"> </option>
 			<option value="include">Sisaldab</option>
 			<option value="starts">Algab</option>
 			<option value="ends">Lõpeb</option>

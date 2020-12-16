@@ -43,8 +43,9 @@ include_once("doings.php");
  <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
   <div class="search_menu">
       <button onclick="window.location.href='select_media_borrow.php';">Laenuta</button> 
-      <button onclick="window.location.href='borrow.php';">Tühista filtreerimine</button> 
-      <button onclick="window.location.href='borrow_book_return_nr.php';">Tagasta inventari nr alusel</button> <br> <br>
+      <button onclick="window.location.href='borrow_book_return_nr.php';">Tagasta inventari nr alusel</button>
+       <button onclick="window.location.href='borrow.php';">Tühista filtreerimine</button> 
+      <br> <br>
 
 	
    <form action="borrow.php" method="POST" class="vorm1" >
