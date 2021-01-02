@@ -1,7 +1,9 @@
 <?php
 include_once("config.php");
+
+
 //lehek[le nummerdus
-$record_per_page = 50; //näitab 50 kirjet ühel lehel
+$record_per_page = 25; //näitab 50 kirjet ühel lehel
 $page = '';
 if(isset($_GET["page"])){
  $page = $_GET["page"];}
@@ -9,7 +11,7 @@ else{
  $page = 1;}
 $start_from = ($page-1)*$record_per_page;
 
-$sql= "SELECT * FROM book order by pealkiri LIMIT $start_from, $record_per_page "; 
+$sql=  "Select meedia.id, meedia.pealkiri, meedia.autor, meedia.aasta, liik.nimi as l, keel.nimi as k, valjaandja.nimi as v, count(inventari_nr) as c, meedia.riiul, meedia.marksona, meedia.markused from ((((meedia LEFT join liik ON meedia.liik = liik.id) LEFT JOIN keel ON meedia.keel = keel.id) LEFT JOIN meedia_eksemplar ON meedia.id = meedia_eksemplar.meedia) LEFT JOIN valjaandja ON meedia.valjaandja =valjaandja.id) where meedia_liik like 'RA' GROUP BY meedia_eksemplar.meedia  LIMIT $start_from, $record_per_page "; 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 ?>
@@ -56,7 +58,6 @@ include_once("library_fund.php");
   <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
 	<div class="search_menu">
 		<button onclick="window.location.href='book_add.php';">Lisa uus</button>
-        <button onclick="window.location.href='borrow.php';">Laenuta</button>
         <button type="submit" value="click" onclick="printDiv()">Prindi </button>
 		<button type="submit" form="form2" name="export" class="export" >Ekspordi CSV</button>
 		<button onclick="window.location.href='book_data.php';">Tühista filtreerimine</button>
@@ -69,26 +70,18 @@ include_once("library_fund.php");
 	<!--filtreerimine tabeli pealkirjade järgi-->
 	<form action=" book_data.php" method="POST" class="vorm" >
 		<select name="column">
-            <option value="id">Inventari nr</option>
 			<option value="pealkiri">Pealkiri</option>
 			<option value="autor">Autor</option>
 			<option value="aasta">Aasta</option>
-			<option value="liik">Liik</option>
-			<option value="keel">Keel</option>
-			<option value="valjaandja">Väljaandja</option>
+			<option value="liik.nimi">Liik</option>
+			<option value="keel.nimi">Keel</option>
+			<option value="valjaandja.nimi">Väljaandja</option>
 			<option value="kogus">Kogus</option>
 			<option value="riiul">Riiul</option>
 			<option value="marksona">Märksõna</option>
-			<option value="markused">Märkused</option>
-		</select> 
-<!--filtreerimine esimese tähe, jne järgi-->
-		<select name="column1">
-            <option value="include"> </option>
-			<option value="include">Sisaldab</option>
-			<option value="starts">Algab</option>
-			<option value="ends">Lõpeb</option>
-			<option value="exactly">Täpselt</option> <!-- ei toimi-->
-		</select>
+			<option value="meedia.markused">Märkused</option>
+	</select> 
+            
  <?php
 /*viimane otsing jääb otsing aknasse*/
 			$search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : ''; ?>
@@ -107,7 +100,8 @@ include_once("library_fund.php");
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	
-		<th onclick="sortTable(0)">#</th>  
+		<th onclick="sortTable(0)" style="visibility:hidden;">#</th> 
+      
 		<th onclick="sortTable(1)">Pealkiri &#8693;</th> 
 		<th onclick="sortTable(2)">Autor &#8693;</th> 
 		<th onclick="sortTable(3)">Aasta &#8693;</th>
@@ -118,51 +112,58 @@ include_once("library_fund.php");
 		<th onclick="sortTable(8)">Riiul &#8693;</th>
 		<th onclick="sortTable(9)">Märksõna &#8693;</th> 
 		<th onclick="sortTable(10)">Märkused &#8693;</th>	
-		<th>Muuda</th>	         
+		         
 	
 				
 		</tr>
 	<thead>
 	<tbody>
 <?php
-if ((isset($_POST['search'])) and (isset($_POST['column'])) and (isset($_POST['column1'])) ){
+if ((isset($_POST['search'])) and (isset($_POST['column']))){
 	$search=$_POST['search'];
 	$column=$_POST['column'];
-	$column1=$_POST['column1'];
-if($column1 == 'include'){
-$sql= "SELECT * FROM book where $column like '%$search%' " ;}
-	
-elseif($column1 == 'starts'){
-$sql= "SELECT * FROM book where $column like ' " . $search . "%' " ;} // esitähe järgi 
-	
-elseif($column1 == 'ends'){
-$sql= "SELECT * FROM book where $column like '%" . $search . "' " ;} //viimase tähe järgi
 
-elseif($column1 == 'exactly'){
-$sql= "SELECT * FROM book where $column like ' " . $search . " ' " ;} //täpselt  ei toimi 
+$sql="Select meedia.id, meedia.pealkiri, meedia.autor, meedia.aasta, liik.nimi as l, keel.nimi as k, valjaandja.nimi as v, count(inventari_nr) as c, meedia.riiul, meedia.marksona, meedia.markused from ((((meedia left join liik ON meedia.liik = liik.id) 
+left  JOIN keel ON meedia.keel = keel.id) 
+left  JOIN meedia_eksemplar ON meedia.id = meedia_eksemplar.meedia) 
+left  JOIN valjaandja ON meedia.valjaandja =valjaandja.id) where meedia_liik like 'RA' GROUP BY meedia_eksemplar.meedia and $column like '%$search%' " ; 
+    
+
 }
-
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
   while($row = mysqli_fetch_array($result)) { 	
   echo '
   <tr>
-	<td >'.$row["id"].'</td> 
+
+	<td style="visibility:hidden;">'.$row["id"].'</td> 
+
 	<td>'.$row["pealkiri"].'</td> 
 	<td>'.$row["autor"].'</td>
-	<td>'.$row["aasta"].'</td>
-	<td>'.$row["liik"].'</td>
-	<td>'.$row["keel"].'</td>
-	<td>'.$row["valjaandja"].'</td>
-	<td>'.$row["kogus"].'</td>
+	<td liik(); >'.$row["aasta"].'</td>
+	<td> '.$row["l"].'</td>
+	<td>'.$row["k"].'</td>
+	<td>'.$row["v"].'</td>
+    <td><a href="meedia_eksemplar_book.php?id='.$row["id"].'"  onclick="basicPopup(this.href); return false;">'.$row["c"].'</a></td>
 	<td>'.$row["riiul"].'</td>
 	<td>'.$row["marksona"].'</td>
-	<td>'.$row["markused"].'</td> 
-  </tr> '; }
+	<td>'.$row["markused"].'<td>
+    <td><a class="btn btn-success btn-sm" style="font-size:10px;" href="book_edit.php?id='.$row["id"].'"  onclick="basicPopup(this.href); return false;">Muuda</a></td>
+
+  </tr> '; 
+                   }
+
  ?>
 	</tbody>
 	</table>
-     
+ <script>
+// JavaScript popup window function
+	function basicPopup(url) {
+popupWindow = window.open(url,'popUpWindow','height=400,width=800,left=400,top=200,menubar=no, status=no')
+	}
+
+</script>
+
     </div>   
 
  </div>	
@@ -174,8 +175,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
-	$page_query = "SELECT *
-	FROM book ORDER BY 'pealkiri'";
+	$page_query = "Select * from meedia where meedia_liik like 'RA' ";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);
@@ -209,40 +209,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 </body>
 </html>
 
-<script>  //tabelis lives muutmine
-$(document).ready(function(){  
-     $('#editable_table').Tabledit({
-      url:'book_action.php',
-		buttons: {
-        edit: {
-            html: ' <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">  <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" style="color:green"/>Muuda</svg>',
-            action: 'edit'
-        }
-    },
-	
-		columns:{
-       identifier:[0, "id"],
-       editable:[[1, 'pealkiri'],  [2, 'autor'], [3, 'aasta'],
-	   [4, 'liik'], [5, 'keel'], [6, 'valjaandja'], [7, 'kogus'],
-	   [8, 'riiul'], [9, 'marksona'], [10, 'markused']
-	   
-	   
-	   
-	   ]
-      },
 
- restoreButton:false,
- deleteButton: false, //peidab delete nupu ära
-   onSuccess:function(data, textStatus, jqXHR)
-    {
-    if(data.action == 'delete')
-    {
-     $('#'+data.id).remove();
- }
-   }
-     });
- 
-});  
- </script>
+  <
  <!-- tabelite headerite sorteerimiseks https://www.w3schools.com/howto/howto_js_sort_table.asp-->
 <script src="js/sort.js"></script>

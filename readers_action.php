@@ -3,6 +3,7 @@ include_once("config.php");
 
 $input = filter_input_array(INPUT_POST);
 
+
 		$klass = mysqli_real_escape_string($conn, $_POST['klass']);
 		$perekonnanimi = mysqli_real_escape_string($conn, $_POST['perekonnanimi']);
 		$eesnimi = mysqli_real_escape_string($conn, $_POST['eesnimi']);
@@ -16,8 +17,8 @@ $input = filter_input_array(INPUT_POST);
 if($input["action"] === 'edit')
 {
  $query = "
- UPDATE readers  SET 
-klass = '".$klass."', 
+ UPDATE lugeja SET 
+klass='".$klass."', 
 perekonnanimi = '".$perekonnanimi."', 
 eesnimi = '".$eesnimi."' ,
 aadress = '".$aadress."', 
@@ -36,7 +37,7 @@ markused = '".$markused."'
 if($input["action"] === 'delete')
 {
  $query = "
- DELETE FROM readers 
+ DELETE FROM lugeja 
  WHERE id = '".$input["id"]."'
  ";
  mysqli_query($conn, $query);

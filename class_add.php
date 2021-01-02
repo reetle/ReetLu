@@ -12,35 +12,45 @@ include_once("config.php");
 </head>
 <body> 
 
-<div class="add_data">
-
-	<form action="class_add.php" method="post" name="form1">
-		<table width="25%" border="0">
-			<tr>
-				<td>Klass</td>
-				<td><input type="text" name="klass"></td>
-			</tr>
-			<tr>
-				<td>Täht</td>
-				<td><input type="text" name="taht"></td>
-			</tr>
-			<tr>
-				<td>Klassijuhataja</td>
-				<td><input type="text" name="klassijuhataja"></td>
-			</tr>
-			<tr>
-				<td>Klassiruum</td>
-				<td><input type="text" name="klassiruum"></td>
-			</tr>
-			<tr>
-				<td>Märkused</td>
-				<td><input type="text" name="markused"></td>
-			</tr>
-			<tr>
-			<td></td>
-				<td><input type="submit" name="Submit" value="Lisa"></td>
-			</tr>
-		</table>
+ <div class="container">  
+      <div class="row" >
+    <form method="post" action=" " class="form-inline" style="margin-top:15px;">
+                <fieldset>
+                    
+        <div class="form-group row">
+		<label for="klass" class="col-3 col-form-label" >Klass</label>
+        <div class="col-9">
+		<input type="text" name="klass" required class="form-control form-control-sm" style="width:100%;" >
+	    </div> </div>
+        
+		<div class="form-group row">
+		<label for="taht" class="col-3 col-form-label" >Täht</label>
+        <div class="col-9">
+		<input type="text" name="taht" required class="form-control form-control-sm" style="width:100%;" >
+        </div> </div>
+        
+			<div class="form-group row">
+		<label for="klassijuhataja" class="col-3 col-form-label" >Klassijuhataja</label>
+        <div class="col-9">
+		<input type="text" name="klassijuhataja" required class="form-control form-control-sm" style="width:100%;" >
+	 </div> </div>
+        
+			<div class="form-group row">
+		<label for="klassiruum" class="col-3 col-form-label" >Klassiruum</label>
+        <div class="col-9">
+		<input type="text" name="klassiruum" required class="form-control form-control-sm" style="width:100%;" >
+	 </div> </div>
+        
+				<div class="form-group row">
+		<label for="markused" class="col-3 col-form-label" >Märkused</label>
+        <div class="col-9">
+		<input type="text" name="markused" required class="form-control form-control-sm" style="width:100%;" >
+	 </div> </div>
+                    
+	  <div class="form-group row">  
+		<input type="submit" name="Submit" value="Lisa" class="btn btn-info">
+          </div>
+    </fieldset>
 	</form>
 
 	<?php
@@ -51,13 +61,16 @@ include_once("config.php");
 		$klassiruum = mysqli_real_escape_string($conn, $_POST['klassiruum']);
 		$markused = mysqli_real_escape_string($conn,  $_POST['markused']);
 	
-	$result = mysqli_query($conn, "INSERT INTO class(klass, taht, klassijuhataja, klassiruum, markused) 
+	$result = mysqli_query($conn, "INSERT INTO klass(klass, taht, klassijuhataja, klassiruum, markused) 
 	VALUES('$klass','$taht','$klassijuhataja','$klassiruum','$markused')");
 		echo "Lisatud";	}
 	?>
-<div id="back_but">
-<button onclick="window.location.href='class_data.php';" >Tagasi</button>
 </div>
+<div class="row">
+               <div class="col-2" style="margin-top:30px; margin-left:-35px;">
+              
+<a href="class_data.php" class="btn btn-info" role="button">Tagasi</a>
 </div>
+</div></div>
 </body>
 </html>

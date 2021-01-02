@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,18 +7,19 @@
 <title>Lisaandmed</title>
 </head>
 <body>
-<div class="grid-container">
-  <div class="item1">
+<div >
+ 
 
-</div>
-</div>
-<div class="item2">
+<?php
+include_once("header.php");
+?>   
+
 <div class= "menu">
 	
 		<ul style="list-style-type:none">
 			<li> <a href="author_data.php">Autorid</a> </li>  
 			<li> <a href="publisher_data.php">Väljaandjad </a> </li>
-			<li> <a href="format_data.php">Liigid</a> </li>
+			<li> <a href="type_data.php">Liigid</a> </li>
 			<li> <a href="#">Saatedokumendid</a> </li>	
 			<li> <a href="audio_video_type.php">Audio-Video tüübid</a> </li>	
 			<li> <a href="met_library_type_data.php">Meth kirjanduse tüübid</a> </li>	
@@ -29,11 +29,9 @@
 			<li> <a href="data.php">Tagasi eelmisele lehele</a> </li>	
 		</ul>
 
-	</div> </div>
- 
-   
-<div class="item4">
-</div>
+	</div>  
+
+</div> 
 
 </body>
 </html>

@@ -33,9 +33,9 @@ if (isset($_POST['login'])) {
 
 <div class="container">
 	
-	<div class="row" style="margin-top:25px;" >
-		<div class="col-4" id="login">
-			<form role="form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="loginform">
+	<div class="row" style="margin-top:175px;" >
+		<div class="col-7" id="login">
+			<form role="form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="loginform">
 				<fieldset>	
                     <legend>Sisene</legend>
 					<div class="form-group">
@@ -47,18 +47,20 @@ if (isset($_POST['login'])) {
 						<input type="password" name="password" placeholder="Sisesta salasõna" required class="form-control" />
 					</div>	
 					<div class="form-group">
-						<input type="submit" name="login" value="Sisene" class="btn btn-secondary btn-sm" />
+						<input type="submit" name="login" value="Sisene" class="btn btn-sm"  style=" background-color: #99CCFF ;"/>
 					</div>
 				</fieldset>
 			</form>
 			<span class="text-danger"><?php if (isset($error_message)) { echo $error_message; } ?></span>
+            
+            
+           <p> Ei ole kasutajat? <a href="register.php">Registreeri</a></p>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-4" id="login">	
-		Ei ole kasutajat? <a href="register.php">Registreeri</a>
-		</div>
-	</div>
+
+		
+		
+
 		
 		
 	

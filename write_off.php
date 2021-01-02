@@ -8,7 +8,9 @@ else{
  $page = 1;}
 $start_from = ($page-1)*$record_per_page;
 
-$sql= "SELECT * FROM write_off LIMIT $start_from, $record_per_page "; 
+$sql= "select akt_nr, kuupaev, meedia.meedia_liik, meedia.pealkiri, meedia.autor, pohjus
+from mahakandmine
+left join meedia on mahakandmine.meedia_id=meedia.id  LIMIT $start_from, $record_per_page "; 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 ?>
@@ -19,6 +21,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+     <script src="js/print.js"></script>
 <title>Mahakandmine</title>
 </head>
 <body>
@@ -31,7 +34,7 @@ include_once("header.php");
     </div>    </div>
 
        
-<div class="row justify-content-end">
+<div class="row justify-content-end" id="menyy">
     <div class="col-lg-2" >
     <div class= "menu">
 <?php
@@ -42,10 +45,17 @@ include_once("doings.php");
        
  <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
 <div class="search_menu">
-	<button onclick="window.location.href='select_media_write_off.php';">Uus mahakandmine</button>
-	 <!--<button onclick="window.location.href='#';">Vaata mahakandmise akti</button> <br> <br> -->
+ 
+	<button onclick="window.open('select_media_write_off.php', 'newwindow',                          'width=800,height=600, left=400,top=200,');     return false;">Uus mahakandmine</button>
+     <button type="submit" value="click" onclick="printDiv()">Prindi </button>
+     <button onclick="window.location.href='write_off.php';">Tühista filtreerimine</button>
 
-  
+
+
+    
+
+<br>
+  <br>
   <form action=" " method="POST" class="vorm">
 		<select name="column">
 			<option value="all">Kõik</option>
@@ -84,25 +94,39 @@ if ((isset($_POST['column']))and (isset($_POST['submit']))) {
 	$submit=$_POST['submit'];
 
 if($column == 'all'){
-$sql= "SELECT * FROM write_off where pohjus like '%$submit%' " ;
+$sql= "select akt_nr, kuupaev, meedia.meedia_liik, meedia.pealkiri, meedia.autor, pohjus
+from mahakandmine
+left join meedia on mahakandmine.meedia_id=meedia.id  where pohjus like '%$submit%' " ;
 }
 elseif($column == 'book'){
-$sql= "SELECT * FROM write_off where meedia_liik like 'ra' and pohjus like '%$submit%' " ;
+$sql= "select akt_nr, kuupaev, meedia.meedia_liik, meedia.pealkiri, meedia.autor, pohjus
+from mahakandmine
+left join meedia on mahakandmine.meedia_id=meedia.id  where meedia.meedia_liik like 'ra' and pohjus like '%$submit%' " ;
 }
 elseif($column == 'textbook'){
-$sql= "SELECT * FROM write_off where meedia_liik like 'op' and pohjus like '%$submit%' " ;
+$sql= "select akt_nr, kuupaev, meedia.meedia_liik, meedia.pealkiri, meedia.autor, pohjus
+from mahakandmine
+left join meedia on mahakandmine.meedia_id=meedia.id where meedia.meedia_liik like 'op' and pohjus like '%$submit%' " ;
 }	
 elseif($column == 'periodicals'){
-$sql= "SELECT * FROM write_off where meedia_liik like 'pe' and pohjus like '%$submit%' ";
+$sql= "select akt_nr, kuupaev, meedia.meedia_liik, meedia.pealkiri, meedia.autor, pohjus
+from mahakandmine
+left join meedia on mahakandmine.meedia_id=meedia.id where meedia.meedia_liik like 'pe' and pohjus like '%$submit%' ";
 } 
 elseif($column == 'audio_video'){
-$sql= "SELECT * FROM write_off where meedia_liik like 'av' and pohjus like '%$submit%' " ;
+$sql= "select akt_nr, kuupaev, meedia.meedia_liik, meedia.pealkiri, meedia.autor, pohjus
+from mahakandmine
+left join meedia on mahakandmine.meedia_id=meedia.id  meedia.where meedia_liik like 'av' and pohjus like '%$submit%' " ;
 }
 elseif($column == 'workbook'){
-$sql= "SELECT * FROM write_off where meedia_liik like 'tv' and pohjus like '%$submit%' ";
+$sql= "select akt_nr, kuupaev, meedia.meedia_liik, meedia.pealkiri, meedia.autor, pohjus
+from mahakandmine
+left join meedia on mahakandmine.meedia_id=meedia.id  meedia.where meedia_liik like 'tv' and pohjus like '%$submit%' ";
 }
 elseif($column == 'meth_library'){
-$sql= "SELECT * FROM write_off where meedia_liik like 'mk' and pohjus like '%$submit%' " ;
+$sql= "Sselect akt_nr, kuupaev, meedia.meedia_liik, meedia.pealkiri, meedia.autor, pohjus
+from mahakandmine
+left join meedia on mahakandmine.meedia_id=meedia.id where meedia.meedia_liik like 'mk' and pohjus like '%$submit%' " ;
 }  
 }
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
@@ -129,7 +153,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
 	$page_query = "SELECT *
-	FROM write_off ";
+	FROM mahakandmine ";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);
@@ -160,41 +184,11 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 </body>
 </html>
 
-<script>
-function sortTable(n) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById("editable_table");
-  switching = true;
-  dir = "asc";
-  while (switching) {
-    switching = false;
-    rows = table.rows;
-    for (i = 1; i < (rows.length - 1); i++) {
-      shouldSwitch = false;
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n]; 
-      if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          shouldSwitch = true;
-          break;
-        }
-      } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          shouldSwitch = true;
-          break;
-        }
-      }
-    }
-    if (shouldSwitch) {
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      switchcount ++;
-    } else {
-      if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
-        switching = true;
-      }
-    }
-  }
-}
-</script>	
+<script src="js/sort.js"></script>
+ <script>
+// JavaScript popup window function
+	function basicPopup(url) {
+popupWindow = window.open(url,'popUpWindow','height=400,width=800,left=400,top=200,menubar=no, status=no')
+	}
+
+</script>

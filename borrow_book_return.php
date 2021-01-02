@@ -15,25 +15,27 @@ include_once("config.php");
 <body> 
 	<div class="container">
 	<div class="row" id="borrow" style="margin-top:50px;"  >
-    <div class="col-4" style="margin-left:50px; "  >  
-	<form name="form1" method="post" >
-		<table border="0">
+    <div class="col-6" style="margin-left:50px; "  >  
+	   <form role="form" action=" " method="POST"  >
+           <fieldset>	  
+	
           <div class="form-group">
-			<tr>
+	       <label for="select">Sisesta tagastus kuupäev: </label>			
 			
-				<td>Sisesta tagastus kuupäev</td>
-				<td><input type="date" name="tagastus_kp" class="form-control" ></td>
-			</tr>
-			<tr>
-				<td><input type="hidden" name="id" value=<?php echo $_GET['id'];?>></td>
-				<td><input type="submit" name="update" value="Tagasta" class="btn btn-secondary btn-sm"></td>
-			</tr>
+				<input type="date" name="tagastus_kp" class="form-control" required >
+                 </div>
+			  <div class="form-group">
+				<input style="visibility:hidden;" name="id" value="<?php echo $_GET['id'];?>">
+                 </div> 
+              <div class="form-group">      
+				<input type="submit" name="update" value="Tagasta" class="btn btn-secondary btn-sm">
+		
               </div>
-		</table>
+	   </fieldset>
 	</form>
-        <div class="back_but">
-<button onclick="window.location.href='book_data.php';">Tühista</button>
-</div> 
+  
+
+
 <?php
 
 if(isset($_POST['update']))
@@ -42,11 +44,21 @@ if(isset($_POST['update']))
 $id = mysqli_real_escape_string($conn, $_POST['id']);
 $tagastus_kp = mysqli_real_escape_string($conn, $_POST['tagastus_kp']);	
 	
-$result = mysqli_query($conn, "UPDATE borrow_book SET tagastus_kp='$tagastus_kp' WHERE id=$id");
-header("Location: borrow.php");
+        $sql="UPDATE laenutus SET tagastus_kp='$tagastus_kp' WHERE id=$id";
+        if (mysqli_query($conn, $sql)) {
+            echo "Teavik tagastatud";
+                } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+ 
+    
 }
 
-?>    </div> </div>
+?>  
+          </div> </div>
+     <br>
+        <button onclick="self.close()" class="btn btn-secondary btn-sm">Sulge</button>    
+
     </div>
 </body>
 </html>

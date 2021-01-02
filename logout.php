@@ -1,12 +1,7 @@
 <?php
-ob_start();
-session_start();
-if(isset($_SESSION['userid'])) {
-	session_destroy();
-	unset($_SESSION['userid']);
-	//unset($_SESSION['username']);
-	header("Location: index.php");
-} else {
-	header("Location: index.php");
-}
+ session_start();
+    // Lõpeta session
+    if(session_destroy()) {    
+        header("Location: index.php");
+    }
 ?>

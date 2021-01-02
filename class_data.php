@@ -1,7 +1,7 @@
 <?php
 include_once("config.php");
 //lehek[le nummerdus
-$record_per_page = 20; //näitab 25 kirjet ühel lehel
+$record_per_page =20; //näitab 25 kirjet ühel lehel
 $page = '';
 if(isset($_GET["page"])){
  $page = $_GET["page"];}
@@ -9,7 +9,7 @@ else{
  $page = 1;}
 $start_from = ($page-1)*$record_per_page;
 
-$sql= "SELECT * FROM class LIMIT $start_from, $record_per_page "; 
+$sql= "SELECT * FROM klass LIMIT $start_from, $record_per_page "; 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 ?>
@@ -33,14 +33,14 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <body>
    <div class="container-fluid">         
 <div class="row" id="head">
-<div class="col-lg" id="head">
+<div class="col-lg" >
  <?php
 include_once("header.php");
 ?>      
     </div>    </div>
 
        
-<div class="row justify-content-end">
+<div class="row justify-content-end" id="menyy">
     <div class="col-lg-2" >
     <div class= "menu">
 		<?php
@@ -68,13 +68,6 @@ include_once("readers.php");
 			<option value="klassiruum">klassiruum</option>
 			<option value="markused">markused</option>
 		</select> 
-<!--filtreerimine esimese tähe, jne järgi-->
-		<select name="column1">
-			<option value="include">Sisaldab</option>
-			<option value="starts">Algab</option>
-			<option value="ends">Lõpeb</option>
-			<option value="exactly">Täpselt</option> <!-- ei toimi-->
-		</select>
  <?php
 /*viimane otsing jääb otsing aknasse*/
 			$search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : ''; ?>
@@ -102,23 +95,13 @@ include_once("readers.php");
 	<thead>
 	<tbody>
 <?php
-if ((isset($_POST['search'])) and (isset($_POST['column'])) and (isset($_POST['column1'])) ){
+if ((isset($_POST['search'])) and (isset($_POST['column']))){
 	$search=$_POST['search'];
 	$column=$_POST['column'];
-	$column1=$_POST['column1'];
-if($column1 == 'include'){
-$sql= "SELECT * FROM class where $column like '%$search%' " ;}
-	
-elseif($column1 == 'starts'){
-$sql= "SELECT * FROM class where $column like ' " . $search . "%' " ;} // esitähe järgi 
-	
-elseif($column1 == 'ends'){
-$sql= "SELECT * FROM class where $column like '%" . $search . "' " ;} //viimase tähe järgi
 
-elseif($column1 == 'exactly'){
-$sql= "SELECT * FROM class where $column like ' " . $search . " ' " ;} //täpselt  ei toimi 
-}
 
+$sql= "SELECT * FROM klass where $column like '%$search%' " ;}
+	
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
   while($row = mysqli_fetch_array($result)) { 	
@@ -144,7 +127,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
 	$page_query = "SELECT *
-	FROM class ";
+	FROM klass ";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);
@@ -152,7 +135,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
     $difference = $total_pages - $page;
     if($difference <= 1) /*mitu lehekülge näitab korraga*/
     {
-     $start_loop = $total_pages - 1;
+     $start_loop = $total_pages - 0;
     }
     $end_loop = $start_loop + 1;
     if($page > 1)

@@ -12,7 +12,7 @@ $klass = mysqli_real_escape_string($conn, $_POST['klass']);
 if($input["action"] === 'edit')
 {
  $query = "
- UPDATE class  SET 
+ UPDATE klass  SET 
 klass = '".$klass."', 
 taht = '".$taht."' ,
 klassijuhataja = '".$klassijuhataja."', 
@@ -28,7 +28,7 @@ markused = '".$markused."'
 if($input["action"] === 'delete')
 {
  $query = "
- DELETE FROM class 
+ DELETE FROM klass
  WHERE id = '".$input["id"]."'
  ";
  mysqli_query($conn, $query);

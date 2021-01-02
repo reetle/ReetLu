@@ -27,8 +27,7 @@ include_once("header.php");
 		</ul>
 	</div> 
 	
-<div class="item4">
-</div>
+
 
 
 </body>

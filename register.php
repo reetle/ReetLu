@@ -55,8 +55,8 @@ if (isset($_POST['signup'])) {
 <body>
 <div class="container">
 	<div class="row" style="margin-top:25px;" >
-		<div class="col-md-4" id="login" >
-			<form role="form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="signupform">
+		<div class="col-7" id="login" >
+			<form role="form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="loginform">
 				<fieldset>
 					<legend>Registreeri</legend><br>
 
@@ -85,17 +85,14 @@ if (isset($_POST['signup'])) {
 					</div>
 
 					<div class="form-group">
-						<input type="submit" name="signup" value="Loo kasutaja" class="btn btn-secondary btn-sm" />
+						<input type="submit" name="signup" value="Loo kasutaja" class="btn  btn-sm" style=" background-color: #99CCFF ;" />
 					</div>
 				</fieldset>
 			</form>
 			<span class="text-success"><?php if (isset($success_message)) { echo $success_message; } ?></span>
 			<span class="text-danger"><?php if (isset($error_message)) { echo $error_message; } ?></span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4" id="login">	
-		Oled juba kasutaja? <a href="index.php">Sisene</a>
+
+		  <p>Oled juba kasutaja? <a href="index.php" >Sisene</a></p>
 		</div>
 	</div>	
 

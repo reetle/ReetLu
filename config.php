@@ -2,7 +2,7 @@
 $db_server= "localhost:3308";
 $db_username = "root";
 $db_password = "pass";
-$db_name = "library";
+$db_name = "raamat";
 
 //loome ühendus andmebaasiga
 $conn = mysqli_connect($db_server, $db_username, $db_password, $db_name);

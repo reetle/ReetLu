@@ -8,7 +8,12 @@ include_once("config.php");
       header('Content-Disposition: attachment; filename=data.csv');  
       $output = fopen("php://output", "w");  
       fputcsv($output, array('id, pealkiri', 'klass', 'autor', 'ilmumisaasta', 'liik', 'keel', 'valjaandja', 'kogus','riiul',' marksona', 'markused' ));  
-      $query = "SELECT * FROM textbook"; 
+      $query = "select meedia.id, meedia.pealkiri, meedia.klass, meedia.autor, meedia.aasta, liik.nimi as l, keel.nimi as k, valjaandja.nimi as v, meedia.kogus, meedia.riiul, meedia.marksona, meedia.markused
+      from (((meedia
+      LEFT join  liik ON meedia.liik = liik.id)
+      LEFT JOIN keel ON meedia.keel = keel.id)
+      LEFT JOIN valjaandja ON meedia.valjaandja =valjaandja.id)
+      where meedia_liik like 'OP' GROUP BY meedia_eksemplar.meedia HAVING COUNT(*) >= 1 "; 
       $result = mysqli_query($conn, $query);  
       while($row = mysqli_fetch_assoc($result))  
       {  

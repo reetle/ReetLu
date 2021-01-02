@@ -9,7 +9,7 @@ else{
  $page = 1;}
 $start_from = ($page-1)*$record_per_page;
 
-$sql= "SELECT * FROM meth_library_type LIMIT $start_from, $record_per_page "; 
+$sql= "SELECT * FROM andmekandja where andmekandja_liik like 'MK' LIMIT $start_from, $record_per_page "; 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
  
@@ -17,7 +17,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <!DOCTYPE html>
 <html>
 <head>
-<title>Autorid</title>
+<title>Met_lib</title>
 <link rel="stylesheet" href="styles.css" type="text/css"/>
 <meta charset="UTF-8" />
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" /> <!-- avab lehe seadme suurusega-->
@@ -27,7 +27,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script> 
      
 <script src="js/jquery.tabledit.min.js"></script>
-
+<script src="js/print.js"></script>
 
 </head>
 <body>
@@ -40,7 +40,7 @@ include_once("header.php");
     </div>    </div>
 
        
-<div class="row justify-content-end">
+<div class="row justify-content-end" id="menyy">
     <div class="col-lg-2" >
     <div class= "menu">
 <?php
@@ -52,7 +52,9 @@ include_once("additional_data.php");
  <div class="col-lg-10" style="margin-bottom:33rem; "id="filter">
 	<div class="search_menu">
 		<button onclick="window.location.href='meth_library_type_add.php';">Lisa uus</button>
-		<button type="submit" form="form2" name="export"  >Ekspordi CSV</button>
+	   <button type="submit" value="click" onclick="printDiv()">Prindi </button>
+        
+	<!--	<button type="submit" form="form2" name="export"  >Ekspordi CSV</button>-->
 		<button onclick="window.location.href='met_library_type_data.php';">Tühista filtreering</button>
 <br><br>
 <!--andmete eksport--> 
@@ -67,13 +69,7 @@ include_once("additional_data.php");
 			
 	
 		</select> 
-<!--filtreerimine esimese tähe, jne järgi-->
-		<select name="column1">
-			<option value="include">Sisaldab</option>
-			<option value="starts">Algab</option>
-			<option value="ends">Lõpeb</option>
-			<option value="exactly">Täpselt</option> <!-- ei toimi-->
-		</select>
+
  <?php
 /*viimane otsing jääb otsing aknasse*/
 			$search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : ''; ?>
@@ -86,7 +82,7 @@ include_once("additional_data.php");
   
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
 
-    <table id="editable_table" class="table table-sm table-hover ">
+    <table id="editable_table" class="table table-sm table-hover " style="margin-left:-60px;">
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	
@@ -99,22 +95,12 @@ include_once("additional_data.php");
 	<thead>
 	<tbody>
 <?php
-if ((isset($_POST['search'])) and (isset($_POST['column'])) and (isset($_POST['column1'])) ){
+if ((isset($_POST['search'])) and (isset($_POST['column']))){
 	$search=$_POST['search'];
 	$column=$_POST['column'];
-	$column1=$_POST['column1'];
-if($column1 == 'include'){
-$sql= "SELECT * FROM meth_library_type where $column like '%$search%' " ;}
-	
-elseif($column1 == 'starts'){
-$sql= "SELECT * FROM meth_library_type where $column like ' " . $search . "%' " ;} // esitähe järgi 
-	
-elseif($column1 == 'ends'){
-$sql= "SELECT * FROM meth_library_type where $column like '%" . $search . "' " ;} //viimase tähe järgi
 
-elseif($column1 == 'exactly'){
-$sql= "SELECT * FROM meth_library_type where $column like ' " . $search . " ' " ;} //täpselt  ei toimi 
-}
+$sql= "SELECT * FROM andmekandja where andmekandja_liik like 'MK' and $column like '%$search%' " ;}
+
 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
@@ -139,8 +125,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <!--
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
-	$page_query = "SELECT *
-	FROM meth_library_type ";
+	$page_query = "SELECT * FROM andmekandja where andmekandja_liik like 'MK'";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);
@@ -153,16 +138,16 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
     $end_loop = $start_loop + 4;
     if($page > 1)
     {
-     echo "<a href='keywords_data.php?page=".($page - 1)."'> << </a>";
+     echo "<a href=met_library_type_data.php?page=".($page - 1)."'> << </a>";
     }
     for($i=$start_loop; $i<=$end_loop; $i++)
     {     
-     echo "<a href='keywords_data.php?page=".$i."'>" .$i. "</a>";
+     echo "<a href='met_library_type_data.php?page=".$i."'>" .$i. "</a>";
     }
     if($page <= $end_loop)
     {
-     echo "<a href='keywords_data.php?page=".($page + 1)."'> >> </a>";
-     echo "<a href='keywords_data.php?page=".$total_pages."'> Lõppu </a>";
+     echo "<a href='met_library_type_data.php?page=".($page + 1)."'> >> </a>";
+     echo "<a href='met_library_type_data.php?page=".$total_pages."'> Lõppu </a>";
     }
   ?>  
   -->
@@ -192,7 +177,7 @@ buttons: {
 	
 		columns:{
        identifier:[0, "id"],
-       editable:[[1, 'nimi'], [1, 'markused']]
+       editable:[[1, 'nimi'], [2, 'markused']]
       },
    restoreButton:false,
       onSuccess:function(data, textStatus, jqXHR)
@@ -207,41 +192,4 @@ buttons: {
 });  
  </script>
  <!-- tabelite headerite sorteerimiseks https://www.w3schools.com/howto/howto_js_sort_table.asp-->
-<script>
-function sortTable(n) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById("editable_table");
-  switching = true;
-  dir = "asc";
-  while (switching) {
-    switching = false;
-    rows = table.rows;
-    for (i = 1; i < (rows.length - 1); i++) {
-      shouldSwitch = false;
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n]; 
-      if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          shouldSwitch = true;
-          break;
-        }
-      } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          shouldSwitch = true;
-          break;
-        }
-      }
-    }
-    if (shouldSwitch) {
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      switchcount ++;
-    } else {
-      if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
-        switching = true;
-      }
-    }
-  }
-}
-</script>
+<script src="js/sort.js"></script>

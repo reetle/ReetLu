@@ -9,7 +9,13 @@ else{
  $page = 1;}
 $start_from = ($page-1)*$record_per_page;
 
-$sql= "SELECT * FROM book order by pealkiri LIMIT $start_from, $record_per_page "; 
+$sql= "select meedia.id, meedia_eksemplar.inventari_nr as nr, meedia.pealkiri, meedia.autor, meedia.aasta, liik.nimi as l, keel.nimi as k, valjaandja.nimi as v, meedia.kogus, meedia.riiul, meedia.marksona, meedia.markused
+from ((((meedia
+LEFT join  liik ON meedia.liik = liik.id)
+LEFT JOIN keel ON meedia.keel = keel.id)
+LEFT JOIN valjaandja ON meedia.valjaandja =valjaandja.id)
+LEFT JOIN meedia_eksemplar ON meedia.id =meedia_eksemplar.meedia)
+where meedia_liik like 'RA' LIMIT $start_from, $record_per_page "; 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 ?>
@@ -17,7 +23,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <!DOCTYPE html>
 <html>
 <head>
-<title>Raamatud</title>
+<title>Mahakandmine</title>
 <link rel="stylesheet" href="style.css" type="text/css"/>
  <meta charset="UTF-8" />
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" /> <!-- avab lehe seadme suurusega-->
@@ -36,50 +42,32 @@ include_once("header.php");
     </div>    
  </div> 
 <div class="row " id="menyy">
-    <div class="col-lg"  >
+    <div class="col"  >
+        <button  class="btn btn-secondary btn-sm" onclick="window.location.href='select_media_write_off.php';" >Tagasi </button><br><br>
    
 	<!--filtreerimine tabeli pealkirjade järgi-->
 	<form action=" " method="POST" class="vorm" >
-		<select name="column">
-            <option value="id">Inventari nr</option>
-			<option value="pealkiri">Pealkiri</option>
-			<option value="autor">Autor</option>
-			<option value="aasta">Aasta</option>
-			<option value="liik">Liik</option>
-			<option value="keel">Keel</option>
-			<option value="valjaandja">Väljaandja</option>
-			<option value="kogus">Kogus</option>
-			<option value="riiul">Riiul</option>
-			<option value="marksona">Märksõna</option>
-			<option value="markused">Märkused</option>
-		</select> 
-<!--filtreerimine esimese tähe, jne järgi-->
-		<select name="column1">
-            <option value="include"></option>
-			<option value="include">Sisaldab</option>
-			<option value="starts">Algab</option>
-			<option value="ends">Lõpeb</option>
-			<option value="exactly">Täpselt</option> <!-- ei toimi-->
-		</select>
+		
  <?php
 /*viimane otsing jääb otsing aknasse*/
 			$search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : ''; ?>
-			<input type="text" name="search" value="<?= $search ?>" required>
+			<input type="text" name="search" value="<?= $search ?>" >
 			<input type ="submit" value="Otsi"> 	
 		</form>
  		
 </div></div>
 
  <!-- Tabel-->
-<div class="col-lg " id="tabel">
+<div class="col "  style="background-color: #C0C0C0">
 
-<div class="table-wrapper-scroll-y my-custom-scrollbar">
+
     <table id="editable_table" class="table table-sm table-hover ">
      
     <thead>
 		<tr>	
  <!-- filtreerib pealkirja järgi kasvavalt või kahanevalt, &#8693; lisab nooled -->	
-		<th onclick="sortTable(0)">#</th>  
+        <th onclick="sortTable(0)" style="visibility:hidden;">Inventari nr</th>  
+		<th onclick="sortTable(0)">Inventari nr</th>  
 		<th onclick="sortTable(1)">Pealkiri &#8693;</th> 
 		<th onclick="sortTable(2)">Autor &#8693;</th> 
 		<th onclick="sortTable(3)">Aasta &#8693;</th>
@@ -99,42 +87,39 @@ include_once("header.php");
 	<thead>
 	<tbody>
 <?php
-if ((isset($_POST['search'])) and (isset($_POST['column'])) and (isset($_POST['column1'])) ){
+if (isset($_POST['search'])){
 	$search=$_POST['search'];
-	$column=$_POST['column'];
-	$column1=$_POST['column1'];
-if($column1 == 'include'){
-$sql= "SELECT * FROM book where $column like '%$search%' " ;}
-	
-elseif($column1 == 'starts'){
-$sql= "SELECT * FROM book where $column like ' " . $search . "%' " ;} // esitähe järgi 
-	
-elseif($column1 == 'ends'){
-$sql= "SELECT * FROM book where $column like '%" . $search . "' " ;} //viimase tähe järgi
 
-elseif($column1 == 'exactly'){
-$sql= "SELECT * FROM book where $column like ' " . $search . " ' " ;} //täpselt  ei toimi 
-}
+$sql= "select meedia.id, meedia_eksemplar.inventari_nr as nr, meedia.pealkiri, meedia.autor, meedia.aasta, liik.nimi as l, keel.nimi as k, valjaandja.nimi as v, meedia.kogus, meedia.riiul, meedia.marksona, meedia.markused
+from ((((meedia
+LEFT join  liik ON meedia.liik = liik.id)
+LEFT JOIN keel ON meedia.keel = keel.id)
+LEFT JOIN valjaandja ON meedia.valjaandja =valjaandja.id)
+LEFT JOIN meedia_eksemplar ON meedia.id =meedia_eksemplar.meedia)
+where meedia_liik like 'RA' and meedia_eksemplar.inventari_nr like '%$search%' " ;}
+	
 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
   while($row = mysqli_fetch_array($result)) { 	
   echo '
   <tr>
-	<td >'.$row["id"].'</td> 
+	<td style="visibility:hidden;">'.$row["id"].'</td>
+    <td><a href="write_off_book.php?id='.$row["nr"].'">Kanna Maha</i></a></td>
+    <td >'.$row["nr"].'</td> 
 	<td>'.$row["pealkiri"].'</td> 
 	<td>'.$row["autor"].'</td>
 	<td>'.$row["aasta"].'</td>
-	<td>'.$row["liik"].'</td>
-	<td>'.$row["keel"].'</td>
-	<td>'.$row["valjaandja"].'</td>
+	<td>'.$row["l"].'</td>
+	<td>'.$row["k"].'</td>
+	<td>'.$row["v"].'</td>
 	<td>'.$row["kogus"].'</td>
 	<td>'.$row["riiul"].'</td>
 	<td>'.$row["marksona"].'</td>
 	<td>'.$row["markused"].'</td> 
-	<td><a href="write_off_book.php?id='.$row["id"].' "class="btn btn-sm">Kanna Maha</i></a></td>
-  </tr> '; }
- ?>
+  </tr> '; 
+}
+        ?>
 	</tbody>
 	</table>
      
@@ -149,8 +134,12 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
-	$page_query = "SELECT *
-	FROM book ORDER BY 'pealkiri'";
+	$page_query = "select meedia.id, meedia.pealkiri, meedia.autor, meedia.aasta, liik.nimi as l, keel.nimi as k, valjaandja.nimi as v, meedia.kogus, meedia.riiul, meedia.marksona, meedia.markused
+from (((meedia
+LEFT join  liik ON meedia.liik = liik.id)
+LEFT JOIN keel ON meedia.keel = keel.id)
+LEFT JOIN valjaandja ON meedia.valjaandja =valjaandja.id)
+where meedia_liik like 'RA' ";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);
@@ -163,24 +152,24 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
     $end_loop = $start_loop + 4;
     if($page > 1)
     {
-     echo "<a href='book_data.php?page=1'> Algusesse </a>";
-     echo "<a href='book_data.php?page=".($page - 1)."'> << </a>";
+     echo "<a href='write_off_book_select.php?page=1'> Algusesse </a>";
+     echo "<a href='write_off_book_select.php?page=".($page - 1)."'> << </a>";
     }
     for($i=$start_loop; $i<=$end_loop; $i++)
     {     
-     echo "<a href='book_data.php?page=".$i."'>" .$i. "</a>";
+     echo "<a href='write_off_book_select.php?page=".$i."'>" .$i. "</a>";
     }
     if($page <= $end_loop)
     {
-     echo "<a href='book_data.php?page=".($page + 1)."'> >> </a>";
-     echo "<a href='book_data.php?page=".$total_pages."'> Lõppu </a>";
+     echo "<a href='write_off_book_select.php?page=".($page + 1)."'> >> </a>";
+     echo "<a href='write_off_book_select.php?page=".$total_pages."'> Lõppu </a>";
     }
   ?> 
  </div>       
         
         
         </div>
-</div> </div> 
+</div> 
 </body>
 </html>
 

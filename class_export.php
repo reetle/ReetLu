@@ -8,7 +8,7 @@ include_once("config.php");
       header('Content-Disposition: attachment; filename=data.csv');  
       $output = fopen("php://output", "w");  
       fputcsv($output, array('id, klass', 'taht', 'klassijuhataja', 'klassiruum', 'markused' ));  
-      $query = "SELECT * FROM class"; 
+      $query = "SELECT * FROM klass"; 
       $result = mysqli_query($conn, $query);  
       while($row = mysqli_fetch_assoc($result))  
       {  

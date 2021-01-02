@@ -1,5 +1,6 @@
 body{
     background-color: #99CCFF !important;
+;
 }
 /*grid konteiner
 
@@ -165,6 +166,8 @@ display: block;
 	font-size:12px;	
   }
 /*form/*/
+
+height
 .vorm{
 
 }	
@@ -246,17 +249,18 @@ background-color: #C0C0C0;
             margin-top: 0px;
 }
 #login{ 
-    background-color: #C0C0C0; 
+    
+     border-radius: 15px;
+    background-color: snow; 
     margin: auto; 
+    color: #000080;
          
 }
-/*printimine */  
-@media print{
+#loginform{
+     margin: 25px;
 
- #jalus, #filter, .menu{
-	visibility: hidden;
-    }
-     #tabel a{
-	visibility: hidden;
-    }
+}
+#login p{ 
+   margin-left:400px;
+/*printimine */
 }

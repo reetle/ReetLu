@@ -9,7 +9,7 @@ else{
  $page = 1;}
 $start_from = ($page-1)*$record_per_page;
 
-$sql= "SELECT * FROM readers LIMIT $start_from, $record_per_page "; 
+$sql= "SELECT lugeja.id, klass.klass as k, lugeja.perekonnanimi, lugeja.eesnimi, lugeja.aadress, lugeja.linn, lugeja.maakond, lugeja.postiindeks, lugeja.telefon, lugeja.markused from (lugeja LEFT join klass ON lugeja.klass = klass.id) LIMIT $start_from, $record_per_page "; 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
 ?>
@@ -18,7 +18,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <html>
 <head>
 <title>Lugejad</title>
-<link rel="stylesheet" href="styles.css" type="text/css"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
 <meta charset="UTF-8" />
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" /> <!-- avab lehe seadme suurusega-->
 
@@ -32,14 +32,14 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 <body>
    <div class="container-fluid">         
 <div class="row" id="head">
-<div class="col-lg" id="head">
+<div class="col-lg" >
  <?php
 include_once("header.php");
 ?>      
     </div>    </div>
 
        
-<div class="row justify-content-end">
+<div class="row justify-content-end" id="menyy">
     <div class="col-lg-2" >
     <div class= "menu">
 		<?php
@@ -61,7 +61,7 @@ include_once("readers.php");
 	<!--filtreerimine tabeli pealkirjade järgi-->
 	<form action="readers_data.php" method="POST" class="vorm">
 		<select name="column">
-			<option value="klass">Klass</option>
+			<option value="klass.klass">Klass</option>
 			<option value="perekonnanimi">Perekonnanimi</option>
 			<option value="eesnimi">Eesnimi</option>
 			<option value="aadress">Aadress</option>
@@ -71,13 +71,7 @@ include_once("readers.php");
 			<option value="telefon">Telefon</option>
 			<option value="markused">Markused</option>
 		</select> 
-<!--filtreerimine esimese tähe, jne järgi-->
-		<select name="column1">
-			<option value="include">Sisaldab</option>
-			<option value="starts">Algab</option>
-			<option value="ends">Lõpeb</option>
-			<option value="exactly">Täpselt</option> <!-- ei toimi-->
-		</select>
+
  <?php
 /*viimane otsing jääb otsing aknasse*/
 			$search = (isset($_POST['search'])) ? htmlentities($_POST['search']) : ''; ?>
@@ -109,22 +103,16 @@ include_once("readers.php");
 	</thead>
 	<tbody>		
 <?php
-if ((isset($_POST['search'])) and (isset($_POST['column'])) and (isset($_POST['column1'])) ){
+if ((isset($_POST['search'])) and (isset($_POST['column'])) ){
 	$search=$_POST['search'];
 	$column=$_POST['column'];
-	$column1=$_POST['column1'];
-if($column1 == 'include'){
-$sql= "SELECT * FROM readers where $column like '%$search%' " ;}
-	
-elseif($column1 == 'starts'){
-$sql= "SELECT * FROM readers where $column like ' " . $search . "%' " ;} // esitähe järgi 
-	
-elseif($column1 == 'ends'){
-$sql= "SELECT * FROM readers where $column like '%" . $search . "' " ;} //viimase tähe järgi
 
-elseif($column1 == 'exactly'){
-$sql= "SELECT * FROM readers where $column like ' " . $search . " ' " ;} //täpselt  ei toimi 
-}
+
+$sql= "SELECT lugeja.id, klass.klass as k, lugeja.perekonnanimi, lugeja.eesnimi,
+lugeja.aadress, lugeja.linn, lugeja.maakond, lugeja.postiindeks, lugeja.telefon, 
+lugeja.markused 
+FROM 
+(lugeja LEFT JOIN klass ON lugeja.klass = klass.id) where $column like '%$search%' " ;}
 
 $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 
@@ -132,7 +120,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
   echo '
   <tr>
 	<td style="visibility:hidden;">'.$row["id"].'</td> 
-	<td>'.$row["klass"].'</td> 
+	<td>'.$row["k"].'</td> 
 	<td>'.$row["perekonnanimi"].'</td>
 	<td>'.$row["eesnimi"].'</td>
 	<td>'.$row["aadress"].'</td>
@@ -154,8 +142,7 @@ $result = mysqli_query($conn, $sql) or die("error:".mysqli_error($conn));
 </style>
 <?php
 	/*tabel kuvab 25 esimest kirjet ja jagab ülejäänud tabeli kehekülge https://www.webslesson.info/2016/05/how-to-make-simple-pagination-using-php-mysql.html*/
-	$page_query = "SELECT *
-	FROM readers";
+	$page_query = "SELECT lugeja.id, klass.klass as k, lugeja.perekonnanimi, lugeja.eesnimi, lugeja.aadress, lugeja.linn, lugeja.maakond, lugeja.postiindeks, lugeja.telefon, lugeja.markused from (lugeja LEFT join klass ON lugeja.klass = klass.id)";
     $page_result = mysqli_query($conn, $page_query);
     $total_records = mysqli_num_rows($page_result);
     $total_pages = ceil($total_records/$record_per_page);
@@ -224,6 +211,7 @@ $(document).ready(function(){
      });
  
 });  
+   
  </script>
 
  <!-- tabelite headerite sorteerimiseks https://www.w3schools.com/howto/howto_js_sort_table.asp-->

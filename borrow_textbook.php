@@ -1,80 +1,148 @@
-<?php 
-
+<?php
 include_once("config.php");
+session_start();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
+<title>Raamatud</title>
 <link rel="stylesheet" href="style.css" type="text/css"/>
-<link rel="stylesheet" href="style.css" type="text/css"/>
+ <meta charset="UTF-8" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" /> <!-- avab lehe seadme suurusega-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-<title>Laenutamine</title>
+<!--tabeli lives muutmiseks-->
+<script src="js/jquery.tabledit.min.js"></script>
+  
+    
+<!-- Script to print the content of a div -->
+   <script src="js/print.js"></script>
+    <style>       
 
+        </style> 
+     
 </head>
-<body> 
- <div class="container">
-<div class="row" id="borrow">
-    <div class="col-4" style="margin-left:50px; "  >   
-  <br>
-  <p> Kas sa soovid antud õpikut laenutada: </p>
- <?php
-include_once("config.php");
-$id = $_GET['id'];
-$result = mysqli_query($conn, "SELECT * FROM textbook WHERE id=$id") ;
+<body>
+     <div class="container">         
+<div class="row" id="head">
+<div class="col-lg" style="background-color:snow; font-size:12px;"   >
+ <br>
+<p> <strong>Kas soovita antud teost laenutada:</strong></p>
+<?php   
+$uid = $_SESSION["uid"];
+
+$result = mysqli_query($conn, "SELECT * FROM lugeja WHERE id=$uid") ;
    
  if (mysqli_num_rows($result) > 0) {
   while($row = mysqli_fetch_assoc($result)) {
-    echo "Inventari nr: " . $row["id"]. "<br> " . $row["pealkiri"]. "<br>  " . $row["autor"]. "<br>";
+    echo "Lugeja: " . $row["perekonnanimi"]. " " . $row["eesnimi"]. "<br>  " ;
   }
 } 
 ?>
-  </div> 
-<div class="col-4" style="margin-top:25px; " >     
-     
-<p>Laenutamiseks täida väljad:</p> 
-  <form action=" " method="post">      
-        <div class="form-group">
-            <label for="lugeja">Nimi </label>
-              <input type="text" name="lugeja" class="form-control">
-      </div>
-         <div class="form-group">
-            <label for="kogus">Kogus </label>
-              <input type="text" name="pohjus" class="form-control">
-           </div>
-        <div class="form-group">
-          <label for="algus_kp">Kuupäev</label>
-              <input type="date" name="algus_kp" class="form-control">
-        </div>
-      <div class="form-group">
-		<input type="submit" name="Submit" value="Laenuta" class="btn btn-secondary btn-sm" />
-					</div>
-	</form>
-            <div class="back_but">
-<button onclick="window.location.href='borrow.php';">Tühista</button>
-</div> 
+    <br>
 
-   
-<?php	
-	if(isset($_POST['Submit'])) {
-		$lugeja= mysqli_real_escape_string($conn, $_POST['lugeja']);
-		$kogus = mysqli_real_escape_string($conn, $_POST['kogus']);
-		$algus_kp = mysqli_real_escape_string($conn, $_POST['algus_kp']);
+ <?php
+    $id = $_GET["id"];
+ $sql= "select meedia.id, meedia.pealkiri,meedia.klass, meedia.autor, meedia.aasta, keel.nimi as k, valjaandja.nimi as v, meedia.riiul, meedia.marksona, meedia.markused
+    from (((meedia
+    LEFT JOIN keel ON meedia.keel = keel.id)
+    LEFT JOIN valjaandja ON meedia.valjaandja =valjaandja.id)
+    LEFT JOIN meedia_eksemplar ON meedia.id=meedia_eksemplar.meedia)
+    where meedia.id=$id GROUP BY meedia_eksemplar.meedia HAVING COUNT(*) >= 1";
+    $result = mysqli_query($conn, $sql);
 	
+	if (mysqli_num_rows($result) > 0) {
+		
+		while($row = mysqli_fetch_assoc($result)) {
+		echo
+            "Õpik:  <br> Pealkiri: " . $row["pealkiri"]. 
+             " <br> Klass: " . $row["klass"].
+            " <br> Autor: " . $row["autor"]. 
+            " <br> Aasta: " . $row["aasta"].
+            " <br> Väljaandja: " . $row["v"].
+            " <br> Keel: " . $row["k"].
+            " <br> Märksõna: " . $row["marksona"].
+            " <br> Märkused:" . $row["markused"].
+            "<br>  " ;
+        }
+   echo "</table>";
+    }
+?>  
+  <?php
+$result = mysqli_query($conn, "SELECT meedia_eksemplar FROM laenutus WHERE meedia_eksemplar=$id and tagastus_kp is null") ;
+   
+ if (mysqli_num_rows($result) > 0) {
+  while($row = mysqli_fetch_assoc($result)) {
+    echo "Antud teos on juba välja laenutatud " ;
+        }}
+     else{ 
+         "Antud teos on vaba laenutamiseks" ;
+} 
+    ?>
+    <form action=" " method="post">   
+          <fieldset> 
+     
+     
+        <input type="text" name="uid" value="<?= $uid = $_SESSION["uid"];?>" style="visibility:hidden;">
+        <br>   
+       
+     
+        <input type="text" name="nr" value="<?= $id ?>" style="visibility:hidden;">
+        <br>   
+     <div class="form-group">
+        <label for="kogus">Kogus</label>     
+        <input type="text" name="kogus" required class="form-control" style="width:20%;">	
+           </div>
+          <div class="form-group"><br>     
+    <label for="kogus">Laenutus kuupäev</label>     
+        <input type="date" name="laenutus_kp" value="<?php echo date('Y-m-d');?>" class="form-control" class="form-control" style="width:20%;">	
+             </div>
+   <div class="form-group">
+    <label for="tähtaeg">Tagastus tähtaeg</label>     
+        <input type="date" name="tahtaeg_kp" value="<?php echo date('Y-m-d', strtotime('+ 14 days'));?>" class="form-control" style="width:20%;">	 
+      </div>
+        <div class="form-group">
+       <input type ="submit" name="Submit" value="Laenuta" class="btn btn-primary btn-sm"> 
+              </div></fieldset>
+            </form>
+            </div>
 
-$result = mysqli_query($conn, "INSERT INTO borrow_book (lugeja, meedia_id, meedia_liik,
-pealkiri, autor, kogus, algus_kp)
-SELECT '$lugeja', textbook.id, 'OP', textbook.pealkiri, textbook.autor, '$kogus', '$algus_kp'
-FROM textbook WHERE textbook.id=$id");
-	header("Location: borrow.php");
 
-}
-?> 
+ <?php
+    $uid = $_SESSION["uid"]; 
+    $id = $_GET["id"];
+    if(isset($_POST['Submit'])){	
+       
+        $uid=  mysqli_real_escape_string($conn, $_POST['uid']);	
+        $nr=  mysqli_real_escape_string($conn, $_POST['nr']);	
+        $kogus =  mysqli_real_escape_string($conn, $_POST['kogus']);	
+		$laenutus_kp = mysqli_real_escape_string($conn, $_POST['laenutus_kp']);	
+		$tahtaeg_kp = mysqli_real_escape_string($conn, $_POST['tahtaeg_kp']);	
+     
+		
+    
+	$result = mysqli_query($conn, "INSERT INTO laenutus (meedia, lugeja,  kogus, laenutus_kp, tahtaeg_kp) 
+     VALUES ('$id','$uid', '$kogus','$laenutus_kp','$tahtaeg_kp')");
+    echo "<script>window.close();</script>";
+	}
+    
+         mysqli_close($conn);
+	?>
+</div>    <br>
+      <button onclick="self.close()" class="btn btn-primary btn-sm">Tühista</button> 
+         
+         
+        
+  <?php
+// remove all session variables
+session_unset();
 
-
- </div>
-    </div>
-     </div>
+// destroy the session
+session_destroy();
+?>  
+</div> 
 </body>
 </html>
+
+    
